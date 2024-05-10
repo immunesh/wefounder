@@ -242,7 +242,7 @@
                                 <li class="dropdown dropend">
                                     <a class="dropdown-item dropdown-toggle" data-bs-toggle="dropdown" href="#">Authentication</a>
                                     <ul class="dropdown-menu" data-bs-popper="none">
-                                        <li> <a class="dropdown-item" href="sign-up.html">Sign Up</a></li>
+                                        <li> <a class="dropdown-item" href="{% url "signup" %}">Sign Up</a></li>
                                         <li> <a class="dropdown-item" href="sign-in.html">Sign In</a></li>
                                         <li> <a class="dropdown-item" href="forgot-password.html">Forgot Password</a></li>
                                     </ul>
@@ -495,7 +495,7 @@
 
                     <!-- Sign up button -->
                     <li class="nav-item me-2 d-none d-sm-block">
-                        <a href="sign-up.html" class="btn btn-sm btn-light mb-0"><i class="bi bi-person-circle me-1"></i>Sign up</a>
+                        <a href="{% url "signup" %}" class="btn btn-sm btn-light mb-0"><i class="bi bi-person-circle me-1"></i>Sign up</a>
                     </li>
                     <!-- Buy now button -->
                     <li class="nav-item d-none d-sm-block">
@@ -1396,8 +1396,8 @@ Footer START -->
                                 <li class="nav-item"><a class="nav-link" href="career.html">Career <span class="badge text-bg-danger ms-2">2 Job</span></a></li>
                                 <li class="nav-item"><a class="nav-link" href="career-single.html">Career detail</a></li>
                                 <li class="nav-item"><a class="nav-link" href="contact-v1.html">Become a partner</a></li>
-                                <li class="nav-item"><a class="nav-link" href="sign-in.html">Sign in</a></li>
-                                <li class="nav-item"><a class="nav-link" href="sign-up.html">Sign up</a></li>
+                                <li class="nav-item"><a class="nav-link" href="{% url "signin" %}">Sign in</a></li>
+                                <li class="nav-item"><a class="nav-link" href="{% url "signup" %}">Sign up</a></li>
                             </ul>
                         </div>
 

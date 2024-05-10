@@ -69,7 +69,7 @@ def signup(request):
             user.save()
             globalvar['status']="Account Created  Successfully! Please Login"
             return redirect('signin')
-    return render(request,"registration.html")
+    return render(request,"sign-up.html")
 
 def logoutpage(request):
     logout(request)
