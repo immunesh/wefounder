@@ -8,6 +8,7 @@ from .globalvars import globalvars
 from django.http import JsonResponse,HttpResponse
 from django.contrib import messages as msg
 import json 
+
 globalvar=globalvars()
 def home(request):
     if request.user.is_authenticated:
@@ -22,11 +23,10 @@ def home(request):
         return render(request, 'admin/base123.html',{'posts':post})
     else:
         posts=Postings.objects.all().order_by('-createdTime')
-        return render(request,'admin/landingpage.html',{'posts':posts})
+        return render(request,'index.html',{'posts':posts})
+
 
 def signin(request):
-    
-
     print(globalvar['status'])
     if  request.method == "POST":
         username = request.POST['name']
@@ -44,7 +44,8 @@ def signin(request):
             globalvar['status']=""
             print('else')
             return render(request,'signin.html',{'error':'Username or Password is incorrect'})
-    return render(request,'signin.html',{"status":globalvar['status']})
+    return render(request,'sign-in.html',{"status":globalvar['status']})
+
 def signup(request):
     print(globalvar['status'])
     if request.method == "POST":
@@ -69,9 +70,11 @@ def signup(request):
             globalvar['status']="Account Created  Successfully! Please Login"
             return redirect('signin')
     return render(request,"registration.html")
+
 def logoutpage(request):
     logout(request)
     return redirect('home')
+
 def newpost(request):
     if request.method=='POST':
         title=request.POST['projectTitle']
@@ -88,6 +91,7 @@ def newpost(request):
         return redirect('home')
         
     return render(request,'admin/postcreation.html')
+
 def messages(request):
     if request.user.is_authenticated:
         chat_people=Chatbox.objects.filter(receiver=request.user) | Chatbox.objects.filter(sender=request.user)
@@ -98,10 +102,8 @@ def messages(request):
         return render(request,'messages.html',{'chat_people':unique_people})
     else:
         return redirect('signin')
+    
 def get_messages(request,pk):
-    
-    
-
     chat_people=Chatbox.objects.filter(receiver=request.user) | Chatbox.objects.filter(sender=request.user)
     unique_people=[]
     for i in chat_people:
@@ -109,20 +111,16 @@ def get_messages(request,pk):
             unique_people.append(i)
     
     messages_set=Message.objects.filter(contact=pk).order_by('createdTime')
-    
     return render(request,'get_messages.html',{'chat_people':unique_people,'messages_set':messages_set,'pk':pk,})
 
 def get_message(request,pk):
-    
     messages = Message.objects.filter(contact=pk).order_by('createdTime')
-    messages= list(messages.values())
-    
+    messages= list(messages.values())    
     return JsonResponse({'messages': messages})
+
 def sendMessage(request):
     contact=request.POST.get("chat")
     # receiver=request.POST.get('receiver')
-    
-    
     message=request.POST.get("body")
     chatbox =Chatbox.objects.get(id=contact)
 
@@ -130,24 +128,22 @@ def sendMessage(request):
         if chatbox.sender == request.user :
             print('if')
             receiver=chatbox.receiver
-            
-            
         else:
             print('else')
             receiver=chatbox.sender
-            
-            
             
         print("contact:",contact,"receiver",receiver)
         message=Message.objects.create(sender=request.user,receiver=receiver,message=message,contact=chatbox)
         message.save()
         return HttpResponse("success")
+    
     else:
         chatbox=Chatbox.objects.create(sender=request.user,receiver=receiver)
         chatbox.save()
         message=Message.objects.create(sender=request.user,receiver=receiver,message=message,contact=chatbox)
         message.save()
         return HttpResponse("success")
+    
 def sendrequestPost(request,pk):
     if request.user.is_authenticated:
 
@@ -158,31 +154,28 @@ def sendrequestPost(request,pk):
             appliedfor.applicants.add(request.user)
             appliedfor.applied=True
             appliedfor.save()
-            
-            
             return redirect('home')
+        
         else:
+
             try:
                 appliedfor=appliedfor.objects.get(post=post)
                 appliedfor.applicants.add(request.user)
-                
                 appliedfor.applied=True
                 appliedfor.save()
-                
-                
                 return redirect('home')
+            
             except Exception:
                 print('exception')
                 appliedfor.applied=True
-                
                 return redirect('home')
+            
     else:
         return redirect('signin')
         
         
         
 def sendrequest(request,pk):
-    
     if request.user.is_authenticated:
         post_creator=CustomUser.objects.get(id=pk)
         print('before')
