@@ -116,6 +116,18 @@
                                             </div>
                                         </div>
 
+                                        <!-- Full Name -->
+                                        <div class="col-md-6">
+                                            <label class="form-label">Full Name</label>
+                                            <input type="Name" class="form-control" value="Full Name" placeholder="Enter your Full Name">
+                                        </div>
+
+                                        <!-- Username -->
+                                        <div class="col-md-6">
+                                            <label class="form-label">Username</label>
+                                            <input type="text" class="form-control" value="hello@gmail.com" placeholder="Enter your Username">
+                                        </div>
+
                                         <!-- Email -->
                                         <div class="col-md-6">
                                             <label class="form-label">Email address</label>
@@ -124,18 +136,10 @@
 
                                         <!-- Mobile -->
                                         <div class="col-md-6">
-                                            <label class="form-label">Username</label>
-                                            <input type="text" class="form-control" value="hello@gmail.com" placeholder="Enter your mobile number">
+                                            <label class="form-label">Mobile</label>
+                                            <input type="text" class="form-control" value="9900990090" placeholder="Enter your mobile number">
                                         </div>
                                         
-                                        <!-- Full name -->
-                                        <div class="col-12">
-                                            <label class="form-label">Full name</label>
-                                            <div class="input-group">
-                                                <input type="text" class="form-control" value="Jacqueline" placeholder="First name">
-                                                <input type="text" class="form-control" value="Miller" placeholder="Last name">
-                                            </div>
-                                        </div>
 
                                         <!-- Nationality -->
                                         <div class="col-md-6">
@@ -201,59 +205,6 @@
                                             <input type="text" class="form-control" placeholder="Enter your company name">
                                         </div>
 
-                                        <div class="col-md-6">
-                                            <label class="form-label">What are you looking for</label>
-                                            <select class="form-select">
-                                                <option>Advisor</option>
-                                                <option>Job</option>
-                                                <option>Mentor</option>
-                                                <option>Investor</option>
-                                                <option>Collaborator</option>
-                                                <option>Warm intro</option>
-                                                <option>Feedback</option>
-                                                <option>Co-founder</option>
-                                                <option>Freelancer/consultant</option>
-                                                <option>Volunteers</option>
-                                                <option>Internship</option>
-                                                <option>Startup to join</option>
-                                                <option>Press/Publicity</option>
-                                                <option>Users/customers</option>
-                                                <option>Inspiration</option>
-                                                <option>Smart people</option>
-                                                <option>New perspectives</option>
-                                                <option>Next unicorn</option>
-                                                <option>Next challenge</option>
-                                                <option>Moonshots</option>
-                                                <option>An active network</option>
-                                                <option>Startup ideas</option>
-                                                <option>Grow my startup</option>
-                                                <option>Learn something new</option>
-                                                <option>Upskill</option>
-                                                <!-- Add more options as needed -->
-                                            </select>
-                                        </div>
-
-                                        <div class="col-md-6">
-                                            <label class="form-label">I can *</label>
-                                            <select class="form-select">
-                                                <option value="">Select</option>
-                                                <option>Mentor</option>
-                                                <option>Collaborate</option>
-                                                <option>Introduce you</option>
-                                                <option>Give feedback</option>
-                                                <option>Teach</option>
-                                                <option>Freelance/consult</option>
-                                                <option>Volunteer</option>
-                                                <option>Co-found</option>
-                                                <option>Sell</option>
-                                                <option>Promote product</option>
-                                                <option>Speak at events</option>
-                                                <option>Create content</option>
-                                                <option>Growth hack</option>
-                                                <option>Ideate</option>
-                                                <!-- Add more options as needed -->
-                                            </select>
-                                        </div>
                                         
                                         <!-- Looking For -->
                                         <div class="col-md-6">
@@ -313,41 +264,13 @@
                                             <small class="form-text">Select at least one and up to three options.</small>
                                         </div>
 
-                                        <!-- Checkboxes -->
-                                        <div class="col-md-6">
-                                            <label class="form-label">What are you looking for (Select at least one. max 3)</label>
-                                            <div class="form-check">
-                                                <input class="form-check-input" type="checkbox" name="role[]" id="advisor" value="Advisor">
-                                                <label class="form-check-label" for="advisor">Advisor</label>
-                                            </div>
-                                        <div class="col-md-6">
-                                            <label class="form-label">What are you looking for (Select at least one. max 3)</label>
-                                            <div class="form-check">
-                                                <input class="form-check-input" type="checkbox" name="role[]" id="advisor" value="Advisor">
-                                                <label class="form-check-label" for="advisor">Advisor</label>
-                                            </div>
-                                        <div class="col-md-6">
-                                            <label class="form-label">What are you looking for (Select at least one. max 3)</label>
-                                            <div class="form-check">
-                                                <input class="form-check-input" type="checkbox" name="role[]" id="advisor" value="Advisor">
-                                                <label class="form-check-label" for="advisor">Advisor</label>
-                                            </div>    
-                                            <!-- Add more checkboxes for other roles -->
-                                        </div>
-                                        <script>
-                                            const maxSelections = 3;
-                                            const checkboxes = document.querySelectorAll('input[type="checkbox"]');
-                                            checkboxes.forEach(checkbox => {
-                                                checkbox.addEventListener('change', function() {
-                                                    let checkedCount = document.querySelectorAll('input[type="checkbox"]:checked').length;
-                                                    if (checkedCount > maxSelections) {
-                                                        this.checked = false;
-                                                    }
-                                                });
-                                            });
-                                        </script>
-                                        
 
+                                        <!-- Skills & Expertise -->
+                                        <div class="col-12">
+                                            <label class="form-label">Your skills & expertise *</label>
+                                            <textarea class="form-control" rows="3" placeholder="Outline your primary/core skills in a sentence or two. You can elaborate later."></textarea>
+                                            <small class="form-text">e.g. Python, ML/AI, developing expert systems, LISP<br>UX, Graphic Design, Illustrator, Maya, Unity<br>Financial & market analysis, risk sensing, ESG</small>
+                                        </div>
 
                                         <!-- Address -->
                                         <div class="col-12">
