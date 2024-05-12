@@ -70,7 +70,7 @@
     </script>
 
     <!-- Favicon -->
-    <link rel="shortcut icon" href="{% static "theme-assets/images/favicon.ico" %}">
+    <link rel="shortcut icon" href="{% static 'theme-assets/images/favicon.ico'%}">
 
     <!-- Google Font -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -78,12 +78,12 @@
     <link href="https://fonts.googleapis.com/css2?family=Instrument+Sans:wght@400;500;600;700&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
 
     <!-- Plugins CSS -->
-    <link rel="stylesheet" type="text/css" href="{% static "theme-assets/vendor/font-awesome/css/all.min.css" %}">
-    <link rel="stylesheet" type="text/css" href="{% static "theme-assets/vendor/bootstrap-icons/bootstrap-icons.css" %}">
-    <link rel="stylesheet" type="text/css" href="{% static "theme-assets/vendor/swiper/swiper-bundle.min.css" %}">
+    <link rel="stylesheet" type="text/css" href="{% static 'theme-assets/vendor/font-awesome/css/all.min.css'%}">
+    <link rel="stylesheet" type="text/css" href="{% static 'theme-assets/vendor/bootstrap-icons/bootstrap-icons.css'%}">
+    <link rel="stylesheet" type="text/css" href="{% static 'theme-assets/vendor/swiper/swiper-bundle.min.css'%}">
 
     <!-- Theme CSS -->
-    <link rel="stylesheet" type="text/css" href="{% static "theme-assets/css/style.css" %}">
+    <link rel="stylesheet" type="text/css" href="{% static 'theme-assets/css/style.css'%}">
 
     <!-- Google tag (gtag.js) -->
     <script async src="https://www.googletagmanager.com/gtag/js?id=G-DEXFC3C67M"></script>
@@ -109,8 +109,8 @@
             <div class="container">
                 <!-- Logo START -->
                 <a class="navbar-brand me-0" href="index.html">
-				<img class="light-mode-item navbar-brand-item" src="{% static "theme-assets/images/logo.svg" %}" alt="logo">
-				<img class="dark-mode-item navbar-brand-item" src="{% static "theme-assets/images/logo-light.svg" %}" alt="logo">
+				<img class="light-mode-item navbar-brand-item" src="{% static 'theme-assets/images/logo.svg'%}" alt="logo">
+				<img class="dark-mode-item navbar-brand-item" src="{% static 'theme-assets/images/logo-light.svg'%}" alt="logo">
 			</a>
                 <!-- Logo END -->
 
@@ -138,19 +138,19 @@
                                             
                         <!-- Nav item -->
                         <li 
-                            class="nav-item"> <a class="nav-link" href="">Community Hub</a>
+                            class="nav-item"> <a class="nav-link" href="">Community</a>
                         </li>  
                         
 
                         <!-- Nav item -->
                         <li 
-                            class="nav-item"> <a class="nav-link" href="">Blog/News</a>
+                            class="nav-item"> <a class="nav-link" href="">Blogs</a>
                         </li>
                         
 
                         <!-- Nav item -->
                         <li 
-                            class="nav-item"> <a class="nav-link" href="contact-v1.html">Contact us</a> 
+                            class="nav-item"> <a class="nav-link" href="">Contact us</a> 
                         </li>
                     </ul>
                 </div>
@@ -166,6 +166,8 @@
 						<use href="#"></use>
 					</svg>
 					</button>
+
+                    
 
                         <ul class="dropdown-menu min-w-auto dropdown-menu-end" aria-labelledby="bd-theme">
                             <li class="mb-1">
@@ -197,12 +199,13 @@
                     </li>
                     <!-- Dark mode option END -->
 
-                    
+
                     <!-- Sign In button -->
                     <li class="nav-item me-2 d-none d-sm-block">
-                        <a href="{% url 'signin'%}" class="btn btn-sm btn-light mb-0"><i class="bi bi-person-circle me-1"></i>Sign In</a>
+                        <a href="{% url 'signup'%}" class="btn btn-sm btn-primary mb-0">Sign In</a>
                     </li>
-
+                    
+                    
                     <!-- Sign up button -->
                     <li class="nav-item me-2 d-none d-sm-block">
                         <a href="{% url 'signup'%}" class="btn btn-sm btn-light mb-0"><i class="bi bi-person-circle me-1"></i>Sign up</a>
@@ -249,7 +252,7 @@
 
         <!-- SVG decoration -->
         <div class="position-absolute top-0 end-0 mt-n3 me-n4">
-            <img src="{% static "theme-assets/images/elements/decoration-pattern-2.svg" %}" style="opacity:0.05;" alt="">
+            <img src="{% static 'theme-assets/images/elements/decoration-pattern-2.svg'%}" style="opacity:0.05;" alt="">
         </div>
 
         <div class="container position-relative mt-5">
@@ -259,8 +262,8 @@
                 <div class="col-lg-3">
                     <!-- logo -->
                     <a class="me-0" href="index.html">
-                    <img class="light-mode-item h-40px" src="{% static "theme-assets/images/logo.svg" %}" alt="logo">
-                    <img class="dark-mode-item h-40px" src="{% static "theme-assets/images/logo-light.svg" %}" alt="logo">
+                    <img class="light-mode-item h-40px" src="{% static 'theme-assets/images/logo.svg'%}" alt="logo">
+                    <img class="dark-mode-item h-40px" src="{% static 'theme-assets/images/logo-light.svg'%}" alt="logo">
                 </a>
                 </div>
                 <!-- Widget 1 END -->
@@ -277,8 +280,8 @@
                                 <li class="nav-item"><a class="nav-link" href="career.html">Career <span class="badge text-bg-danger ms-2">2 Job</span></a></li>
                                 <li class="nav-item"><a class="nav-link" href="career-single.html">Career detail</a></li>
                                 <li class="nav-item"><a class="nav-link" href="contact-v1.html">Become a partner</a></li>
-                                <li class="nav-item"><a class="nav-link" href="{% url "signin" %}">Sign in</a></li>
-                                <li class="nav-item"><a class="nav-link" href="{% url "signup" %}">Sign up</a></li>
+                                <li class="nav-item"><a class="nav-link" href="{% url 'signin'%}">Sign in</a></li>
+                                <li class="nav-item"><a class="nav-link" href="{% url 'signup'%}">Sign up</a></li>
                             </ul>
                         </div>
 
@@ -301,11 +304,11 @@
                             <div class="row g-2 mt-2 mb-4 mb-sm-5">
                                 <!-- Google play store button -->
                                 <div class="col-5 col-sm-4 col-md-6">
-                                    <a href="#"> <img src="{% static "theme-assets/images/elements/google-play.svg" %}" alt=""> </a>
+                                    <a href="#"> <img src="{% static 'theme-assets/images/elements/google-play.svg'%}" alt=""> </a>
                                 </div>
                                 <!-- App store button -->
                                 <div class="col-5 col-sm-4 col-md-6">
-                                    <a href="#"> <img src="{% static "theme-assets/images/elements/app-store.svg" %}" alt="app-store"> </a>
+                                    <a href="#"> <img src="{% static 'theme-assets/images/elements/app-store.svg'%}" alt="app-store"> </a>
                                 </div>
                             </div>
 
@@ -339,9 +342,9 @@
                     <i class="fas fa-globe me-2"></i>Language
                 </a>
                     <ul class="dropdown-menu min-w-auto" aria-labelledby="languageSwitcher">
-                        <li><a class="dropdown-item me-4" href="#"><img class="fa-fw me-2" src="{% static "theme-assets/images/flags/uk.svg" %}" alt="">English</a></li>
-                        <li><a class="dropdown-item me-4" href="#"><img class="fa-fw me-2" src="{% static "theme-assets/images/flags/gr.svg" %}" alt="">German </a></li>
-                        <li><a class="dropdown-item me-4" href="#"><img class="fa-fw me-2" src="{% static "theme-assets/images/flags/sp.svg" %}" alt="">French</a></li>
+                        <li><a class="dropdown-item me-4" href="#"><img class="fa-fw me-2" src="{% static 'theme-assets/images/flags/uk.svg'%}" alt="">English</a></li>
+                        <li><a class="dropdown-item me-4" href="#"><img class="fa-fw me-2" src="{% static 'theme-assets/images/flags/gr.svg'%}" alt="">German </a></li>
+                        <li><a class="dropdown-item me-4" href="#"><img class="fa-fw me-2" src="{% static 'theme-assets/images/flags/sp.svg'%}" alt="">French</a></li>
                     </ul>
                 </div>
             </div>
@@ -353,14 +356,14 @@
     <div class="back-top"></div>
 
     <!-- Bootstrap JS -->
-    <script src="{% static "theme-assets/vendor/bootstrap/dist/js/bootstrap.bundle.min.js" %}"></script>
+    <script src="{% static 'theme-assets/vendor/bootstrap/dist/js/bootstrap.bundle.min.js'%}"></script>
 
     <!--Vendors-->
-    <script src="{% static "theme-assets/vendor/ityped/index.js" %}"></script>
-    <script src="{% static "theme-assets/vendor/swiper/swiper-bundle.min.js" %}"></script>
+    <script src="{% static 'theme-assets/vendor/ityped/index.js'%}"></script>
+    <script src="{% static 'theme-assets/vendor/swiper/swiper-bundle.min.js'%}"></script>
 
     <!-- Theme Functions -->
-    <script src="{% static "theme-assets/js/functions.js" %}"></script>
+    <script src="{% static 'theme-assets/js/functions.js'%}"></script>
     
 </body>
     
