@@ -24,4 +24,8 @@ urlpatterns = [
     path('profile/', userProfile, name='viewProfile'),
     path('login/', signIn, name='signin'),
     path('signup/', signUp, name='signup'),
+    path('about/', about, name='about'),
+    path('contact/', contact, name='contact'),
+    path('blog/', blog, name='blog'),
+    path('blog-single/', blog_single, name='blog-single'),
 ]
