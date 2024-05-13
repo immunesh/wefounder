@@ -11,3 +11,15 @@ def signIn(request):
 
 def userProfile(request):
     return render(request,'account-detail.html')
+
+def about(request):
+    return render(request,'about.html')
+
+def contact(request):
+    return render(request,'contact.html')
+
+def blog(request):
+    return render(request,'blog.html')
+
+def blog_single(request):
+    return render(request,'blog-single.html')
