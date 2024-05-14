@@ -23,3 +23,6 @@ def blog(request):
 
 def blog_single(request):
     return render(request,'blog-single.html')
+
+def faqs(request):
+    return render(request,'faq.html')
