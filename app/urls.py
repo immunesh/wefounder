@@ -28,4 +28,5 @@ urlpatterns = [
     path('contact/', contact, name='contact'),
     path('blog/', blog, name='blog'),
     path('blog-single/', blog_single, name='blog-single'),
+    path('faqs/', faqs, name='faqs'),
 ]
