@@ -3,15 +3,6 @@ from django.shortcuts import render
 def home(request):
     return render(request,'index.html')
 
-def signUp(request):
-    return render(request,'sign-up.html')
-
-def signIn(request):
-    return render(request,'sign-in.html')
-
-def userProfile(request):
-    return render(request,'account-detail.html')
-
 def about(request):
     return render(request,'about.html')
 
@@ -26,3 +17,6 @@ def blog_single(request):
 
 def faqs(request):
     return render(request,'faq.html')
+
+def SignUpSteps(request):
+    return render(request, 'sign-up-steps.html')

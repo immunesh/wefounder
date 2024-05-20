@@ -1,0 +1,308 @@
+{% extends "user-account-dashboard/base.html" %}
+{% load static %}
+{% block UserMainContent %}
+                <!-- Main content -->
+                <div class="col-lg-8 col-xl-9 ps-lg-4 ps-xl-6">
+                    <!-- Title and offcanvas button -->
+                    <div class="d-flex justify-content-between align-items-center mb-5 mb-sm-6">
+                        <!-- Title -->
+                        <h1 class="h3 mb-0">My profile</h1>
+
+                        <!-- Advanced filter responsive toggler START -->
+                        <button class="btn btn-primary d-lg-none flex-shrink-0 ms-2" type="button"
+                            data-bs-toggle="offcanvas" data-bs-target="#offcanvasSidebar"
+                            aria-controls="offcanvasSidebar">
+                            <i class="fas fa-sliders-h"></i> Menu
+                        </button>
+                        <!-- Advanced filter responsive toggler END -->
+
+                    </div>
+
+                    <!-- Personal Information -->
+                    <form>
+                        <div class="card bg-transparent p-0">
+                            <!-- Card header -->
+                            <div class="card-header bg-transparent border-bottom p-0 pb-3">
+                                <h6 class="mb-0">Personal Information</h6>
+                            </div>
+
+                            <!-- Card body -->
+                            <div class="card-body px-0">
+                                <div class="row g-4">
+                                    <!-- Profile photo -->
+                                    <div class="col-12">
+                                        <label class="form-label">Profile picture</label>
+                                        <div class="d-flex align-items-center">
+                                            <label class="position-relative me-2" title="Replace this pic">
+                                                <!-- Avatar place holder -->
+                                                <span class="avatar avatar-xl">
+                                                    <img class="avatar-img rounded-circle border border-white border-3 shadow"
+                                                        src="{% static 'theme-assets/images/avatar/07.jpg' %}" alt="">
+                                                </span>
+                                                <!-- Remove btn -->
+                                                <button class="uploadremove"><i class="bi bi-x text-white"></i></button>
+                                            </label>
+                                            <!-- Upload button -->
+                                            <label class="btn btn-sm btn-dark mb-0">Change</label>
+                                            <input class="form-control d-none" type="file">
+                                        </div>
+                                    </div>
+
+                                    <!-- Full Name -->
+                                    <div class="col-md-6">
+                                        <label class="form-label">Full Name</label>
+                                        <input type="Name" class="form-control" value="{{user.full_name}}"
+                                            placeholder="Enter your Full Name">
+                                    </div>
+
+                                    <!-- Username -->
+                                    <div class="col-md-6">
+                                        <label class="form-label">Username</label>
+                                        <input type="text" class="form-control" value="{{user.username}}"
+                                            placeholder="Enter your Username">
+                                    </div>
+
+                                    <!-- Email -->
+                                    <div class="col-md-6">
+                                        <label class="form-label">Email address</label>
+                                        <input type="email" class="form-control" value="{{user.email}}"
+                                            placeholder="Enter your email id">
+                                    </div>
+
+                                    <!-- Mobile -->
+                                    <div class="col-md-6">
+                                        <label class="form-label">Mobile</label>
+                                        <input type="text" class="form-control" value="{{user.phone}}"
+                                            placeholder="Enter your mobile number">
+                                    </div>
+
+
+                                    <!-- Nationality -->
+                                    <div class="col-md-6">
+                                        <label class="form-label">Nationality</label>
+                                        <select class="form-select">
+                                            <option value="">Select your country</option>
+                                            <option>USA</option>
+                                            <option selected>{{user.nationality}}</option>
+                                            <option>India</option>
+                                            <option>UK</option>
+                                        </select>
+                                    </div>
+
+                                    <!-- Gender -->
+                                    <div class="col-md-6">
+                                        <label class="form-label">Select Gender</label>
+                                        <div class="input-group">
+                                            <div class="form-control">
+                                                <div class="form-check radio-bg-light">
+                                                    <input class="form-check-input" type="radio" name="flexRadioDefault"
+                                                        id="flexRadioDefault1" checked="">
+                                                    <label class="form-check-label" for="flexRadioDefault1">
+                                                        Male
+                                                    </label>
+                                                </div>
+                                            </div>
+
+                                            <div class="form-control">
+                                                <div class="form-check radio-bg-light">
+                                                    <input class="form-check-input" type="radio" name="flexRadioDefault"
+                                                        id="flexRadioDefault2">
+                                                    <label class="form-check-label" for="flexRadioDefault2">
+                                                        Female
+                                                    </label>
+                                                </div>
+                                            </div>
+
+                                            <div class="form-control">
+                                                <div class="form-check radio-bg-light">
+                                                    <input class="form-check-input" type="radio" name="flexRadioDefault"
+                                                        id="flexRadioDefault3">
+                                                    <label class="form-check-label" for="flexRadioDefault3">
+                                                        Others
+                                                    </label>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <!-- Role -->
+                                    <div class="col-md-6">
+                                        <label class="form-label">Role</label>
+                                        <select class="form-select">
+                                            <option value="">Select your role</option>
+                                            <option>Manager</option>
+                                            <option>Developer</option>
+                                            <option>Designer</option>
+                                            <option>Analyst</option>
+                                            <!-- Add more options as needed -->
+                                        </select>
+                                    </div>
+
+                                    <!-- Company -->
+                                    <div class="col-md-6">
+                                        <label class="form-label">Company</label>
+                                        <input type="text" class="form-control" placeholder="Enter your company name">
+                                    </div>
+
+
+                                    <!-- Looking For -->
+                                    <div class="col-md-6">
+                                        <label class="form-label">What are you looking for *</label>
+                                        <select class="form-select" multiple="multiple" size="5">
+                                            <option>Advisor</option>
+                                            <option>Job</option>
+                                            <option>Mentor</option>
+                                            <option>Investor</option>
+                                            <option>Collaborator</option>
+                                            <option>Warm intro</option>
+                                            <option>Feedback</option>
+                                            <option>Co-founder</option>
+                                            <option>Freelancer/consultant</option>
+                                            <option>Volunteers</option>
+                                            <option>Internship</option>
+                                            <option>Startup to join</option>
+                                            <option>Press/Publicity</option>
+                                            <option>Users/customers</option>
+                                            <option>Inspiration</option>
+                                            <option>Smart people</option>
+                                            <option>New perspectives</option>
+                                            <option>Next unicorn</option>
+                                            <option>Next challenge</option>
+                                            <option>Moonshots</option>
+                                            <option>An active network</option>
+                                            <option>Startup ideas</option>
+                                            <option>Grow my startup</option>
+                                            <option>Learn something new</option>
+                                            <option>Upskill</option>
+                                        </select>
+                                        <small class="form-text">Select at least one and up to three options.</small>
+                                    </div>
+
+
+
+                                    <!-- Can Do -->
+                                    <div class="col-md-6">
+                                        <label class="form-label">I can *</label>
+                                        <select class="form-select" multiple="multiple" size="5">
+                                            <option>Mentor</option>
+                                            <option>Collaborate</option>
+                                            <option>Introduce you</option>
+                                            <option>Give feedback</option>
+                                            <option>Teach</option>
+                                            <option>Freelance/consult</option>
+                                            <option>Volunteer</option>
+                                            <option>Co-found</option>
+                                            <option>Sell</option>
+                                            <option>Promote product</option>
+                                            <option>Speak at events</option>
+                                            <option>Create content</option>
+                                            <option>Growth hack</option>
+                                            <option>Ideate</option>
+                                            <!-- Add more options as needed -->
+                                        </select>
+                                        <small class="form-text">Select at least one and up to three options.</small>
+                                    </div>
+
+
+                                    <!-- Skills & Expertise -->
+                                    <div class="col-12">
+                                        <label class="form-label">Your skills & expertise *</label>
+                                        <textarea class="form-control" rows="3"
+                                            placeholder="Outline your primary/core skills in a sentence or two. You can elaborate later."></textarea>
+                                        <small class="form-text">e.g. Python, ML/AI, developing expert systems,
+                                            LISP<br>UX, Graphic Design, Illustrator, Maya, Unity<br>Financial & market
+                                            analysis, risk sensing, ESG</small>
+                                    </div>
+
+                                    <!-- Address -->
+                                    <div class="col-12">
+                                        <label class="form-label">Address</label>
+                                        <textarea class="form-control" rows="3"
+                                            spellcheck="false">2119 N Division Ave, New Hampshire, York, United States</textarea>
+                                    </div>
+
+                                    <!-- Button -->
+                                    <div class="col-12 text-end">
+                                        <a href="#" class="btn btn-primary mb-0">Save Changes</a>
+                                    </div>
+
+                                </div>
+                            </div>
+                        </div>
+                    </form>
+
+                    <div class="text-center my-5"><i class="bi bi-three-dots"></i></div>
+                    <!-- Divider -->
+
+                    <!-- Update email -->
+                    <form>
+                        <div class="card bg-transparent p-0">
+                            <!-- Card header -->
+                            <div class="card-header bg-transparent border-bottom px-0">
+                                <h6 class="mb-0">Update email</h6>
+                            </div>
+
+                            <!-- Card body -->
+                            <div class="card-body px-0">
+                                <!-- Full name -->
+                                <div class="mb-4">
+                                    <p class="mb-4">Your current email address is <span
+                                            class="text-primary">example@gmail.com</span></p>
+                                    <label class="form-label">Email address</label>
+                                    <input type="email" class="form-control" value="hello@gmail.com"
+                                        placeholder="Enter your email id">
+                                </div>
+
+                                <!-- Button -->
+                                <div class="text-end">
+                                    <a href="#" class="btn btn-primary mb-0">Save Changes</a>
+                                </div>
+                            </div>
+                        </div>
+                    </form>
+
+                    <div class="text-center my-5"><i class="bi bi-three-dots"></i></div>
+                    <!-- Divider -->
+
+                    <!-- Update password -->
+                    <form>
+                        <div class="card bg-transparent p-0">
+                            <!-- Card header -->
+                            <div class="card-header bg-transparent border-bottom px-0">
+                                <h6 class="mb-0">Update password</h6>
+                            </div>
+
+                            <!-- Card body -->
+                            <div class="card-body px-0">
+                                <!-- Current password -->
+                                <div class="mb-3">
+                                    <label class="form-label">Current password</label>
+                                    <input class="form-control" type="password" placeholder="Enter current password">
+                                </div>
+                                <!-- New password -->
+                                <div class="mb-3">
+                                    <label class="form-label">Enter new password</label>
+
+                                    <div class="position-relative">
+                                        <input type="password" class="form-control fakepassword pe-6" id="psw-input"
+                                            placeholder="Enter your password">
+                                        <span class="position-absolute top-50 end-0 translate-middle-y p-0 me-2">
+                                            <i class="fakepasswordicon fas fa-eye-slash cursor-pointer p-2"></i>
+                                        </span>
+                                    </div>
+                                </div>
+                                <!-- Confirm password -->
+                                <div>
+                                    <label class="form-label">Confirm new password</label>
+                                    <input class="form-control" type="password" placeholder="Enter new password">
+                                </div>
+                                <!-- Button -->
+                                <div class="d-flex justify-content-end mt-4">
+                                    <button type="button" class="btn btn-primary mb-0">Change password</button>
+                                </div>
+                            </div>
+                        </div>
+                    </form>
+
+                </div>
+{% endblock UserMainContent %}

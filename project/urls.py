@@ -2,7 +2,8 @@ from django.contrib import admin
 from django.urls import path,include
 
 urlpatterns = [ 
-    path('',include("app.urls")), # Main
-    path('admin/',include('customadmin.urls')),
-    path('djadmin/', admin.site.urls),
+    path('',include("app.urls")),
+    path('',include("user_account.urls")),
+    # path('admin/',include('customadmin.urls')),
+    path('admin/', admin.site.urls),
 ]

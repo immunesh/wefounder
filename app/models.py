@@ -1,20 +1,7 @@
 from django.db import models
-from django.contrib.auth.models import AbstractUser
-from django.db.models import Q,F
+from user_account.models import CustomUser
+
 # Create your models here.
-
-class CustomUser(AbstractUser):
-    city = models.TextField()
-    state = models.TextField()
-    zip_code = models.TextField()
-    skills = models.CharField(max_length=256, blank=True)  # Comma separated list of skills
-    skills_range= models.CharField(max_length=256, blank=True)
-    websitelinks = models.CharField(max_length=256, default=',,,,')
-    role = models.CharField(max_length=256, default='Fresher') 
-    experience=models.CharField(max_length=256, blank=True)
-    # You can also specify a custom manager for your user model, if needed
-    # objects = CustomUserManager()
-
 class Postings(models.Model):
     title = models.CharField(max_length=80)
     description = models.TextField()

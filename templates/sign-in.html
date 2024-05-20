@@ -260,18 +260,17 @@
                         </div>
 
                         <!-- Form START -->
-                        <form>
+                        <form action="{% url "signin" %}" method="POST">
+                            {% csrf_token %}
                             <!-- Email -->
                             <div class="input-floating-label form-floating mb-4">
-                                <input type="email" class="form-control" id="floatingInput"
-                                    placeholder="name@example.com">
-                                <label for="floatingInput">Email address</label>
+                                <input type="text" class="form-control" id="floatingInput" name="username" placeholder="@example" required>
+                                <label for="floatingInput">Username</label>
                             </div>
 
                             <!-- Password -->
                             <div class="input-floating-label form-floating mb-4 position-relative">
-                                <input type="password" class="form-control fakepassword pe-6" id="psw-input"
-                                    placeholder="Enter your password">
+                                <input type="password" class="form-control fakepassword pe-6" id="psw-input" name="password" placeholder="Enter your password" required>
                                 <label for="floatingInput">Password</label>
                                 <span class="position-absolute top-50 end-0 translate-middle-y p-0 me-2">
                                     <i class="fakepasswordicon fas fa-eye-slash cursor-pointer p-2"></i>
@@ -291,7 +290,7 @@
                             <!-- Button -->
                             <div class="align-items-center mt-0">
                                 <div class="d-grid">
-                                    <button class="btn btn-dark mb-0" type="button">Login</button>
+                                    <button class="btn btn-dark mb-0" type="submit">Login</button>
                                 </div>
                             </div>
                         </form>
