@@ -39,7 +39,7 @@ def signUp(request):
             username=username,
             password=make_password(password)
         )
-        user.save()
+        # user.save()
 
         return render(request, 'sign-up-steps.html')
 
