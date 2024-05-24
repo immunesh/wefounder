@@ -15,6 +15,7 @@ def contact(request):
         company = request.POST['company']
         message = request.POST['message']
         data = Contact(name = name, email = email, phone = number, company = company, Message=message)
+        data.save()
         messages.success(request,'Message was Successfully send !!!')
         return redirect('contact')
     else:
