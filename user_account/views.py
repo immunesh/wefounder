@@ -39,7 +39,7 @@ def signUp(request):
             username=username,
             password=make_password(password)
         )
-        user.save()
+        # user.save()
 
         return render(request, 'sign-up-steps.html')
 
@@ -132,6 +132,9 @@ def paymentDetails(request):
 @login_required(login_url='signin')
 def order(request):
     return render(request, 'user-account-dashboard/account-order.html')
+
+def profile(request):
+    return render(request, 'user-account-dashboard/user-profile.html')
 
 @login_required(login_url='signin')
 def wishlist(request):
