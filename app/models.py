@@ -69,12 +69,3 @@ class Contact(models.Model):
     company = models.CharField(max_length=50)
     Message = models.CharField(max_length=1500, null=False)
 
-
-
-
-
-
-
-
-
-
