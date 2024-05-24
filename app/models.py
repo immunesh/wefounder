@@ -55,7 +55,6 @@ class Review(models.Model):
 
 
 class Faq(models.Model):
-    # id = models.IntegerField(primary_key=True)
     question = models.CharField(max_length=450, null=False)
     answer = models.CharField(max_length=500, null = False)
     created_at = models.DateTimeField(auto_now_add=True)
@@ -65,7 +64,6 @@ class Faq(models.Model):
 
 class Contact(models.Model):
     name = models.CharField(max_length=75)
-    # email = models.ForeignKey(Subscribe, on_delete=models.CASCADE)
     email = models.EmailField(max_length=150, null=False)
     phone = models.IntegerField(null=False)
     company = models.CharField(max_length=50)
