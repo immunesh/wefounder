@@ -30,9 +30,6 @@ def blog_single(request):
 def faqs(request):
     faq = Faq.objects.all()
     context = {
-        'faq':faq,
+        'faqs':faq,
     }
     return render(request,'faq.html', context)
-
-def SignUpSteps(request):
-    return render(request, 'sign-up-steps.html')

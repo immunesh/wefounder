@@ -71,7 +71,6 @@ def signUpSteps(request):
         )
         user.save()
 
-
 def signIn(request):
     if request.method == "POST":
         username = request.POST.get('username')

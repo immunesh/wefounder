@@ -138,34 +138,41 @@
             <div class="container">
                 <div class="row">
                     <div class="col-md-10 mx-auto">
-                    {% if faq %}
-                        {% for i in faq %}
                         <!-- Accordion START -->
-                            <div class="accordion accordion-icon accordion-border" id="accordionFaq">
-                                
-                                        <!-- Item 1 -->
-                                        <div class="accordion-item mb-3">
-                                            <div class="accordion-header font-base" id="heading-1">
-                                                <button class="accordion-button fw-semibold rounded collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#{{i.id}}" aria-expanded="true" aria-controls="collapse-1">
-                                                {{i.question}}
-                                                </button>
-                                            </div>
-                                            <!-- Body -->
-                                            <div id="{{i.id}}" class="accordion-collapse collapse show" aria-labelledby="heading-1" data-bs-parent="#accordionFaq">
-                                                <div class="accordion-body mt-3 pb-0">
-                                                {{i.answer}}
-                                                </div>
-                                            </div>
-                                        </div>
-                                    
+                        <div class="accordion accordion-icon accordion-border" id="accordionFaq">
+                            {% for faq in faqs %}
+                            <!-- Item -->
+                            <div class="accordion-item mb-3">
+                                <div class="accordion-header font-base" id="heading-{{ forloop.counter }}">
+                                    {% if forloop.counter == 1 %}
+                                        <button class="accordion-button fw-semibold rounded collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapse-{{ forloop.counter }}" aria-expanded="true" aria-controls="collapse-{{ forloop.counter }}">
+                                            {{faq.question}}
+                                        </button>
+                                    {% elif forloop.counter != 1 %}
+                                        <button class="accordion-button fw-semibold rounded collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapse-{{ forloop.counter }}" aria-expanded="false" aria-controls="collapse-{{ forloop.counter }}">
+                                            {{faq.question}}
+                                        </button>
+                                    {% endif %}
+                                </div>
+                                <!-- Body -->
 
-                                
+                                {% if forloop.counter == 1 %}
+                                    <div id="collapse-{{ forloop.counter }}" class="accordion-collapse collapse show" aria-labelledby="heading-{{ forloop.counter }}" data-bs-parent="#accordionFaq">
+                                        <div class="accordion-body mt-3 pb-0">
+                                            {{faq.answer}}
+                                        </div>
+                                    </div>
+                                {% elif forloop.counter != 1 %}
+                                    <div id="collapse-{{ forloop.counter }}" class="accordion-collapse collapse" aria-labelledby="heading-{{ forloop.counter }}" data-bs-parent="#accordionFaq">
+                                        <div class="accordion-body mt-3">
+                                            {{faq.answer}}
+                                        </div>
+                                    </div>
+                                {% endif %}
                             </div>
+                            {% endfor %}
+                        </div>
                         <!-- Accordion END -->
-                        {% endfor %}
-                    {% else %}
-                        <h1>Faq Not Found</h1>
-                    {% endif %}
                     </div>
                 </div>
             </div>
