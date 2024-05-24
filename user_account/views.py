@@ -133,6 +133,9 @@ def paymentDetails(request):
 def order(request):
     return render(request, 'user-account-dashboard/account-order.html')
 
+def profile(request):
+    return render(request, 'user-account-dashboard/user-profile.html')
+
 @login_required(login_url='signin')
 def wishlist(request):
     return render(request, 'user-account-dashboard/account-wishlist.html')
