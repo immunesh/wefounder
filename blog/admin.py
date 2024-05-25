@@ -26,10 +26,7 @@ class PostAdmin(admin.ModelAdmin):
             'fields': ('title', 'slug', 'content', 'excerpt', 'category', 'tags', 'is_published')
         }),
         ('Media', {
-            'fields': ('featured_image', 'featured_title', 'featured_alt_text')
-        }),
-        ('Metadata', {
-            'fields': ('meta_title', 'meta_description', 'meta_keywords')
+            'fields': ('featured_image',)
         }),
         ('Statistics', {
             'fields': ('views_count', 'comment_count')
