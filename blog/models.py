@@ -2,8 +2,6 @@ from django.db import models
 
 class Category(models.Model):
     featured_image = models.ImageField(upload_to='blog/', blank=True, null=True, help_text='Upload an image to feature for this category.')
-    featured_title = models.CharField(max_length=50, blank=True, null=True, help_text='Title for the featured image, used for SEO and accessibility.')
-    featured_alt_text = models.CharField(max_length=50, blank=True, null=True, help_text='Alternative text for the featured image, used for SEO and accessibility.')
     title = models.CharField(max_length=100, blank=True, null=True, help_text='Title for display in blog page')
     name = models.CharField(max_length=100, db_index=True, help_text='Name of the category.')
     slug = models.SlugField(unique=True, db_index=True, help_text='URL-friendly identifier for the category.')
