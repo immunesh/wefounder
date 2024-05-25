@@ -1,10 +1,8 @@
 from django.db import models
 from user_account.models import CustomUser
 from django.urls import reverse
-
-
-
 # Create your models here.
+
 class Postings(models.Model):
     title = models.CharField(max_length=80)
     description = models.TextField()
@@ -41,14 +39,10 @@ class Appliedfor(models.Model):
     applied=models.BooleanField(default=False)
     post=models.ForeignKey(Postings,on_delete=models.CASCADE)
 
-# Custom model our
-
-
 class Subscribe(models.Model):
     email = models.EmailField(max_length=150)
     def __str__(self):
         return self.email
-
 
 class Review(models.Model):
     name = models.CharField(max_length=80)
@@ -59,7 +53,6 @@ class Review(models.Model):
     def __str__(self):
         return self.name
 
-
 class Faq(models.Model):
     question = models.CharField(max_length=450, null=False)
     answer = models.CharField(max_length=500, null = False)
@@ -68,8 +61,6 @@ class Faq(models.Model):
 
     def __str__(self):
         return self.question
-
-
 
 class Contact(models.Model):
     name = models.CharField(max_length=75)
@@ -80,4 +71,3 @@ class Contact(models.Model):
     
     def __str__(self):
         return self.name
-

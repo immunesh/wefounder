@@ -21,12 +21,6 @@ def contact(request):
     else:
         return render(request,'contact.html')
 
-def blog(request):
-    return render(request,'blog.html')
-
-def blog_single(request):
-    return render(request,'blog-single.html')
-
 def faqs(request):
     faq = Faq.objects.all()
     context = {
