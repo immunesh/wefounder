@@ -71,7 +71,6 @@ def signUpSteps(request):
         )
         user.save()
 
-
 def signIn(request):
     if request.method == "POST":
         username = request.POST.get('username')
@@ -132,6 +131,9 @@ def paymentDetails(request):
 @login_required(login_url='signin')
 def order(request):
     return render(request, 'user-account-dashboard/account-order.html')
+
+def profile(request):
+    return render(request, 'user-account-dashboard/user-profile.html')
 
 @login_required(login_url='signin')
 def wishlist(request):

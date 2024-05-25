@@ -7,7 +7,15 @@
         <section class="pt-7 pt-md-8">
             <div class="container pt-4 pt-md-0">
                 <div class="row justify-content-between">
-
+                    {% if messages %}
+                        {% for message in messages %}           
+                            {% if message.tags == 'success' %}
+                                <div class="alert alert-success" role="alert">
+                                    {{message}}
+                                </div>
+                            {% endif %}
+                        {% endfor %}
+                    {% endif %}
                     <div class="col-lg-6 mb-6 mb-lg-0">
                         <div class="d-flex flex-column h-100">
                             <!-- Title -->
@@ -39,13 +47,13 @@
                             <!-- Client slider START -->
                             <div class="mt-md-auto">
                                 <div class="swiper" data-swiper-options='{
-							"loop": false, 
-							"slidesPerView": 2, 
-							"spaceBetween": 40,
-							"breakpoints": { 
-								"576": {"slidesPerView": 3},
-								"768": {"slidesPerView": 4}
-							}}'>
+                                    "loop": false, 
+                                    "slidesPerView": 2, 
+                                    "spaceBetween": 40,
+                                    "breakpoints": { 
+                                        "576": {"slidesPerView": 3},
+                                        "768": {"slidesPerView": 4}
+                                    }}'>
 
                                     <!-- Slider items -->
                                     <div class="swiper-wrapper align-items-center">
@@ -85,6 +93,7 @@
                     </div>
 
                     <div class="col-lg-6 col-xl-5">
+                        
                         <div class="card card-body shadow border p-sm-5">
                             <!-- SVG decoration -->
                             <figure class="position-absolute top-100 start-0 translate-middle mt-n5">
@@ -95,30 +104,31 @@
 						</svg>
                             </figure>
 
-                            <form class="row g-4">
+                            <form class="row g-4" method="POST">
+                                {% csrf_token %}
                                 <div class="col-md-6">
                                     <label class="form-label heading-color">Your name *</label>
-                                    <input type="text" class="form-control form-control-lg" placeholder="Full name">
+                                    <input type="text" class="form-control form-control-lg" placeholder="Full name" name="name">
                                 </div>
 
                                 <div class="col-md-6">
                                     <label class="form-label heading-color">Email address *</label>
-                                    <input type="email" class="form-control form-control-lg" id="floatingInput" placeholder="name@example.com">
+                                    <input type="email" class="form-control form-control-lg" id="floatingInput" placeholder="name@example.com" name="email">
                                 </div>
 
                                 <div class="col-md-6">
                                     <label class="form-label heading-color">Phone number *</label>
-                                    <input type="text" class="form-control form-control-lg" placeholder="(xxx) xx xxxx">
+                                    <input type="text" class="form-control form-control-lg" placeholder="(xxx) xx xxxx" name="number">
                                 </div>
 
                                 <div class="col-md-6">
                                     <label class="form-label heading-color">Company *</label>
-                                    <input type="text" class="form-control form-control-lg" placeholder="Company name">
+                                    <input type="text" class="form-control form-control-lg" placeholder="Company name" name="company">
                                 </div>
 
                                 <div class="col-12">
                                     <label class="form-label heading-color">Message *</label>
-                                    <textarea class="form-control" placeholder="Write your message here...." id="floatingTextarea2" style="height: 150px"></textarea>
+                                    <textarea class="form-control" name="message" placeholder="Write your message here...." id="floatingTextarea2" style="height: 150px"></textarea>
                                 </div>
                                 <!-- Button -->
                                 <button class="btn btn-lg btn-primary mb-0">Send a message</button>
