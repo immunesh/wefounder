@@ -1,5 +1,6 @@
-from django.shortcuts import render
-
+from django.shortcuts import render, redirect
+from .models import *
+from django.contrib import messages
 def home(request):
     return render(request,'index.html')
 
@@ -7,7 +8,18 @@ def about(request):
     return render(request,'about.html')
 
 def contact(request):
-    return render(request,'contact.html')
+    if request.method == 'POST':
+        name = request.POST['name']
+        email = request.POST['email']
+        number = request.POST['number']
+        company = request.POST['company']
+        message = request.POST['message']
+        data = Contact(name = name, email = email, phone = number, company = company, Message=message)
+        data.save()
+        messages.success(request,'Message was Successfully send !!!')
+        return redirect('contact')
+    else:
+        return render(request,'contact.html')
 
 def blog(request):
     return render(request,'blog.html')
@@ -16,7 +28,8 @@ def blog_single(request):
     return render(request,'blog-single.html')
 
 def faqs(request):
-    return render(request,'faq.html')
-
-def SignUpSteps(request):
-    return render(request, 'sign-up-steps.html')
+    faq = Faq.objects.all()
+    context = {
+        'faqs':faq,
+    }
+    return render(request,'faq.html', context)

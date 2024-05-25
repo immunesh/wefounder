@@ -3,6 +3,7 @@ from user_account.models import CustomUser
 from django.urls import reverse
 
 
+
 # Create your models here.
 class Postings(models.Model):
     title = models.CharField(max_length=80)
@@ -45,6 +46,8 @@ class Appliedfor(models.Model):
 
 class Subscribe(models.Model):
     email = models.EmailField(max_length=150)
+    def __str__(self):
+        return self.email
 
 
 class Review(models.Model):
@@ -52,6 +55,9 @@ class Review(models.Model):
     Contact = models.IntegerField()
     rating = models.CharField(max_length=5)
     created_at = models.DateTimeField(auto_now_add=True)
+    
+    def __str__(self):
+        return self.name
 
 
 class Faq(models.Model):
@@ -59,6 +65,9 @@ class Faq(models.Model):
     answer = models.CharField(max_length=500, null = False)
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
+
+    def __str__(self):
+        return self.question
 
 
 
@@ -68,4 +77,7 @@ class Contact(models.Model):
     phone = models.IntegerField(null=False)
     company = models.CharField(max_length=50)
     Message = models.CharField(max_length=1500, null=False)
+    
+    def __str__(self):
+        return self.name
 
