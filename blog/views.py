@@ -1,6 +1,6 @@
 from django.shortcuts import get_object_or_404, render
 from django.views import View
-from .models import Post, Category, Tag
+from .models import Post, Category
 
 # Blog listing view
 def blog(request):
