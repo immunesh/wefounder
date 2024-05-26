@@ -87,33 +87,35 @@
 
                 <!-- Blog grid -->
                 <div class="row g-4 g-sm-5 g-xl-7 mt-0">
+                    
+                        {% for post in posts %}
+                            <!-- Item -->
+                            <div class="col-md-6 col-lg-4">
+                                <article class="card bg-transparent h-100 p-0">
+                                    <!-- Badge -->
+                                    <div class="badge text-bg-dark position-absolute top-0 start-0 m-3">{{post.category.name}}</div>
 
-                    {% for post in posts %}
-                        <!-- Item -->
-                        <div class="col-md-6 col-lg-4">
-                            <article class="card bg-transparent h-100 p-0">
-                                <!-- Badge -->
-                                <div class="badge text-bg-dark position-absolute top-0 start-0 m-3">{{post.category.name}}</div>
+                                    <!-- Card image -->
+                                    <img src="{{post.featured_image.url}}" class="card-img" alt="Blog-img">
 
-                                <!-- Card image -->
-                                <img src="{{post.featured_image.url}}" class="card-img" alt="Blog-img">
+                                    <!-- Card Body -->
+                                    <div class="card-body px-2 pb-4">
+                                        <!-- Title -->
+                                        <h6 class="card-title mb-2"><a href="{% url 'blog_single' post.slug %}">{{post.title}}</a></h6>
+                                        <p class="small mb-0">{{post.excerpt}}</p>
+                                    </div>
 
-                                <!-- Card Body -->
-                                <div class="card-body px-2 pb-4">
-                                    <!-- Title -->
-                                    <h6 class="card-title mb-2"><a href="#">{{post.title}}</a></h6>
-                                    <p class="small mb-0">{{post.excerpt}}</p>
-                                </div>
-
-                                <!-- Card footer -->
-                                <div class="card-footer bg-transparent d-flex justify-content-between px-2 py-0">
-                                    <span class="heading-color fw-semibold mb-0">Bryan Knight</span>
-                                    <a class="icon-link icon-link-hover stretched-link" href="blog-single-v1.html">Read more<i class="bi bi-arrow-right"></i> </a>
-                                </div>
-                            </article>
-                        </div>
-                    {% endfor %}
+                                    <!-- Card footer -->
+                                    <div class="card-footer bg-transparent d-flex justify-content-between px-2 py-0">
+                                        <span class="heading-color fw-semibold mb-0">Bryan Knight</span>
+                                        <a class="icon-link icon-link-hover stretched-link" href="{% url 'blog_single' post.slug %}">Read more<i class="bi bi-arrow-right"></i> </a>
+                                    </div>
+                                </article>
+                            </div>
+                        {% endfor %}
                 </div>
+
+                
 
                 <!-- Pagination START -->
                 <div class="row mt-7">

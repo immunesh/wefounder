@@ -13,6 +13,8 @@ def blog(request):
 
     return render(request, 'blog.html', context)
 
+
+
 # Single post detail view
 class BlogSingle(View):
     def get(self, request, slug):
