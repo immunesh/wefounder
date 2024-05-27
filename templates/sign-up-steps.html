@@ -248,204 +248,154 @@
                 <!-- Step Buttons END -->
 
                 <div class="bs-stepper-content d-flex justify-content-center m-auto w-100">
-                    <form class="w-100" onsubmit="return false">
+                    <form class="w-100" action="{% url 'signUpSteps' %}" method="POST">
+                        {% csrf_token %}
                         <div class="row g-4 m-auto">
                             <!-- Main content START -->
                             <div class="col-lg-10 m-auto">
-
                                 <!-- Step 1 content START -->
                                 <div id="step-1" role="tabpanel" class="content fade" aria-labelledby="steppertrigger1">
-
                                     <a href="index.html"><img src="{% static "theme-assets/images/logo-icon.svg" %}" class="h-50px mb-4" alt="logo"></a>
-
                                     <h2 class="mb-1">What do you do*</h2>
-                                    
                                     <!-- Role -->
                                     <div class="input-floating-label form-floating mb-3">
-                                        <input type="text" class="form-control" id="floatingInput" name="role" placeholder="Front End Developer">
+                                        <input type="text" class="form-control" id="floatingInput" name="role" placeholder="Front End Developer" required>
                                         <label for="floatingInput">Role</label>
                                     </div>
-
                                     <!-- Company -->
                                     <div class="input-floating-label form-floating mb-3">
-                                        <input type="text" class="form-control" id="floatingInput" name="company" placeholder="eg.: xyz">
+                                        <input type="text" class="form-control" id="floatingInput" name="company" placeholder="eg.: xyz" required>
                                         <label for="floatingInput">Company</label>
                                     </div>
-
                                     <!-- City -->
                                     <div class="input-floating-label form-floating mb-3">
-                                        <input type="text" class="form-control" id="floatingInput" name="city" placeholder="varanasi">
+                                        <input type="text" class="form-control" id="floatingInput" name="city" placeholder="varanasi" required>
                                         <label for="floatingInput">City</label>
                                     </div>
-
+                                    <!-- Zip Code -->
+                                    <div class="input-floating-label form-floating mb-3">
+                                        <input type="text" class="form-control" id="floatingInput" name="zip-code" placeholder="821108" required>
+                                        <label for="floatingInput">Zip</label>
+                                    </div>
                                     <!-- Button -->
-                                    <div class="d-grid">
-                                        <button class="btn btn-dark mb-0" type="button">Next</button>
+                                    <div class="step d-grid text-center" data-target="#step-2">
+                                        <button type="button" class="btn btn-dark step-trigger mb-0" role="tab" id="steppertrigger2" aria-controls="step-3" style="background-color:var(--bs-btn-bg) !important; padding:var(--bs-btn-padding-y) var(--bs-btn-padding-x) !important; color: #ffffff !important;">Next</button>
                                     </div>
                                 </div>
                                 <!-- Step 1 content END -->
-
                                 <!-- Step 2 content START -->
                                 <div id="step-2" role="tabpanel" class="content fade" aria-labelledby="steppertrigger2">
                                     <a href="index.html"><img src="{% static "theme-assets/images/logo-icon.svg" %}" class="h-50px mb-4" alt="logo"></a>
-
                                     <h2 class="mb-1">What are you looking for*</h2>
                                     <p class="mb-4">( Select at least one. max 3 )</p>
-
                                     <!-- Looking For -->
                                     <div class="options">
                                         <input type="checkbox" id="advisor" name="looking_for" value="Advisor" required>
                                         <label for="advisor">Advisor</label>
-                            
                                         <input type="checkbox" id="job" name="looking_for" value="Job" required>
                                         <label for="job">Job</label>
-                            
                                         <input type="checkbox" id="mentor" name="looking_for" value="Mentor" required>
                                         <label for="mentor">Mentor</label>
-                            
                                         <input type="checkbox" id="investor" name="looking_for" value="Investor" required>
                                         <label for="investor">Investor</label>
-                            
                                         <input type="checkbox" id="collaborator" name="looking_for" value="Collaborator" required>
                                         <label for="collaborator">Collaborator</label>
-                            
                                         <input type="checkbox" id="warm_intro" name="looking_for" value="Warm_intro" required>
                                         <label for="warm_intro">Warm intro</label>
-                            
                                         <input type="checkbox" id="feedback" name="looking_for" value="Feedback" required>
                                         <label for="feedback">Feedback</label>
-                            
                                         <input type="checkbox" id="cofounder" name="looking_for" value="Co-founder" required>
                                         <label for="cofounder">Co-founder</label>
-                            
                                         <input type="checkbox" id="freelancer_consultant" name="looking_for" value="Freelancer_consultant" required>
                                         <label for="freelancer_consultant">Freelancer/consultant</label>
-                            
                                         <input type="checkbox" id="volunteers" name="looking_for" value="Volunteers" required>
                                         <label for="volunteers">Volunteers</label>
-                            
                                         <input type="checkbox" id="internship" name="looking_for" value="Internship" required>
                                         <label for="internship">Internship</label>
-                            
                                         <input type="checkbox" id="startup_to_join" name="looking_for" value="Startup_to_join" required>
                                         <label for="startup_to_join">Startup to join</label>
-                            
                                         <input type="checkbox" id="press_publicity" name="looking_for" value="Press_Publicity" required>
                                         <label for="press_publicity">Press/Publicity</label>
-                            
                                         <input type="checkbox" id="users_customers" name="looking_for" value="Users_customers" required>
                                         <label for="users_customers">Users/customers</label>
-                            
                                         <input type="checkbox" id="inspiration" name="looking_for" value="Inspiration" required>
                                         <label for="inspiration">Inspiration</label>
-                            
                                         <input type="checkbox" id="smart_people" name="looking_for" value="Smart_people" required>
                                         <label for="smart_people">Smart people</label>
-                            
                                         <input type="checkbox" id="new_perspectives" name="looking_for" value="New_perspectives" required>
                                         <label for="new_perspectives">New perspectives</label>
-                            
                                         <input type="checkbox" id="next_unicorn" name="looking_for" value="Next_unicorn" required>
                                         <label for="next_unicorn">Next unicorn</label>
-                            
                                         <input type="checkbox" id="next_challenge" name="looking_for" value="Next_challenge" required>
                                         <label for="next_challenge">Next challenge</label>
-                            
                                         <input type="checkbox" id="moonshots" name="looking_for" value="Moonshots" required>
                                         <label for="moonshots">Moonshots</label>
-                            
                                         <input type="checkbox" id="an_active_network" name="looking_for" value="An_active_network" required>
                                         <label for="an_active_network">An active network</label>
-                            
                                         <input type="checkbox" id="startup_ideas" name="looking_for" value="Startup_ideas" required>
                                         <label for="startup_ideas">Startup ideas</label>
-                            
                                         <input type="checkbox" id="grow_my_startup" name="looking_for" value="Grow_my_startup" required>
                                         <label for="grow_my_startup">Grow my startup</label>
-                            
                                         <input type="checkbox" id="learn_something_new" name="looking_for" value="Learn_something_new" required>
                                         <label for="learn_something_new">Learn something new</label>
-                            
                                         <input type="checkbox" id="upskill" name="looking_for" value="Upskill" required>
                                         <label for="upskill">Upskill</label>
                                     </div>
-
                                     <!-- Button -->
-                                    <div class="d-grid text-center">
-                                        <button class="btn btn-dark mb-0" type="button">Next</button>
+                                    <div class="step d-grid text-center" data-target="#step-3">
+                                        <button type="button" class="btn btn-dark step-trigger mb-0" role="tab" id="steppertrigger3" aria-controls="step-3" style="background-color:var(--bs-btn-bg) !important; padding:var(--bs-btn-padding-y) var(--bs-btn-padding-x) !important; color: #ffffff !important;">Next</button>
                                     </div>
                                     <!-- Form END -->
                                 </div>
                                 <!-- Step 2 content END -->
-
                                 <!-- Step 3 content START -->
                                 <div id="step-3" role="tabpanel" class="content fade" aria-labelledby="steppertrigger3">
                                     <a href="index.html"><img src="{% static "theme-assets/images/logo-icon.svg" %}" class="h-50px mb-4" alt="logo"></a>
-
-                                    <h2 class="mb-1">I can* <span style="font-family: 'Inter',  sans-serif; font-size: 16px; color: #606261; font-weight: 400;">( How can you help other professionals )</span></h2>
+                                    <h2 class="mb-1">I can* <span style="font-family: 'Inter', sans-serif; font-size: 16px; color: #606261; font-weight: 400;">( How can you help other professionals )</span></h2>
                                     <p class="mb-4">( Select at least one. max 3 )</p>
-
                                     <!-- I Can -->
                                     <div class="options">
                                         <input type="checkbox" id="invest" name="i_can" value="Invest" required>
                                         <label for="invest">Invest</label>
-                            
                                         <input type="checkbox" id="collaborat" name="i_can" value="Collaborator" required>
                                         <label for="collaborat">Collaborator</label>
-                            
                                         <input type="checkbox" id="introduce" name="i_can" value="Introduce you" required>
                                         <label for="introduce">Introduce you</label>
-                            
                                         <input type="checkbox" id="give_feedback" name="i_can" value="Give Feedback" required>
                                         <label for="give_feedback">Give Feedback</label>
-                            
                                         <input type="checkbox" id="teach" name="i_can" value="Teach" required>
                                         <label for="teach">Teach</label>
-                            
                                         <input type="checkbox" id="freelancer_consult" name="i_can" value="Freelancer Consult" required>
                                         <label for="freelancer_consult">Freelancer/Consult</label>
-                            
                                         <input type="checkbox" id="volunteer" name="i_can" value="Volunteer" required>
                                         <label for="volunteer">Volunteer</label>
-
                                         <input type="checkbox" id="cofound" name="i_can" value="Co-found" required>
                                         <label for="cofound">Co-found</label>
-                            
                                         <input type="checkbox" id="sell" name="i_can" value="Sell" required>
                                         <label for="sell">Sell</label>
-                            
                                         <input type="checkbox" id="promote_product" name="i_can" value="Promote Product" required>
                                         <label for="promote_product">Promote product</label>
-                            
                                         <input type="checkbox" id="speak_events" name="i_can" value="Speak at events" required>
                                         <label for="speak_events">Speak at events</label>
-                            
                                         <input type="checkbox" id="create_content" name="i_can" value="Create Content" required>
                                         <label for="create_content">Create Content</label>
-                            
                                         <input type="checkbox" id="growth_hack" name="i_can" value="Growth Hack" required>
                                         <label for="growth_hack">Growth Hack</label>
-                            
                                         <input type="checkbox" id="ideate" name="i_can" value="Ideate" required>
                                         <label for="ideate">Ideate</label>
                                     </div>
-
                                     <!-- Button -->
-                                    <div class="d-grid text-center">
-                                        <button class="btn btn-dark mb-0" type="button">Next</button>
+                                    <div class="step d-grid text-center" data-target="#step-4">
+                                        <button type="button" class="btn btn-dark step-trigger mb-0" role="tab" id="steppertrigger4" aria-controls="step-3" style="background-color:var(--bs-btn-bg) !important; padding:var(--bs-btn-padding-y) var(--bs-btn-padding-x) !important; color: #ffffff !important;">Next</button>
                                     </div>
                                 </div>
                                 <!-- Step 3 content END -->
-
                                 <!-- Step 4 content START -->
                                 <div id="step-4" role="tabpanel" class="content fade" aria-labelledby="steppertrigger4">
                                     <a href="index.html"><img src="{% static "theme-assets/images/logo-icon.svg" %}" class="h-50px mb-4" alt="logo"></a>
-
                                     <h2 class="mb-1">Your skills &amp; expertise*</h2>
                                     <p class="mb-4">Outline your primary/core skills in a sentence or two. <br>You can elaborate later.</p>
-
                                     <textarea style="padding: 10px; border-radius: 5px;" name="skills_expertise" id="" rows="7" cols="30" placeholder="Take a minute to outline 2 or 3 of your skills/expertise" required></textarea>
-
                                     <!-- Button -->
                                     <div class="d-grid text-center">
                                         <button class="btn btn-dark mb-0" type="submit">Submit</button>
@@ -455,7 +405,7 @@
                             </div>
                             <!-- Main content END -->
                         </div>
-                    </form>
+                    </form>                    
                 </div>
             </div>
         </div>

@@ -104,34 +104,34 @@
 						</svg>
                             </figure>
 
-                            <form class="row g-4" method="POST">
-                                {% csrf_token %}
+                            <form action="{% url "contact" %}" class="row g-4" method="POST">
+                            {% csrf_token %}
                                 <div class="col-md-6">
                                     <label class="form-label heading-color">Your name *</label>
-                                    <input type="text" class="form-control form-control-lg" placeholder="Full name" name="name">
+                                    <input type="text" class="form-control form-control-lg" placeholder="Full name" name="name" required>
                                 </div>
 
                                 <div class="col-md-6">
                                     <label class="form-label heading-color">Email address *</label>
-                                    <input type="email" class="form-control form-control-lg" id="floatingInput" placeholder="name@example.com" name="email">
+                                    <input type="email" class="form-control form-control-lg" id="floatingInput" placeholder="name@example.com" name="email" required>
                                 </div>
 
                                 <div class="col-md-6">
                                     <label class="form-label heading-color">Phone number *</label>
-                                    <input type="text" class="form-control form-control-lg" placeholder="(xxx) xx xxxx" name="number">
+                                    <input type="text" class="form-control form-control-lg" placeholder="(xxx) xx xxxx" name="number" required>
                                 </div>
 
                                 <div class="col-md-6">
                                     <label class="form-label heading-color">Company *</label>
-                                    <input type="text" class="form-control form-control-lg" placeholder="Company name" name="company">
+                                    <input type="text" class="form-control form-control-lg" placeholder="Company name" name="company" required>
                                 </div>
 
                                 <div class="col-12">
                                     <label class="form-label heading-color">Message *</label>
-                                    <textarea class="form-control" name="message" placeholder="Write your message here...." id="floatingTextarea2" style="height: 150px"></textarea>
+                                    <textarea class="form-control" name="message" placeholder="Write your message here...." id="floatingTextarea2" style="height: 150px" required></textarea>
                                 </div>
                                 <!-- Button -->
-                                <button class="btn btn-lg btn-primary mb-0">Send a message</button>
+                                <button type="submit" class="btn btn-lg btn-primary mb-0">Send a message</button>
                             </form>
                         </div>
                     </div>
