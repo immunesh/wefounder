@@ -17,9 +17,10 @@ def blog(request):
 class BlogSingle(View):
     def get(self, request, slug):
         post = get_object_or_404(Post, slug=slug)
+        related_posts = post.get_related_posts()
         session_key = f'viewed_post_{post.id}'
         if not request.session.get(session_key, False):
             post.views_count += 1
             post.save(update_fields=['views_count'])
             request.session[session_key] = True
-        return render(request, 'blog-single.html', {'post': post})
+        return render(request, 'blog-single.html', {'post': post, 'related_posts': related_posts})

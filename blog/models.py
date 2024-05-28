@@ -34,6 +34,10 @@ class Post(models.Model):
         if not self.excerpt:
             self.excerpt = self.content[:100]
         super().save(*args, **kwargs)
+    
+    def get_related_posts(self):
+        related_posts = Post.objects.filter(tags__in=self.tags.all()).exclude(id=self.id).distinct()[:5]
+        return related_posts
 
     def __str__(self):
         return self.title

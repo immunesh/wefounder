@@ -1,12 +1,14 @@
-from django.shortcuts import render, redirect
-from django.contrib import messages
-from django.contrib.auth import login, authenticate, logout
-from django.shortcuts import render, get_object_or_404
-from django.contrib.auth.hashers import make_password
-from django.contrib.auth.decorators import login_required
 from .models import CustomUser
+from django.db import transaction
+from django.contrib import messages
+from django.shortcuts import render, redirect
+from django.contrib.auth.hashers import make_password
+from django.shortcuts import render, get_object_or_404
+from django.contrib.auth.decorators import login_required
+from django.contrib.auth import login, authenticate, logout
 
 # Create your views here.
+@transaction.atomic
 def signUp(request):
     if request.method == "POST":
         email = request.POST.get('gmail_id')
@@ -27,49 +29,60 @@ def signUp(request):
             messages.error(request, "Username already taken.")
             return render(request, 'sign-up.html')
 
-        # Check if email already exists
         if CustomUser.objects.filter(email=email).exists():
             messages.error(request, "Email already taken.")
             return render(request, 'sign-up.html')
 
-        # Create the new user
         user = CustomUser(
             email=email,
-            full_name =full_name,
+            full_name=full_name,
             username=username,
             password=make_password(password)
         )
-        # user.save()
+        user.save()
 
-        return render(request, 'sign-up-steps.html')
+        request.session['user_id'] = user.id
 
-        # # Automatically log in the user after successful sign up
-        # login(request, user)
-        # messages.success(request, "Account created successfully.")
-        # return redirect('viewProfile', username=user.username)
+        return redirect('signUpSteps')
 
     return render(request, 'sign-up.html')
 
+@transaction.atomic
 def signUpSteps(request):
     if request.method == "POST":
-        location = request.POST.get('location')
+        role = request.POST.get('role')
+        company = request.POST.get('company')
+        city = request.POSt.get('city')
+        zip_code = request.POST.get('zip-code')
         looking_for = request.POST.get('looking_for')
         i_can = request.POST.get('i_can')
-        description = request.POST.get('description')
-        profession = request.POST.get('profession')
-        experience = request.POST.get('experience')
-        skills_and_expertise = request.POST.get('skills_and_expertise')
+        skills_and_expertise = request.POST.get('skills_expertise')
 
-        user = CustomUser(
-            location=location,
-            looking_for =looking_for,
-            i_can=i_can,
-            description=description,
-            profession=profession,
-            experience=experience,
-            skills_and_expertise=skills_and_expertise
-        )
+        user_id = request.session.get('user_id')
+        if not user_id:
+            print("No")
+            messages.error(request, "Session expired. Please sign up again.")
+            return redirect('signUp')
+
+        try:
+            user = CustomUser.objects.get(id=user_id)
+        except CustomUser.DoesNotExist:
+            messages.error(request, "User not found. Please sign up again.")
+            return redirect('signUp')
+
+        user.role = role
+        user.company = company
+        user.city = city
+        user.zip_code = zip_code
+        user.looking_for = looking_for
+        user.i_can = i_can
+        user.skills_expertise = skills_and_expertise
         user.save()
+
+        login(request, user)
+        messages.success(request, "Account created successfully.")
+        return redirect('viewProfile', username=user.username)
+    return render(request, 'sign-up-steps.html')
 
 def signIn(request):
     if request.method == "POST":
