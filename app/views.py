@@ -47,3 +47,6 @@ def faqs(request):
         'faqs':faq,
     }
     return render(request,'faq.html', context)
+
+def privacy_policy(request):
+    return render(request, 'privacy-policy.html')
