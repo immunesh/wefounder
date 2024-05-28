@@ -1,9 +1,15 @@
 from django.shortcuts import render, redirect
 from .models import Contact, Faq
 from django.contrib import messages
+from blog.models import Post
 
 def home(request):
-    return render(request,'index.html')
+    posts = Post.objects.filter(is_published=True).order_by('-created_at')
+    context = {
+        'posts': posts
+    }
+    
+    return render(request,'index.html', context)
 
 def about(request):
     return render(request,'about.html')

@@ -678,80 +678,22 @@
                 }}'>
 
                     <div class="swiper-wrapper">
-                        <!-- Slider item -->
-                        <div class="swiper-slide">
-                            <article class="card bg-transparent">
-                                <!-- Image -->
-                                <img src="{% static 'theme-assets/images/blog/4by3/01.jpg'%}" class="card-img" alt="blog-image">
-                                <div class="card-body px-0 pb-0">
-                                    <h6 class="card-title">Mastering Responsive Web Design with Bootstrap</h6>
-                                    <div class="d-flex justify-content-between align-items-center">
-                                        <p class="mb-0">By Jacqueline Miller</p>
-                                        <a class="icon-link icon-link-hover stretched-link me-1" href="blog-single-v1.html">Read more<i class="bi bi-arrow-right"></i> </a>
+                        {% for post in posts %}
+                            <!-- Slider item -->
+                            <div class="swiper-slide">
+                                <article class="card bg-transparent">
+                                    <!-- Image -->
+                                    <img src="{{post.featured_image.url}}" class="card-img" alt="blog-image">
+                                    <div class="card-body px-0 pb-0">
+                                        <h6 class="card-title">{{post.excerpt}}</h6>
+                                        <div class="d-flex justify-content-between align-items-center">
+                                            <p class="mb-0">By Jacqueline Miller</p>
+                                            <a class="icon-link icon-link-hover stretched-link me-1" href="blog-single-v1.html">Read more<i class="bi bi-arrow-right"></i> </a>
+                                        </div>
                                     </div>
-                                </div>
-                            </article>
-                        </div>
-
-                        <!-- Slider item -->
-                        <div class="swiper-slide">
-                            <article class="card bg-transparent">
-                                <!-- Image -->
-                                <img src="{% static 'theme-assets/images/blog/4by3/02.jpg'%}" class="card-img" alt="blog-image">
-                                <div class="card-body px-0 pb-0">
-                                    <h6 class="card-title">Bootstrap Mastery: Designing Stunning Websites</h6>
-                                    <div class="d-flex justify-content-between align-items-center">
-                                        <p class="mb-0">By Dennis Barrett</p>
-                                        <a class="icon-link icon-link-hover stretched-link me-1" href="blog-single-v2.html">Read more<i class="bi bi-arrow-right"></i> </a>
-                                    </div>
-                                </div>
-                            </article>
-                        </div>
-
-                        <!-- Slider item -->
-                        <div class="swiper-slide">
-                            <article class="card bg-transparent">
-                                <!-- Image -->
-                                <img src="{% static 'theme-assets/images/blog/4by3/03.jpg'%}" class="card-img" alt="blog-image">
-                                <div class="card-body px-0 pb-0">
-                                    <h6 class="card-title">Interactive Web Design with Bootstrap and Webestica</h6>
-                                    <div class="d-flex justify-content-between align-items-center">
-                                        <p class="mb-0">By Carolyn Ortiz</p>
-                                        <a class="icon-link icon-link-hover stretched-link me-1" href="blog-single-v1.html">Read more<i class="bi bi-arrow-right"></i> </a>
-                                    </div>
-                                </div>
-                            </article>
-                        </div>
-
-                        <!-- Slider item -->
-                        <div class="swiper-slide">
-                            <article class="card bg-transparent">
-                                <!-- Image -->
-                                <img src="{% static 'theme-assets/images/blog/4by3/04.jpg'%}" class="card-img" alt="blog-image">
-                                <div class="card-body px-0 pb-0">
-                                    <h6 class="card-title">Effortless Web Development with Mizzle</h6>
-                                    <div class="d-flex justify-content-between align-items-center">
-                                        <p class="mb-0">By Carolyn Ortiz</p>
-                                        <a class="icon-link icon-link-hover stretched-link me-1" href="blog-single-v2.html">Read more<i class="bi bi-arrow-right"></i> </a>
-                                    </div>
-                                </div>
-                            </article>
-                        </div>
-
-                        <!-- Slider item -->
-                        <div class="swiper-slide">
-                            <article class="card bg-transparent">
-                                <!-- Image -->
-                                <img src="{% static 'theme-assets/images/blog/4by3/05.jpg'%}" class="card-img" alt="blog-image">
-                                <div class="card-body px-0 pb-0">
-                                    <h6 class="card-title">Sleek and Responsive - Designing with Bootstrap and Mizzle</h6>
-                                    <div class="d-flex justify-content-between align-items-center">
-                                        <p class="mb-0">By Carolyn Ortiz</p>
-                                        <a class="icon-link icon-link-hover stretched-link me-1" href="blog-single-v1.html">Read more<i class="bi bi-arrow-right"></i> </a>
-                                    </div>
-                                </div>
-                            </article>
-                        </div>
+                                </article>
+                            </div>
+                        {% endfor %}
                     </div>
 
                     <!-- Add pagination and navigation elements here -->

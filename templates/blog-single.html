@@ -135,29 +135,19 @@
                             <h6 class="mb-3 d-inline-block">Related post:</h6>
 
                             <ul class="list-group list-group-flush">
-                                <li class="list-group-item ps-0"><a href="#" class="heading-color text-primary-hover fw-semibold">5 investment doubts you should clarify</a></li>
-                                <li class="list-group-item ps-0"><a href="#" class="heading-color text-primary-hover fw-semibold">Mastering Responsive Web Design with Bootstrap</a></li>
-                                <li class="list-group-item ps-0"><a href="#" class="heading-color text-primary-hover fw-semibold">Effortless Web Development with Mizzle</a></li>
-                                <li class="list-group-item ps-0"><a href="#" class="heading-color text-primary-hover fw-semibold">Sleek and Responsive - Designing with Bootstrap and Mizzle</a></li>
-                                <li class="list-group-item ps-0"><a href="#" class="heading-color text-primary-hover fw-semibold">Ten questions you should answer truthfully.</a></li>
-                            </ul>
+                                {% for related_post in related_posts %}
+                                    <li class="list-group-item ps-0"><a href="{% url 'blog_single' related_post.slug %}" class="heading-color text-primary-hover fw-semibold">{{ related_post.title }}</a></li>
+                                {% endfor %}
+                                </ul>
                         </div>
 
                         <!-- Popular tags -->
                         <div class="align-items-center mt-5">
                             <h6 class="mb-3 d-inline-block">Popular Tags:</h6>
                             <ul class="list-inline mb-0">
-                                <li class="list-inline-item"> <a class="btn btn-light btn-sm" href="#">blog</a> </li>
-                                <li class="list-inline-item"> <a class="btn btn-light btn-sm" href="#">business</a> </li>
-                                <li class="list-inline-item"> <a class="btn btn-light btn-sm" href="#">bootstrap</a> </li>
-                                <li class="list-inline-item"> <a class="btn btn-light btn-sm" href="#">data science</a> </li>
-                                <li class="list-inline-item"> <a class="btn btn-light btn-sm" href="#">deep learning</a> </li>
-                                <li class="list-inline-item"> <a class="btn btn-light btn-sm" href="#">Adventure</a> </li>
-                                <li class="list-inline-item"> <a class="btn btn-light btn-sm" href="#">Community</a> </li>
-                                <li class="list-inline-item"> <a class="btn btn-light btn-sm" href="#">Tutorials</a> </li>
-                                <li class="list-inline-item"> <a class="btn btn-light btn-sm" href="#">Interview</a> </li>
-                                <li class="list-inline-item"> <a class="btn btn-light btn-sm" href="#">Photography</a> </li>
-                                <li class="list-inline-item"> <a class="btn btn-light btn-sm" href="#">{{post.tags}}</a> </li>
+                                {% for tag in post.tags.all %}
+                                    <li class="list-inline-item"> <a class="btn btn-light btn-sm" href="#">{{ tag.name }}</a> </li>
+                                {% endfor %}
                             </ul>
                         </div>
                     </div>
