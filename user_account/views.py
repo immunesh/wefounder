@@ -56,8 +56,8 @@ def signUpSteps(request, user_id):
         company = request.POST.get('company')
         city = request.POST.get('city')
         zip_code = request.POST.get('zip_code')
-        looking_for = request.POST.get('looking_for')
-        i_can = request.POST.get('i_can')
+        looking_for = request.POST.getlist('looking_for')
+        i_can = request.POST.getlist('i_can')
         skills_expertise = request.POST.get('skills_expertise')
 
         # Validate that all fields are provided
