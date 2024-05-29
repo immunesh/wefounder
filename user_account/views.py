@@ -8,7 +8,6 @@ from django.contrib.auth.decorators import login_required
 from django.contrib.auth import login, authenticate, logout
 
 # Create your views here.
-@transaction.atomic
 def signUp(request):
     if request.method == "POST":
         email = request.POST.get('gmail_id')
@@ -41,48 +40,93 @@ def signUp(request):
         )
         user.save()
 
-        request.session['user_id'] = user.id
-
-        return redirect('signUpSteps')
+        return redirect('signUpSteps', user_id=user.id)
 
     return render(request, 'sign-up.html')
 
-@transaction.atomic
-def signUpSteps(request):
+def signUpSteps(request, user_id):
+    try:
+        user = CustomUser.objects.get(id=user_id)
+    except CustomUser.DoesNotExist:
+        messages.error(request, "User does not exist.")
+        return redirect('signUp')
+
     if request.method == "POST":
         role = request.POST.get('role')
         company = request.POST.get('company')
-        city = request.POSt.get('city')
-        zip_code = request.POST.get('zip-code')
+        city = request.POST.get('city')
+        zip_code = request.POST.get('zip_code')
         looking_for = request.POST.get('looking_for')
         i_can = request.POST.get('i_can')
-        skills_and_expertise = request.POST.get('skills_expertise')
+        skills_expertise = request.POST.get('skills_expertise')
 
-        user_id = request.session.get('user_id')
-        if not user_id:
-            print("No")
-            messages.error(request, "Session expired. Please sign up again.")
-            return redirect('signUp')
+        # Validate that all fields are provided
+        if not all([role, company, city, zip_code, looking_for, i_can, skills_expertise]):
+            messages.error(request, "All fields are required.")
+            return render(request, 'sign-up-steps.html', {'user': user})
 
-        try:
-            user = CustomUser.objects.get(id=user_id)
-        except CustomUser.DoesNotExist:
-            messages.error(request, "User not found. Please sign up again.")
-            return redirect('signUp')
-
+        # Update the user with additional information
         user.role = role
         user.company = company
         user.city = city
         user.zip_code = zip_code
         user.looking_for = looking_for
         user.i_can = i_can
-        user.skills_expertise = skills_and_expertise
+        user.skills_expertise = skills_expertise
         user.save()
 
         login(request, user)
         messages.success(request, "Account created successfully.")
         return redirect('viewProfile', username=user.username)
-    return render(request, 'sign-up-steps.html')
+    
+    context = {
+        'user': user,
+        'looking_for_options': [
+            {'id': 'advisor', 'value': 'Advisor', 'label': 'Advisor'},
+            {'id': 'job', 'value': 'Job', 'label': 'Job'},
+            {'id': 'mentor', 'value': 'Mentor', 'label': 'Mentor'},
+            {'id': 'investor', 'value': 'Investor', 'label': 'Investor'},
+            {'id': 'collaborator', 'value': 'Collaborator', 'label': 'Collaborator'},
+            {'id': 'warm_intro', 'value': 'Warm_intro', 'label': 'Warm intro'},
+            {'id': 'feedback', 'value': 'Feedback', 'label': 'Feedback'},
+            {'id': 'cofounder', 'value': 'Co-founder', 'label': 'Co-founder'},
+            {'id': 'freelancer_consultant', 'value': 'Freelancer_consultant', 'label': 'Freelancer/consultant'},
+            {'id': 'volunteers', 'value': 'Volunteers', 'label': 'Volunteers'},
+            {'id': 'internship', 'value': 'Internship', 'label': 'Internship'},
+            {'id': 'startup_to_join', 'value': 'Startup_to_join', 'label': 'Startup to join'},
+            {'id': 'press_publicity', 'value': 'Press_Publicity', 'label': 'Press/Publicity'},
+            {'id': 'users_customers', 'value': 'Users_customers', 'label': 'Users/customers'},
+            {'id': 'inspiration', 'value': 'Inspiration', 'label': 'Inspiration'},
+            {'id': 'smart_people', 'value': 'Smart_people', 'label': 'Smart people'},
+            {'id': 'new_perspectives', 'value': 'New_perspectives', 'label': 'New perspectives'},
+            {'id': 'next_unicorn', 'value': 'Next_unicorn', 'label': 'Next unicorn'},
+            {'id': 'next_challenge', 'value': 'Next_challenge', 'label': 'Next challenge'},
+            {'id': 'moonshots', 'value': 'Moonshots', 'label': 'Moonshots'},
+            {'id': 'an_active_network', 'value': 'An_active_network', 'label': 'An active network'},
+            {'id': 'startup_ideas', 'value': 'Startup_ideas', 'label': 'Startup ideas'},
+            {'id': 'grow_my_startup', 'value': 'Grow_my_startup', 'label': 'Grow my startup'},
+            {'id': 'learn_something_new', 'value': 'Learn_something_new', 'label': 'Learn something new'},
+            {'id': 'upskill', 'value': 'Upskill', 'label': 'Upskill'},
+        ],
+        'i_can_options': [
+            {'id': 'invest', 'value': 'Invest', 'label': 'Invest'},
+            {'id': 'collaborat', 'value': 'Collaborator', 'label': 'Collaborator'},
+            {'id': 'introduce', 'value': 'Introduce you', 'label': 'Introduce you'},
+            {'id': 'give_feedback', 'value': 'Give Feedback', 'label': 'Give Feedback'},
+            {'id': 'teach', 'value': 'Teach', 'label': 'Teach'},
+            {'id': 'freelancer_consult', 'value': 'Freelancer Consult', 'label': 'Freelancer/Consult'},
+            {'id': 'volunteer', 'value': 'Volunteer', 'label': 'Volunteer'},
+            {'id': 'cofound', 'value': 'Co-found', 'label': 'Co-found'},
+            {'id': 'sell', 'value': 'Sell', 'label': 'Sell'},
+            {'id': 'promote_product', 'value': 'Promote Product', 'label': 'Promote product'},
+            {'id': 'speak_events', 'value': 'Speak at events', 'label': 'Speak at events'},
+            {'id': 'create_content', 'value': 'Create Content', 'label': 'Create Content'},
+            {'id': 'growth_hack', 'value': 'Growth Hack', 'label': 'Growth Hack'},
+            {'id': 'ideate', 'value': 'Ideate', 'label': 'Ideate'},
+        ],
+    }
+
+    return render(request, 'sign-up-steps.html', context)
 
 def signIn(request):
     if request.method == "POST":
