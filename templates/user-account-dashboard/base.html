@@ -25,7 +25,7 @@
                                     <!-- Avatar -->
                                     <div class="avatar avatar-xl position-relative mb-2">
                                         <img class="avatar-img rounded-circle border border-2 border-white"
-                                            src="{% static 'theme-assets/images/avatar/05.jpg' %}" alt="">
+                                            src="{{user.profile_image.url}}" alt="">
                                         <a href="{% url "viewProfile" user.username %}" class="btn btn-sm btn-round btn-dark position-absolute top-50 start-100 translate-middle mt-4 ms-n3" data-bs-toggle="tooltip" data-bs-title="Edit profile">
                                             <i class="bi bi-pencil-square"></i>
                                         </a>

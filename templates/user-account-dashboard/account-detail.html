@@ -37,7 +37,7 @@
                                             <label class="position-relative me-2" title="Replace this pic">
                                                 <span class="avatar avatar-xl">
                                                     <img id="avatar-img" class="avatar-img rounded-circle border border-white border-3 shadow"
-                                                         src="{% static 'theme-assets/images/avatar/07.jpg' %}" alt="User Avatar">
+                                                         src="{{user.profile_image.url}}" alt="User Avatar">
                                                 </span>
                                                 <button class="uploadremove" title="Remove avatar">
                                                     <i class="bi bi-x text-white"></i>
