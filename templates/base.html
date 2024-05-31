@@ -366,7 +366,8 @@
 
     <!-- Theme Functions -->
     <script src="{% static 'theme-assets/js/functions.js'%}"></script>
-    <script src="{% static 'theme-assets/vendor/glightbox/js/glightbox.js' %}"></script> 
+    <script src="{% static 'theme-assets/vendor/glightbox/js/glightbox.js' %}"></script>
+    {% block javascript %}{% endblock javascript %}
 </body>
     
 </html>

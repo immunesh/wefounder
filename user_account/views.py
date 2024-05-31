@@ -154,17 +154,6 @@ def logOut(request):
     return redirect('signin')
 
 @login_required(login_url='signin')
-def deleteAccount(request):
-    if request.method == "POST":
-        user = request.user
-        user.delete()
-        logout(request)
-        messages.success(request, "Your account has been deleted.")
-        return redirect('signin')
-
-    return render(request, 'user-account-dashboard/account-delete.html')
-
-@login_required(login_url='signin')
 def userProfile(request, username):
     user = get_object_or_404(CustomUser, username=username)
     return render(request, 'user-account-dashboard/account-detail.html', {'user': user})

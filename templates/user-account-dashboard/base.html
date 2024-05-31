@@ -25,10 +25,8 @@
                                     <!-- Avatar -->
                                     <div class="avatar avatar-xl position-relative mb-2">
                                         <img class="avatar-img rounded-circle border border-2 border-white"
-                                            src="{% static 'theme-assets/images/avatar/05.jpg' %}" alt="">
-                                        <a href="#"
-                                            class="btn btn-sm btn-round btn-dark position-absolute top-50 start-100 translate-middle mt-4 ms-n3"
-                                            data-bs-toggle="tooltip" data-bs-title="Edit profile">
+                                            src="{{user.profile_image.url}}" alt="">
+                                        <a href="{% url "viewProfile" user.username %}" class="btn btn-sm btn-round btn-dark position-absolute top-50 start-100 translate-middle mt-4 ms-n3" data-bs-toggle="tooltip" data-bs-title="Edit profile">
                                             <i class="bi bi-pencil-square"></i>
                                         </a>
                                     </div>
@@ -67,10 +65,6 @@
                                         <li class="nav-item">
                                             <a class="nav-link" href="{% url "wishlist" %}"><i
                                                     class="bi bi-heart fa-fw me-2"></i>Wishlist</a>
-                                        </li>
-                                        <li class="nav-item">
-                                            <a class="nav-link" href="{% url "delete_account" %}"><i
-                                                    class="bi bi-trash fa-fw me-2"></i>Delete profile</a>
                                         </li>
                                         <li class="nav-item">
                                             <a class="nav-link text-danger" href="{% url "logout" %}"><i

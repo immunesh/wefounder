@@ -11,3 +11,4 @@ class CustomUser(AbstractUser):
     looking_for = models.CharField(max_length=200)
     i_can = models.CharField(max_length=200, default='')
     skills_expertise = models.TextField()
+    profile_image = models.ImageField(upload_to='profile/', default='../static/theme-assets/images/avatar/05.jpg', blank=True, null=True)
