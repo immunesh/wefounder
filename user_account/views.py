@@ -149,6 +149,50 @@ def signIn(request):
     return render(request, 'sign-in.html')
 
 @login_required(login_url='signin')
+def updateProfile(request, username):
+    try:
+        user = CustomUser.objects.get(username=username)
+    except CustomUser.DoesNotExist:
+        messages.error(request, "User does not exist.")
+        return redirect('signUp')
+    
+    if request.method == "POST":
+        email = request.POST.get('email')
+        current_pass = request.POST.get('current_pass')
+        new_password = request.POST.get('new_password')
+        cf_new_password = request.POST.get('cf_new_password')
+
+        # Update email if provided
+        if email:
+            user.email = email
+            user.save()
+            print("Email updated successfully.")
+            messages.success(request, "Email updated successfully.")
+            return redirect('viewProfile', user.username)
+
+        # Update password if new passwords match and current password is correct
+        if new_password and cf_new_password:
+            if new_password == cf_new_password:
+                if authenticate(username=user.username, password=current_pass):
+                    user.set_password(new_password)
+                    user.save()
+                    print("Password updated successfully.")
+                    messages.success(request, "Password updated successfully.")
+                    login(request, user)
+                    return redirect('viewProfile', user.username)
+                else:
+                    print("Current password is incorrect.")
+                    messages.error(request, "Current password is incorrect.")
+                    return redirect('viewProfile', user.username)
+            else:
+                print("New passwords do not match.")
+                messages.error(request, "New passwords do not match.")
+                return redirect('viewProfile', user.username)
+    
+    return redirect('viewProfile', user.username)
+
+
+@login_required(login_url='signin')
 def logOut(request):
     logout(request)
     return redirect('signin')

@@ -239,7 +239,8 @@
                     <!-- Divider -->
 
                     <!-- Update email -->
-                    <form>
+                    <form action="{% url 'updateProfile' user.username %}" method="post">
+                        {% csrf_token %}
                         <div class="card bg-transparent p-0">
                             <!-- Card header -->
                             <div class="card-header bg-transparent border-bottom px-0">
@@ -251,15 +252,15 @@
                                 <!-- Full name -->
                                 <div class="mb-4">
                                     <p class="mb-4">Your current email address is <span
-                                            class="text-primary">example@gmail.com</span></p>
+                                            class="text-primary">{{user.email}}</span></p>
                                     <label class="form-label">Email address</label>
-                                    <input type="email" class="form-control" value="hello@gmail.com"
+                                    <input type="email" name="email" class="form-control" value="{{user.email}}"
                                         placeholder="Enter your email id">
                                 </div>
 
                                 <!-- Button -->
                                 <div class="text-end">
-                                    <a href="#" class="btn btn-primary mb-0">Save Changes</a>
+                                    <button class="btn btn-primary mb-0" type="submit">Save Changes</button>
                                 </div>
                             </div>
                         </div>
@@ -269,7 +270,8 @@
                     <!-- Divider -->
 
                     <!-- Update password -->
-                    <form>
+                    <form action="{% url 'updateProfile' user.username %}" method="post">
+                        {% csrf_token %}
                         <div class="card bg-transparent p-0">
                             <!-- Card header -->
                             <div class="card-header bg-transparent border-bottom px-0">
@@ -281,14 +283,14 @@
                                 <!-- Current password -->
                                 <div class="mb-3">
                                     <label class="form-label">Current password</label>
-                                    <input class="form-control" type="password" placeholder="Enter current password">
+                                    <input class="form-control" name="current_pass" type="password" placeholder="Enter current password">
                                 </div>
                                 <!-- New password -->
                                 <div class="mb-3">
                                     <label class="form-label">Enter new password</label>
 
                                     <div class="position-relative">
-                                        <input type="password" class="form-control fakepassword pe-6" id="psw-input"
+                                        <input type="password" name="new_password" class="form-control fakepassword pe-6" id="psw-input"
                                             placeholder="Enter your password">
                                         <span class="position-absolute top-50 end-0 translate-middle-y p-0 me-2">
                                             <i class="fakepasswordicon fas fa-eye-slash cursor-pointer p-2"></i>
@@ -298,11 +300,11 @@
                                 <!-- Confirm password -->
                                 <div>
                                     <label class="form-label">Confirm new password</label>
-                                    <input class="form-control" type="password" placeholder="Enter new password">
+                                    <input class="form-control" name="cf_new_password" type="password" placeholder="Enter new password">
                                 </div>
                                 <!-- Button -->
                                 <div class="d-flex justify-content-end mt-4">
-                                    <button type="button" class="btn btn-primary mb-0">Change password</button>
+                                    <button type="submit" class="btn btn-primary mb-0">Change password</button>
                                 </div>
                             </div>
                         </div>
