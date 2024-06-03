@@ -1,0 +1,81 @@
+{% extends "base.html" %}
+{% load static %}
+    {% block Content %}
+    <!-- **************** MAIN CONTENT START **************** -->
+    <main>
+
+
+        <!-- Blog list and sidebar START -->
+        <section class="pt-7">
+            <div class="container pt-3 pt-xl-5">
+                <!-- Title & Tab -->
+                <div class="d-lg-flex justify-content-between align-items-center">
+                    <!-- Tabs -->
+                    <ul class="nav nav-pills gap-1 nav-pills-light">
+                        {% for category in categories %}
+                            <li class="nav-item">
+                                <a class="nav-link" href="{{ category.url }}">{{ category.name }}</a>
+                            </li>
+                        {% endfor %}
+                    </ul>
+                </div>
+
+                <!-- Blog grid -->
+                <div class="row g-4 g-sm-5 g-xl-7 mt-0">
+                    
+                        {% for post in posts %}
+                            <!-- Item -->
+                            <div class="col-md-6 col-lg-4">
+                                <article class="card bg-transparent h-100 p-0">
+                                    <!-- Badge -->
+                                    <div class="badge text-bg-dark position-absolute top-0 start-0 m-3">{{post.category.name}}</div>
+
+                                    <!-- Card image -->
+                                    <img src="{{post.featured_image.url}}" class="card-img" alt="Blog-img">
+
+                                    <!-- Card Body -->
+                                    <div class="card-body px-2 pb-4">
+                                        <!-- Title -->
+                                        <h6 class="card-title mb-2"><a href="{% url 'blog_single' post.slug %}">{{post.title}}</a></h6>
+                                        <p class="small mb-0">{{post.excerpt}}</p>
+                                    </div>
+
+                                    <!-- Card footer -->
+                                    <div class="card-footer bg-transparent d-flex justify-content-between px-2 py-0">
+                                        <span class="heading-color fw-semibold mb-0">Bryan Knight</span>
+                                        <a class="icon-link icon-link-hover stretched-link" href="{% url 'blog_single' post.slug %}">Read more<i class="bi bi-arrow-right"></i> </a>
+                                    </div>
+                                </article>
+                            </div>
+                        {% endfor %}
+                </div>
+
+                <!-- Pagination START -->
+                <div class="row mt-7">
+                    <div class="col-12 mx-auto">
+                        <ul class="pagination pagination-primary-soft d-flex justify-content-center mb-0">
+                            <li>
+                                <ul class="list-unstyled">
+                                    <li class="page-item disabled">
+                                        <a class="page-link" href="#" tabindex="-1" aria-disabled="true">Prev</a>
+                                    </li>
+                                    <li class="page-item active"><a class="page-link" href="#">1</a></li>
+                                    <li class="page-item"><a class="page-link" href="#">2</a></li>
+                                    <li class="page-item"><a class="page-link" href="#">..</a></li>
+                                    <li class="page-item"><a class="page-link" href="#">22</a></li>
+                                    <li class="page-item">
+                                        <a class="page-link" href="#">Next</a>
+                                    </li>
+                                </ul>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+                <!-- Pagination END -->
+
+            </div>
+        </section>
+        <!-- Blog list and sidebar END -->
+    </main>
+    <!-- **************** MAIN CONTENT END **************** -->
+    {% endblock Content %}
