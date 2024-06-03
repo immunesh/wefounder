@@ -44,6 +44,7 @@ def signUp(request):
 
     return render(request, 'sign-up.html')
 
+
 def signUpSteps(request, user_id):
     try:
         user = CustomUser.objects.get(id=user_id)
@@ -128,6 +129,7 @@ def signUpSteps(request, user_id):
 
     return render(request, 'sign-up-steps.html', context)
 
+
 def signIn(request):
     if request.method == "POST":
         username = request.POST.get('username')
@@ -147,6 +149,7 @@ def signIn(request):
             return render(request, 'sign-in.html')
 
     return render(request, 'sign-in.html')
+
 
 @login_required(login_url='signin')
 def updateProfile(request, username):
@@ -197,14 +200,12 @@ def logOut(request):
     logout(request)
     return redirect('signin')
 
+
 @login_required(login_url='signin')
 def userProfile(request, username):
     user = get_object_or_404(CustomUser, username=username)
     return render(request, 'user-account-dashboard/account-detail.html', {'user': user})
 
-@login_required(login_url='signin')
-def accountSecurity(request):
-    return render(request, 'user-account-dashboard/account-security.html')
 
 @login_required(login_url='signin')
 def accountNotification(request):
