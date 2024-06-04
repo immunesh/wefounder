@@ -6,6 +6,7 @@ from django.contrib.auth.hashers import make_password
 from django.shortcuts import render, get_object_or_404
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth import login, authenticate, logout
+from communities.models import CommunityCategory, CommunityPost
 
 # Create your views here.
 def signUp(request):
@@ -213,7 +214,16 @@ def accountNotification(request):
 
 @login_required(login_url='signin')
 def accountProjects(request):
-    return render(request, 'user-account-dashboard/account-projects.html')
+    try:
+        projects = CommunityPost.objects.all()
+    except projects.DoesNotExist:
+        projects = None
+
+    context = {
+        'projects': projects
+    }
+
+    return render(request, 'user-account-dashboard/account-projects.html', context)
 
 @login_required(login_url='signin')
 def paymentDetails(request):
