@@ -57,9 +57,7 @@
                                 <!-- Table head -->
                                 <thead class="thead-dark">
                                     <tr>
-                                        <th scope="col" class="border-0 text-white rounded-start">Image</th>
                                         <th scope="col" class="border-0 text-white">Title</th>
-                                        <th scope="col" class="border-0 text-white">Status</th>
                                         <th scope="col" class="border-0 text-white">Category</th>
                                         <th scope="col" class="border-0 text-white rounded-end">Action</th>
                                     </tr>
@@ -67,118 +65,24 @@
 
                                 <!-- Table body START -->
                                 <tbody>
+                                    {% for project in projects %}
+                                        <!-- Table row -->
+                                        <tr>
+                                            <!-- Table data -->
+                                            <td>{{project.title}}</td>
 
-                                    <!-- Table row -->
-                                    <tr>
-                                        <!-- Table data -->
-                                        <td>
-                                            <img src="assets/images/portfolio/showcase/02.jpg"
-                                                class="img-fluid w-80px rounded" alt="project-img">
-                                        </td>
+                                            <!-- Table data -->
+                                            <td>{{project.category}}</td>
 
-                                        <!-- Table data -->
-                                        <td>Website Optimization for TechWave</td>
-
-                                        <!-- Table data -->
-                                        <td><i class="fa-solid fa-circle fa-2xs text-success me-2"></i>Published</td>
-
-                                        <!-- Table data -->
-                                        <td>Web design</td>
-
-                                        <!-- Table data -->
-                                        <td>
-                                            <button class="btn btn-sm btn-dark me-1 mb-1 mb-md-0"><i
-                                                    class="bi bi-pencil-square"></i></button>
-                                            <button class="btn btn-sm btn-light border me-1 mb-1 mb-md-0"><i
-                                                    class="bi bi-power"></i></button>
-                                            <button class="btn btn-sm btn-danger me-1 mb-1 mb-md-0"><i
-                                                    class="bi bi-trash"></i></button>
-                                        </td>
-                                    </tr>
-
-                                    <!-- Table row -->
-                                    <tr>
-                                        <!-- Table data -->
-                                        <td>
-                                            <img src="assets/images/portfolio/showcase/04.jpg"
-                                                class="img-fluid w-80px rounded" alt="project-img">
-                                        </td>
-
-                                        <!-- Table data -->
-                                        <td>Transforming Ideas into Reality</td>
-
-                                        <!-- Table data -->
-                                        <td><i class="fa-solid fa-circle fa-2xs text-success me-2"></i>Published</td>
-
-                                        <!-- Table data -->
-                                        <td>Marketing</td>
-
-                                        <!-- Table data -->
-                                        <td>
-                                            <button class="btn btn-sm btn-dark me-1 mb-1 mb-md-0"><i
-                                                    class="bi bi-pencil-square"></i></button>
-                                            <button class="btn btn-sm btn-light border me-1 mb-1 mb-md-0"><i
-                                                    class="bi bi-power"></i></button>
-                                            <button class="btn btn-sm btn-danger me-1 mb-1 mb-md-0"><i
-                                                    class="bi bi-trash"></i></button>
-                                        </td>
-                                    </tr>
-
-                                    <!-- Table row -->
-                                    <tr>
-                                        <!-- Table data -->
-                                        <td>
-                                            <img src="assets/images/portfolio/showcase/03.jpg"
-                                                class="img-fluid w-80px rounded" alt="project-img">
-                                        </td>
-
-                                        <!-- Table data -->
-                                        <td>The Art of Storytelling</td>
-
-                                        <!-- Table data -->
-                                        <td><i class="fa-solid fa-circle fa-2xs text-danger me-2"></i>Private</td>
-
-                                        <!-- Table data -->
-                                        <td>Graphics design</td>
-
-                                        <!-- Table data -->
-                                        <td>
-                                            <button class="btn btn-sm btn-dark me-1 mb-1 mb-md-0"><i
-                                                    class="bi bi-pencil-square"></i></button>
-                                            <button class="btn btn-sm btn-light border me-1 mb-1 mb-md-0"><i
-                                                    class="bi bi-power"></i></button>
-                                            <button class="btn btn-sm btn-danger me-1 mb-1 mb-md-0"><i
-                                                    class="bi bi-trash"></i></button>
-                                        </td>
-                                    </tr>
-
-                                    <!-- Table row -->
-                                    <tr>
-                                        <!-- Table data -->
-                                        <td>
-                                            <img src="assets/images/portfolio/showcase/05.jpg"
-                                                class="img-fluid w-80px rounded" alt="project-img">
-                                        </td>
-
-                                        <!-- Table data -->
-                                        <td>UI/UX Enhancement for SnapMedia</td>
-
-                                        <!-- Table data -->
-                                        <td><i class="fa-solid fa-circle fa-2xs text-success me-2"></i>Published</td>
-
-                                        <!-- Table data -->
-                                        <td>UI/UX design</td>
-
-                                        <!-- Table data -->
-                                        <td>
-                                            <button class="btn btn-sm btn-dark me-1 mb-1 mb-md-0"><i
-                                                    class="bi bi-pencil-square"></i></button>
-                                            <button class="btn btn-sm btn-light border me-1 mb-1 mb-md-0"><i
-                                                    class="bi bi-power"></i></button>
-                                            <button class="btn btn-sm btn-danger me-1 mb-1 mb-md-0"><i
-                                                    class="bi bi-trash"></i></button>
-                                        </td>
-                                    </tr>
+                                            <!-- Table data -->
+                                            <td>
+                                                <button class="btn btn-sm btn-dark me-1 mb-1 mb-md-0"><i
+                                                        class="bi bi-pencil-square"></i></button>
+                                                <button class="btn btn-sm btn-danger me-1 mb-1 mb-md-0"><i
+                                                        class="bi bi-trash"></i></button>
+                                            </td>
+                                        </tr>
+                                    {% endfor %}
                                 </tbody>
                                 <!-- Table body END -->
                             </table>
