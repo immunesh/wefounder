@@ -1,7 +1,7 @@
 from django.db import models
 from django.utils.text import slugify
-from django.db.models.signals import pre_save
 from django.dispatch import receiver
+from django.db.models.signals import pre_save
 from user_account.models import CustomUser
 
 class CommunityCategory(models.Model):
@@ -33,6 +33,7 @@ class CommunityPost(models.Model):
     class Meta:
         verbose_name = "Community Post"
         verbose_name_plural = "Community Posts"
+
 
 @receiver(pre_save, sender=CommunityPost)
 def pre_save_community_post(sender, instance, **kwargs):
