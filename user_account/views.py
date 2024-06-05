@@ -1,5 +1,4 @@
 from .models import CustomUser
-from django.db import transaction
 from django.contrib import messages
 from django.shortcuts import render, redirect
 from django.contrib.auth.hashers import make_password
@@ -214,37 +213,38 @@ def accountNotification(request):
 
 @login_required(login_url='signin')
 def accountProjects(request):
-    username = request.user
     if request.method == 'POST':
-        category = request.POST.get('category')
+        category_id = request.POST.get('category')
         title = request.POST.get('title')
         timeline = request.POST.get('timeline')
-        price  = request.POST.get('price')
+        price = request.POST.get('price')
         skills = request.POST.get('skills')
         responsibilities = request.POST.get('responsibilities')
         description = request.POST.get('description')
 
-        print(category, title, timeline, price, skills, responsibilities, description)
-        data = CommunityPost(
-            user=username, 
-            # category=category,
-            title = title, 
-            timeline = timeline,
-            price = price,
-            skills = skills,
-            responsibilities = responsibilities,
-            description = description,
-            )
-        # data.save()
-        messages.success(request, 'Successfully add new Project !!!')
-        return redirect('/account_projects/')
+        user = request.user
 
-    try:
-        communities = CommunityCategory.objects.all()
-        projects = CommunityPost.objects.all()
-    except projects.DoesNotExist:
-        communities = None
-        projects = None
+        try:
+            category = CommunityCategory.objects.get(id=category_id)
+            data = CommunityPost(
+                user=user,
+                category=category,
+                title=title,
+                timeline=timeline,
+                price=price,
+                skills=skills,
+                responsibilities=responsibilities,
+                description=description,
+            )
+            data.save()
+            messages.success(request, 'Successfully added new Project!')
+        except CommunityCategory.DoesNotExist:
+            messages.error(request, 'Category does not exist!')
+
+        return redirect('/account-projects/')
+
+    communities = CommunityCategory.objects.all()
+    projects = CommunityPost.objects.all()
 
     context = {
         'communities': communities,

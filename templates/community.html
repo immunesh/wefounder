@@ -36,18 +36,18 @@
                                     <div class="badge text-bg-dark position-absolute top-0 start-0 m-3">{{post.category.name}}</div>
 
                                     <!-- Card image -->
-                                    <img src="{{post.featured_image.url}}" class="card-img" alt="Blog-img">
+                                    <img src="{{post.user.profile_image.url}}" class="card-img" alt="Blog-img">
 
                                     <!-- Card Body -->
                                     <div class="card-body px-2 pb-4">
                                         <!-- Title -->
                                         <h6 class="card-title mb-2"><a href="{% url 'blog_single' post.slug %}">{{post.title}}</a></h6>
-                                        <p class="small mb-0">{{post.excerpt}}</p>
+                                        <p class="small mb-0">{{post.description}}</p>
                                     </div>
 
                                     <!-- Card footer -->
                                     <div class="card-footer bg-transparent d-flex justify-content-between px-2 py-0">
-                                        <span class="heading-color fw-semibold mb-0">Bryan Knight</span>
+                                        <span class="heading-color fw-semibold mb-0">{{post.user.full_name}}</span>
                                         <a class="icon-link icon-link-hover stretched-link" href="{% url 'blog_single' post.slug %}">Read more<i class="bi bi-arrow-right"></i> </a>
                                     </div>
                                 </article>

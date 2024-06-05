@@ -1,7 +1,7 @@
 from django.db import models
 from django.utils.text import slugify
-from django.db.models.signals import pre_save
 from django.dispatch import receiver
+from django.db.models.signals import pre_save
 from user_account.models import CustomUser
 
 class CommunityCategory(models.Model):
