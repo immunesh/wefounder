@@ -24,3 +24,5 @@ class BlogSingle(View):
             post.save(update_fields=['views_count'])
             request.session[session_key] = True
         return render(request, 'blog-single.html', {'post': post, 'related_posts': related_posts})
+
+

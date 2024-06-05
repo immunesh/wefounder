@@ -1,92 +1,148 @@
 {% extends "user-account-dashboard/base.html" %}
 {% load static %}
 {% block UserMainContent %}
-                    <!-- Main content -->
-                    <div class="col-lg-8 col-xl-9 ps-lg-4 ps-xl-6">
-                        <!-- Title and offcanvas button -->
-                        <div class="d-flex justify-content-between align-items-center mb-5 mb-sm-6">
-                            <!-- Title -->
-                            <h1 class="h3 mb-0">My projects</h1>
+<!-- Modal -->
+<div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h1 class="modal-title fs-5" id="exampleModalLabel">Add New Project</h1>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <div class="modal-body">
+            <form action="" method="">
+                <div class="mb-3">
+                    <label for="title" class="form-label">Category</label>
+                    <select class="form-select" aria-label="Default select example">
+                        <option selected>Category</option>
+                        <option value="">Marketing</option>
+                        <option value="">Technology</option>
+                        <option value="">Research</option>
+                    </select>
+                </div>
+                <div class="mb-3">
+                    <label for="title" class="form-label">Title</label>
+                    <input type="text" class="form-control" id="title" placeholder="" name="">
+                </div>
+                <div class="mb-3">
+                    <label for="Timeline" class="form-label">Timeline</label>
+                    <input type="text" class="form-control" id="Timeline" placeholder="" name="">
+                </div>
+                <div class="mb-3">
+                    <label for="Price" class="form-label">Price</label>
+                    <input type="text" class="form-control" id="Price" placeholder="" name="">
+                </div>
+                <div class="mb-3">
+                    <label for="Skills" class="form-label">Skills</label>
+                    <input type="text" class="form-control" id="Skills" placeholder="" name="">
+                </div>
+                <div class="mb-3">
+                    <label for="Responsibilities" class="form-label">Responsibilities</label>
+                    <input type="text" class="form-control" id="Responsibilities" placeholder="" name="">
+                </div>
+                <div class="form-floating mb-3">
+                    <textarea class="form-control" placeholder="Leave a comment here" id="description"></textarea>
+                    <label for="description">Description</label>
+                </div>
 
-                            <!-- Advanced filter responsive toggler START -->
-                            <button class="btn btn-primary d-lg-none flex-shrink-0 ms-2" type="button"
-                                data-bs-toggle="offcanvas" data-bs-target="#offcanvasSidebar"
-                                aria-controls="offcanvasSidebar">
-                                <i class="fas fa-sliders-h"></i> Menu
-                            </button>
-                            <!-- Advanced filter responsive toggler END -->
-                        </div>
+                <div class="modal-footer">
+                    <button type="submit" class="btn btn-primary">Submit</button>
+                </div>
 
-                        <!-- Search and buttons -->
-                        <div class="row g-3 align-items-center mb-5">
-                            <!-- Search -->
-                            <div class="col-xl-5">
-                                <form class="rounded position-relative">
-                                    <input class="form-control pe-5" type="search" placeholder="Search"
-                                        aria-label="Search">
-                                    <button
-                                        class="btn border-0 px-3 py-0 position-absolute top-50 end-0 translate-middle-y"
-                                        type="submit"><i class="fas fa-search fs-6"></i></button>
-                                </form>
-                            </div>
+            </form>
+        </div>
+      </div>
+    </div>
+  </div>
 
-                            <!-- Select option -->
-                            <div class="col-sm-6 col-xl-3 ms-auto">
-                                <!-- Short by filter -->
-                                <form>
-                                    <select class="form-select js-choice" aria-label=".form-select-sm">
-                                        <option>Sort by</option>
-                                        <option selected>Published</option>
-                                        <option>Free</option>
-                                        <option>Newest</option>
-                                        <option>Oldest</option>
-                                    </select>
-                                </form>
-                            </div>
 
-                            <!-- Button -->
-                            <div class="col-sm-6 col-xl-3">
-                                <a href="#" class="btn btn-primary mb-0"><i class="bi bi-plus-lg me-2"></i>Add new
-                                    project</a>
-                            </div>
-                        </div>
+<!-- Main content -->
+<div class="col-lg-8 col-xl-9 ps-lg-4 ps-xl-6">
+    <!-- Title and offcanvas button -->
+    <div class="d-flex justify-content-between align-items-center mb-5 mb-sm-6">
+        <!-- Title -->
+        <h1 class="h3 mb-0">My projects</h1>
 
-                        <!-- Table -->
-                        <div class="table-responsive border-0">
-                            <table class="table align-middle p-4 mb-0 table-hover">
-                                <!-- Table head -->
-                                <thead class="thead-dark">
-                                    <tr>
-                                        <th scope="col" class="border-0 text-white">Title</th>
-                                        <th scope="col" class="border-0 text-white">Category</th>
-                                        <th scope="col" class="border-0 text-white rounded-end">Action</th>
-                                    </tr>
-                                </thead>
+        <!-- Advanced filter responsive toggler START -->
+        <button class="btn btn-primary d-lg-none flex-shrink-0 ms-2" type="button"
+            data-bs-toggle="offcanvas" data-bs-target="#offcanvasSidebar"
+            aria-controls="offcanvasSidebar">
+            <i class="fas fa-sliders-h"></i> Menu
+        </button>
+        <!-- Advanced filter responsive toggler END -->
+    </div>
 
-                                <!-- Table body START -->
-                                <tbody>
-                                    {% for project in projects %}
-                                        <!-- Table row -->
-                                        <tr>
-                                            <!-- Table data -->
-                                            <td>{{project.title}}</td>
+    <!-- Search and buttons -->
+    <div class="row g-3 align-items-center mb-5">
+        <!-- Search -->
+        <div class="col-xl-5">
+            <form class="rounded position-relative">
+                <input class="form-control pe-5" type="search" placeholder="Search"
+                    aria-label="Search">
+                <button
+                    class="btn border-0 px-3 py-0 position-absolute top-50 end-0 translate-middle-y"
+                    type="submit"><i class="fas fa-search fs-6"></i></button>
+            </form>
+        </div>
 
-                                            <!-- Table data -->
-                                            <td>{{project.category}}</td>
+        <!-- Select option -->
+        <div class="col-sm-6 col-xl-3 ms-auto">
+            <!-- Short by filter -->
+            <form>
+                <select class="form-select js-choice" aria-label=".form-select-sm">
+                    <option>Sort by</option>
+                    <option selected>Published</option>
+                    <option>Free</option>
+                    <option>Newest</option>
+                    <option>Oldest</option>
+                </select>
+            </form>
+        </div>
 
-                                            <!-- Table data -->
-                                            <td>
-                                                <button class="btn btn-sm btn-dark me-1 mb-1 mb-md-0"><i
-                                                        class="bi bi-pencil-square"></i></button>
-                                                <button class="btn btn-sm btn-danger me-1 mb-1 mb-md-0"><i
-                                                        class="bi bi-trash"></i></button>
-                                            </td>
-                                        </tr>
-                                    {% endfor %}
-                                </tbody>
-                                <!-- Table body END -->
-                            </table>
-                        </div>
+        <!-- Button -->
+        <div class="col-sm-6 col-xl-3">
+            <!-- Button trigger modal -->
+            <a href="#" class="btn btn-primary mb-0" data-bs-toggle="modal" data-bs-target="#exampleModal"><i class="bi bi-plus-lg me-2"></i>Add new
+                project</a>
+        </div>
+    </div>
 
-                    </div>
+    <!-- Table -->
+    <div class="table-responsive border-0">
+        <table class="table align-middle p-4 mb-0 table-hover">
+            <!-- Table head -->
+            <thead class="thead-dark">
+                <tr>
+                    <th scope="col" class="border-0 text-white">Title</th>
+                    <th scope="col" class="border-0 text-white">Category</th>
+                    <th scope="col" class="border-0 text-white rounded-end">Action</th>
+                </tr>
+            </thead>
+
+            <!-- Table body START -->
+            <tbody>
+                {% for project in projects %}
+                    <!-- Table row -->
+                    <tr>
+                        <!-- Table data -->
+                        <td>{{project.title}}</td>
+
+                        <!-- Table data -->
+                        <td>{{project.category}}</td>
+
+                        <!-- Table data -->
+                        <td>
+                            <button class="btn btn-sm btn-dark me-1 mb-1 mb-md-0"><i
+                                    class="bi bi-pencil-square"></i></button>
+                            <button class="btn btn-sm btn-danger me-1 mb-1 mb-md-0"><i
+                                    class="bi bi-trash"></i></button>
+                        </td>
+                    </tr>
+                {% endfor %}
+            </tbody>
+            <!-- Table body END -->
+        </table>
+    </div>
+
+</div>
 {% endblock UserMainContent %}
