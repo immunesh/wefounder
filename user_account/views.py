@@ -214,16 +214,45 @@ def accountNotification(request):
 
 @login_required(login_url='signin')
 def accountProjects(request):
+    username = request.user
+    if request.method == 'POST':
+        category = request.POST.get('category')
+        title = request.POST.get('title')
+        timeline = request.POST.get('timeline')
+        price  = request.POST.get('price')
+        skills = request.POST.get('skills')
+        responsibilities = request.POST.get('responsibilities')
+        description = request.POST.get('description')
+
+        print(category, title, timeline, price, skills, responsibilities, description)
+        data = CommunityPost(
+            user=username, 
+            # category=category,
+            title = title, 
+            timeline = timeline,
+            price = price,
+            skills = skills,
+            responsibilities = responsibilities,
+            description = description,
+            )
+        # data.save()
+        messages.success(request, 'Successfully add new Project !!!')
+        return redirect('/account_projects/')
+
     try:
+        communities = CommunityCategory.objects.all()
         projects = CommunityPost.objects.all()
     except projects.DoesNotExist:
+        communities = None
         projects = None
 
     context = {
-        'projects': projects
+        'communities': communities,
+        'projects': projects,
     }
 
     return render(request, 'user-account-dashboard/account-projects.html', context)
+
 
 @login_required(login_url='signin')
 def paymentDetails(request):

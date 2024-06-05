@@ -10,42 +10,42 @@
           <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
         </div>
         <div class="modal-body">
-            <form action="" method="">
-                <div class="mb-3">
-                    <label for="title" class="form-label">Category</label>
-                    <select class="form-select" aria-label="Default select example">
-                        <option selected>Category</option>
-                        <option value="">Marketing</option>
-                        <option value="">Technology</option>
-                        <option value="">Research</option>
+            <form action="{% url 'account_projects' %}" method="POST">
+                {% csrf_token %}
+                <div class="mb-4">
+                    <select class="form-select" name="category">
+                        <option selected="selected" disabled>Category</option>
+                        {% for community in communities %}
+                            <option value="{{community.name}}">{{community.name}}</option>
+                        {% endfor %}                       
                     </select>
                 </div>
-                <div class="mb-3">
-                    <label for="title" class="form-label">Title</label>
-                    <input type="text" class="form-control" id="title" placeholder="" name="">
+                <div class="input-floating-label form-floating mb-4">
+                    <input type="text" id="title" name="title" class="form-control" placeholder="Title" required>
+                    <label for="title">Title</label>
                 </div>
-                <div class="mb-3">
-                    <label for="Timeline" class="form-label">Timeline</label>
-                    <input type="text" class="form-control" id="Timeline" placeholder="" name="">
+                <div class="input-floating-label form-floating mb-4">
+                    <input type="text" class="form-control" id="Timeline" placeholder="Timeline" name="timeline" required>
+                    <label for="Timeline" >Timeline</label>
                 </div>
-                <div class="mb-3">
-                    <label for="Price" class="form-label">Price</label>
-                    <input type="text" class="form-control" id="Price" placeholder="" name="">
+                <div class="input-floating-label form-floating mb-4">
+                    <input type="text" class="form-control" id="Price" placeholder="Price" name="price" required>
+                    <label for="Price">Price</label>
                 </div>
-                <div class="mb-3">
-                    <label for="Skills" class="form-label">Skills</label>
-                    <input type="text" class="form-control" id="Skills" placeholder="" name="">
+                <div class="input-floating-label form-floating mb-4">
+                    <input type="text" class="form-control" id="Skills" placeholder="" name="skills" required>
+                    <label for="Skills">Skills</label>
                 </div>
-                <div class="mb-3">
-                    <label for="Responsibilities" class="form-label">Responsibilities</label>
-                    <input type="text" class="form-control" id="Responsibilities" placeholder="" name="">
+                <div class="input-floating-label form-floating mb-4">
+                    <input type="text" class="form-control" id="Responsibilities" placeholder="" name="responsibilities" required>
+                    <label for="Responsibilities">Responsibilities</label>
                 </div>
-                <div class="form-floating mb-3">
-                    <textarea class="form-control" placeholder="Leave a comment here" id="description"></textarea>
+                <div class="input-floating-label form-floating mb-4">
+                    <textarea class="form-control" placeholder="Leave a comment here" id="description" name="description" required></textarea>
                     <label for="description">Description</label>
                 </div>
 
-                <div class="modal-footer">
+                <div class="input-floating-label form-floating mb-4">
                     <button type="submit" class="btn btn-primary">Submit</button>
                 </div>
 
@@ -106,7 +106,14 @@
                 project</a>
         </div>
     </div>
-
+    <!-- my_template.html -->
+    {% if messages %}
+    <ul class="messages">
+        {% for message in messages %}
+            <div class=" {{ message.tags }} p-4 mb-0 bg-primary text-white" {% if message.tags %} {% endif %}>{{ message }}</div>
+        {% endfor %}
+    </ul>
+    {% endif %}
     <!-- Table -->
     <div class="table-responsive border-0">
         <table class="table align-middle p-4 mb-0 table-hover">
