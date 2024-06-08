@@ -25,6 +25,14 @@
                     </ul>
                 </div>
 
+                <form class="col-sm-6 bg-body border rounded-2 position-relative p-2 mt-4 mt-md-5" action="" method="POST">
+                    {% csrf_token %}
+                    <div class="input-group">
+                        <input class="form-control focus-shadow-none border-0 me-1" type="text" name="search_filter" placeholder="Enter your email address">
+                        <button type="submit" class="btn btn-dark rounded-2 mb-0">Search</button>
+                    </div>
+                </form>
+
                 <!-- Blog grid -->
                 <div class="row g-4 g-sm-5 g-xl-7 mt-0">
                     
