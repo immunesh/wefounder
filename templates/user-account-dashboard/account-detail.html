@@ -133,86 +133,54 @@
                                     <div class="col-md-6">
                                         <label class="form-label">Role</label>
                                         <select class="form-select">
-                                            <option value="">Select your role</option>
-                                            <option>Manager</option>
-                                            <option>Developer</option>
-                                            <option>Designer</option>
-                                            <option>Analyst</option>
-                                            <!-- Add more options as needed -->
+                                            <option value="">--Select--</option>
+                                            <option value="Manager" {% if user.role == 'Manager' %}selected{% endif %}>Manager</option>
+                                            <option value="Developer" {% if user.role == 'Developer' %}selected{% endif %}>Developer</option>
+                                            <option value="Designer" {% if user.role == 'Designer' %}selected{% endif %}>Designer</option>
+                                            <option value="Analyst" {% if user.role == 'Analyst' %}selected{% endif %}>Analyst</option>
+                                            <option value="Full stack developer" {% if user.role == 'Full stack developer' %}selected{% endif %}>Full Stack Developer</option>
                                         </select>
-                                    </div>
+                                    </div>                                                                      
 
                                     <!-- Company -->
                                     <div class="col-md-6">
                                         <label class="form-label">Company</label>
-                                        <input type="text" class="form-control" placeholder="Enter your company name">
+                                        <input type="text" class="form-control" value="{{user.company}}" placeholder="Enter your company name">
                                     </div>
-
 
                                     <!-- Looking For -->
                                     <div class="col-md-6">
                                         <label class="form-label">What are you looking for *</label>
-                                        <select class="form-select" multiple="multiple" size="5">
-                                            <option>Advisor</option>
-                                            <option>Job</option>
-                                            <option>Mentor</option>
-                                            <option>Investor</option>
-                                            <option>Collaborator</option>
-                                            <option>Warm intro</option>
-                                            <option>Feedback</option>
-                                            <option>Co-founder</option>
-                                            <option>Freelancer/consultant</option>
-                                            <option>Volunteers</option>
-                                            <option>Internship</option>
-                                            <option>Startup to join</option>
-                                            <option>Press/Publicity</option>
-                                            <option>Users/customers</option>
-                                            <option>Inspiration</option>
-                                            <option>Smart people</option>
-                                            <option>New perspectives</option>
-                                            <option>Next unicorn</option>
-                                            <option>Next challenge</option>
-                                            <option>Moonshots</option>
-                                            <option>An active network</option>
-                                            <option>Startup ideas</option>
-                                            <option>Grow my startup</option>
-                                            <option>Learn something new</option>
-                                            <option>Upskill</option>
-                                        </select>
+                                        <div class="options">
+                                            {% for option in looking_for_options %}
+                                                <div class="form-check" style="padding-left: 0 !important;">
+                                                    <input class="form-check-input" type="checkbox" id="looking_for_{{ option.id }}" name="looking_for" value="{{ option.value }}" {% if option.value in user.looking_for %}checked{% endif %}>
+                                                    <label class="form-check-label" for="looking_for_{{ option.id }}">{{ option.label }}</label>
+                                                </div>
+                                            {% endfor %}
+                                        </div>
                                         <small class="form-text">Select at least one and up to three options.</small>
                                     </div>
-
-
 
                                     <!-- Can Do -->
                                     <div class="col-md-6">
                                         <label class="form-label">I can *</label>
-                                        <select class="form-select" multiple="multiple" size="5">
-                                            <option>Mentor</option>
-                                            <option>Collaborate</option>
-                                            <option>Introduce you</option>
-                                            <option>Give feedback</option>
-                                            <option>Teach</option>
-                                            <option>Freelance/consult</option>
-                                            <option>Volunteer</option>
-                                            <option>Co-found</option>
-                                            <option>Sell</option>
-                                            <option>Promote product</option>
-                                            <option>Speak at events</option>
-                                            <option>Create content</option>
-                                            <option>Growth hack</option>
-                                            <option>Ideate</option>
-                                            <!-- Add more options as needed -->
-                                        </select>
+                                        <div class="options">
+                                            {% for option in i_can_options %}
+                                                <div class="form-check" style="padding-left: 0 !important;">
+                                                    <input class="form-check-input" type="checkbox" id="can_do_{{ option.id }}" name="can_do" value="{{ option.value }}" {% if option.value in user.i_can %}checked{% endif %}>
+                                                    <label class="form-check-label" for="can_do_{{ option.id }}">{{ option.label }}</label>
+                                                </div>
+                                            {% endfor %}
+                                        </div>
                                         <small class="form-text">Select at least one and up to three options.</small>
                                     </div>
-
 
                                     <!-- Skills & Expertise -->
                                     <div class="col-12">
                                         <label class="form-label">Your skills & expertise *</label>
                                         <textarea class="form-control" rows="3"
-                                            placeholder="Outline your primary/core skills in a sentence or two. You can elaborate later."></textarea>
+                                            placeholder="Outline your primary/core skills in a sentence or two. You can elaborate later.">{{user.skills_expertise}}</textarea>
                                         <small class="form-text">e.g. Python, ML/AI, developing expert systems,
                                             LISP<br>UX, Graphic Design, Illustrator, Maya, Unity<br>Financial & market
                                             analysis, risk sensing, ESG</small>
