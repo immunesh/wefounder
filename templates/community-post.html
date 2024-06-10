@@ -9,19 +9,9 @@
         <div class="container">
             <div class="row">
                 <div class="col-lg-10 col-xl-8 mx-auto">
-                    <!-- Breadcrumb & title -->
+                    <!-- Title -->        
                     <div class="text-center mb-5">
-                        <!-- Breadcrumb -->
-                        <div class="d-flex justify-content-center mb-2">
-                            <nav aria-label="breadcrumb">
-                                <ol class="breadcrumb breadcrumb-dots mb-1">
-                                    <li class="breadcrumb-item"><a href="#">Home</a></li>
-                                    <li class="breadcrumb-item active" aria-current="page">Portfolio Showcase</li>
-                                </ol>
-                            </nav>
-                        </div>
-                        <!-- Title -->
-                        <h2>UI/UX and Product Designer</h2>
+                        <h2>{{post.title}}</h2>
                     </div>
 
                     <!-- Info -->
@@ -29,13 +19,12 @@
                         data-bs-theme="dark">
                         <div class="mb-3 mb-md-0">
                             <!-- Title -->
-                            <h4 class="mb-0">Information</h4>
+                            <h4 class="mb-0">{{post.category}}</h4>
                             <!-- List -->
                             <div class="hstack gap-3 gap-md-4 flex-wrap mt-3">
-                                <span class="badge text-bg-white">IT</span>
                                 <span><i class="bi bi-geo-alt me-2"></i>USA, ontario</span>
-                                <span><i class="bi bi-clock me-2"></i>San Francisco</span>
-                                <span><i class="bi bi-briefcase me-2"></i>$32,000</span>
+                                <span><i class="bi bi-clock me-2"></i>{{post.timeline}}</span>
+                                <span><i class="bi bi-briefcase me-2"></i>${{post.price}}</span>
                             </div>
                         </div>
                         <!-- Button -->
@@ -93,40 +82,9 @@
 
                     <!-- Description -->
                     <h6 class="mt-4">Description</h6>
-                    <p>Perceived end knowledge certainly day sweetness why cordially. Ask a quick six seven offer see
-                        among. Handsome met debating sir dwelling age material. As style lived he worse dried. Offered
-                        related so visitors we private removed.
-                        Moderate do subjects to distance.</p>
-                    <p>Speedily say has suitable disposal add boy. On fourth doubt miles of child. Exercise joy man
-                        children rejoiced. Yet uncommonly his ten who diminution astonished. Demesne's new manners
-                        savings staying had. Under folly balls, death
-                        own point now men. Match way she avoids seeing death. She drifts their fat off.</p>
-                    <p>Passage its ten led hearted removal cordial. Preference any astonished unreserved Mrs. Prosperous
-                        understood Middletons in conviction an uncommonly do. Supposing so be resolving breakfast am or
-                        perfectly. It drew a hill from me.
-                        Valley by oh twenty direct me so. Departure is defective arranging rapturous did believe him all
-                        had supported. Family months lasted simply set nature vulgar him. Picture for attempt joy
-                        excited ten carried manners talking
-                        how. Suspicion neglected the resolving agreement perceived</p>
+                    <p>{{post.description | safe}}</p>
 
-                    <!-- Email detail -->
-                    <div class="row mt-5">
-                        <div class="col-md-6">
-                            <h6>Apply via E-mail</h6>
-                            <p>If you need to send us mail regarding job opportunities, please write to us at <a
-                                    href="#">info@example.com</a> for more information.</p>
-                        </div>
-
-                        <div class="col-md-6">
-                            <h6>Apply via phone number</h6>
-                            <p class="mb-1">Apply Now Via Whats App, Send us Your Resume on:</p>
-                            <a href="#">+79 2589 63598</a>
-                        </div>
-                    </div>
-
-                    <!-- Form -->
                     <div class="card card-body bg-light border p-sm-5 mt-5" id="contact-form">
-
                         <!-- Review item -->
                         <div class="d-flex">
                             <img class="avatar avatar-md rounded-circle float-start me-3"
@@ -134,8 +92,8 @@
                             <div>
                                 <div class="d-sm-flex justify-content-between mb-2">
                                     <div>
-                                        <h6 class="m-0">Allen Smith</h6>
-                                        <span class="me-3 small">{{user.role}}</span>
+                                        <h6 class="m-0">{{post.user.full_name}}</h6>
+                                        <span class="me-3 small">{{post.user.role}}</span>
                                     </div>
                                     <!-- Rating Star -->
                                     <ul class="list-inline mb-0">
@@ -153,7 +111,7 @@
                                 </div>
                                 <p>{{user.skills_expertise}}</p>
                     
-                                <a href="{% url "profile" %}" class="btn btn-dark rounded-2 mb-0">Profile</a>
+                                <a href="{% url "profile" user.username %}" class="btn btn-dark rounded-2 mb-0">Profile</a>
                                 <a href="{% url "home" %}" class="btn btn-dark rounded-2 mb-0">Chat</a>    
                             </div>
                         </div>
