@@ -284,7 +284,7 @@ def accountProjects(request):
         return redirect('/account-projects/')
 
     communities = CommunityCategory.objects.all()
-    projects = CommunityPost.objects.all()
+    projects = CommunityPost.objects.filter(user=request.user)
 
     context = {
         'communities': communities,
