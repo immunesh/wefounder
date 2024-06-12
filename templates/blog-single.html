@@ -10,17 +10,6 @@
                 <div class="row g-4 g-sm-7">
                     <!-- Main content START -->
                     <div class="col-lg-8">
-                        <!-- Breadcrumb -->
-                        <div class="d-flex position-relative z-index-9">
-                            <nav aria-label="breadcrumb">
-                                <ol class="breadcrumb breadcrumb-dots mb-1">
-                                    <li class="breadcrumb-item"><a href="#">Home</a></li>
-                                    <li class="breadcrumb-item"><a href="#">Blog</a></li>
-                                    <li class="breadcrumb-item active" aria-current="page">Blog single sidebar</li>
-                                </ol>
-                            </nav>
-                        </div>
-
                         <!-- Title -->
                         <h1 class="h2 mb-0">{{post.title}}</h1>
 
@@ -41,9 +30,7 @@
                                 </ul>
                             </div>
                             <span class="text-secondary opacity-3 mx-3">|</span>
-                            <a href="#" class="text-secondary text-primary-hover mb-0"><i class="bi bi-chat me-2"></i>5</a>
-                            <span class="text-secondary opacity-3 mx-3">|</span>
-                            <span class="text-secondary">2 min read</span>
+                            <a href="#" class="text-secondary text-primary-hover mb-0"><i class="bi bi-eye-fill me-2"></i>{{post.views_count}}</a>
                         </div>
 
                         <!-- Image -->
@@ -112,24 +99,6 @@
 
                     <!-- Sidebar START -->
                     <div class="col-lg-4 ps-xl-6">
-                        <!-- Author detail box -->
-                        <div class="card card-body d-inline-block bg-light border p-4">
-                            <!-- Avatar and info -->
-                            <div class="d-flex align-items-center mb-3">
-                                <!-- Avatar -->
-                                <div class="avatar avatar-lg flex-shrink-0 me-2">
-                                    <img class="avatar-img rounded-circle" src="{% static "theme-assets/images/avatar/09.jpg" %}" alt="avatar">
-                                </div>
-                                <div class="ms-2">
-                                    <h6 class="mb-0"><a href="#">Louis Crawford</a></h6>
-                                    <small>Content creator</small>
-                                </div>
-                            </div>
-                            <p>Incorporating gratitude into our daily where we write down three things we are grateful for each day.</p>
-                            <!-- Button -->
-                            <a href="#" class="btn btn-sm btn-outline-primary mb-0">Follow author</a>
-                        </div>
-
                         <!-- Related post -->
                         <div class="align-items-center mt-5">
                             <h6 class="mb-3 d-inline-block">Related post:</h6>

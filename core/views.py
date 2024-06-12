@@ -50,3 +50,9 @@ def faqs(request):
 
 def privacy_policy(request):
     return render(request, 'privacy-policy.html')
+
+def terms_and_condition(request):
+    return render(request, 'terms-and-condition.html')
+
+def how_it_works(request):
+    return render(request, 'how-it-works.html')
