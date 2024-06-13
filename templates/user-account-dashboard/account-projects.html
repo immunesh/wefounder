@@ -1,6 +1,61 @@
 {% extends "user-account-dashboard/base.html" %}
 {% load static %}
 {% block UserMainContent %}
+<!--edit  Modal -->
+<div class="modal fade" id="editModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h1 class="modal-title fs-5" id="exampleModalLabel">Edit Project</h1>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <div class="modal-body">
+            <form action="" method="POST">
+                {% csrf_token %}
+                <div class="mb-4">
+                    <select class="form-select" name="category" required>
+                        <option selected="selected" disabled>Category</option>
+                        {% for community in communities %}
+                            <option value="{{ community.id }}">{{ community.name }}</option>
+                        {% endfor %}
+                    </select>
+                </div>
+                <div class="input-floating-label form-floating mb-4">
+                    <input type="text" id="title" name="title" class="form-control" placeholder="Title" required>
+                    <label for="title">Title</label>
+                </div>
+                <div class="input-floating-label form-floating mb-4">
+                    <input type="text" class="form-control" id="timeline" placeholder="Timeline" name="timeline" required>
+                    <label for="timeline">Timeline</label>
+                </div>
+                <div class="input-floating-label form-floating mb-4">
+                    <input type="number" class="form-control" id="price" placeholder="Price" name="price" required>
+                    <label for="price">Price</label>
+                </div>
+                <div class="input-floating-label form-floating mb-4">
+                    <input type="text" class="form-control" id="skills" placeholder="Skills" name="skills" required>
+                    <label for="skills">Skills</label>
+                </div>
+                <div class="input-floating-label form-floating mb-4">
+                    <input type="text" class="form-control" id="responsibilities" placeholder="Responsibilities" name="responsibilities" required>
+                    <label for="responsibilities">Responsibilities</label>
+                </div>
+                <div class="input-floating-label form-floating mb-4">
+                    <textarea class="form-control" placeholder="Description" id="description" name="description" required></textarea>
+                    <label for="description">Description</label>
+                </div>
+                <div class="input-floating-label form-floating mb-4">
+                    <button type="submit" class="btn btn-primary">Submit</button>
+                </div>
+            </form>            
+        </div>
+      </div>
+    </div>
+</div>
+
+
+
+
 <!-- Modal -->
 <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
     <div class="modal-dialog">
@@ -29,11 +84,11 @@
                     <label for="timeline">Timeline</label>
                 </div>
                 <div class="input-floating-label form-floating mb-4">
-                    <input type="number" class="form-control" id="price" placeholder="Price" name="price" required>
+                    <input type="number" class="form-control" id="price" placeholder="Price" name="price">
                     <label for="price">Price</label>
                 </div>
                 <div class="input-floating-label form-floating mb-4">
-                    <input type="text" class="form-control" id="skills" placeholder="Skills" name="skills" required>
+                    <input type="text" class="form-control" id="skills" placeholder="Skills" name="skills" >
                     <label for="skills">Skills</label>
                 </div>
                 <div class="input-floating-label form-floating mb-4">
@@ -92,11 +147,11 @@
     </div>
     <!-- my_template.html -->
     {% if messages %}
-    <ul class="messages">
+    <div class="messages mb-2">
         {% for message in messages %}
-            <div class=" {{ message.tags }} p-4 mb-0 bg-primary text-white" {% if message.tags %} {% endif %}>{{ message }}</div>
+            <div class=" {{ message.tags }} align-middle p-2 mb-0 bg-primary text-white" {% if message.tags %} {% endif %}>{{ message }}</div>
         {% endfor %}
-    </ul>
+    </div>
     {% endif %}
     <!-- Table -->
     <div class="table-responsive border-0">
@@ -123,10 +178,10 @@
 
                         <!-- Table data -->
                         <td>
-                            <button class="btn btn-sm btn-dark me-1 mb-1 mb-md-0"><i
-                                    class="bi bi-pencil-square"></i></button>
-                            <button class="btn btn-sm btn-danger me-1 mb-1 mb-md-0"><i
-                                    class="bi bi-trash"></i></button>
+                            <a href="{% url 'accountProject_update' project.id %}" class="btn btn-sm btn-dark me-1 mb-1 mb-md-0" data-bs-toggle="modal" data-bs-target="#editModal"><i
+                                    class="bi bi-pencil-square"></i></a>
+                            <a href="{% url 'account-projects_delete' project.id %}" class="btn btn-sm btn-danger me-1 mb-1 mb-md-0"><i
+                                    class="bi bi-trash"></i></a>
                         </td>
                     </tr>
                 {% endfor %}
