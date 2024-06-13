@@ -253,6 +253,7 @@ def accountNotification(request):
 
 @login_required(login_url='signin')
 def accountProjects(request):
+    
     if request.method == 'POST':
         category_id = request.POST.get('category')
         title = request.POST.get('title')
@@ -292,6 +293,20 @@ def accountProjects(request):
     }
 
     return render(request, 'user-account-dashboard/account-projects.html', context)
+@login_required(login_url='signin')
+def accountProject_update(request, id = None):
+    post = CommunityPost.objects.get(id = id)
+    print(post)
+    context = {
+        post:post,
+    }
+    return render(request, 'user-account-dashboard/account-projects.html', context)
+
+@login_required(login_url='signin')
+def delete(request, id = None):
+    delete_project = CommunityPost.objects.get(id = id)
+    delete_project.delete()
+    return redirect('account_projects')
 
 def profile(request, username):
     user = get_object_or_404(CustomUser, username=username)
