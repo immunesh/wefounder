@@ -138,7 +138,7 @@
                                             
                         <!-- Nav item -->
                         <li 
-                            class="nav-item"> <a class="nav-link" href="{% url "community" %}">Community</a>
+                            class="nav-item"> <a class="nav-link" href="{% url "communities" %}">Community</a>
                         </li>  
                         
 
@@ -159,8 +159,28 @@
                 <!-- Buttons -->
                 <ul class="nav align-items-center dropdown-hover ms-sm-2">
                     {% if user.is_authenticated %}
-                        <li class="nav-item me-2 d-none d-sm-block">
-                            <a href="{% url 'viewProfile' user.username %}"><i class="bi bi-bell fa-fw me-2"></i></a>
+                        <li class="nav-item dropdown">
+                            <a href="#" data-bs-toggle="dropdown" data-bs-auto-close="outside" aria-haspopup="true" aria-expanded="false"><i class="bi bi-bell fa-fw me-2"></i></a>
+                            <ul class="dropdown-menu min-w-auto dropdown-menu-end">
+                                
+                                <li> <a class="dropdown-item" href="contact-v1.html">Hello, world! This is a toast message.</a></li>
+                                <!-- Dropdown divider -->
+                                <li> <hr class="dropdown-divider"></li>
+                                <li> <a class="dropdown-item" href="contact-v2.html">Hello, world! This is a toast message.</a></li>
+                                <!-- Dropdown divider -->
+                                <li> <hr class="dropdown-divider"></li>
+                                <li> <a class="dropdown-item" href="contact-v1.html">Hello, world! This is a toast message.</a></li>
+                                <!-- Dropdown divider -->
+                                <li> <hr class="dropdown-divider"></li>
+                                <li> <a class="dropdown-item" href="contact-v2.html">Hello, world! This is a toast message.</a></li>
+                                <!-- Dropdown divider -->
+                                <li> <hr class="dropdown-divider"></li>
+                                <li> <a class="dropdown-item" href="contact-v1.html">Hello, world! This is a toast message.</a></li>
+                                <!-- Dropdown divider -->
+                                <li> <hr class="dropdown-divider"></li>
+                                <li> <a class="dropdown-item" href="contact-v2.html">Hello, world! This is a toast message.</a></li>
+                                <a href="{% url "account_notification" %}" class="btn btn-sm btn-light mb-0 d-grid mt-2">View all</a>
+                            </ul>
                         </li>
                     {% endif %}
                     <!-- Dark mode option START -->
@@ -171,8 +191,6 @@
 						        <use href="#"></use>
 					        </svg>
 					    </button>
-
-                    
 
                         <ul class="dropdown-menu min-w-auto dropdown-menu-end" aria-labelledby="bd-theme">
                             <li class="mb-1">
