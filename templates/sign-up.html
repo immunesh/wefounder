@@ -238,6 +238,16 @@
                                 <hr>
                                 <p class="small position-absolute top-50 start-50 translate-middle bg-body px-4">Or</p>
                             </div>
+                            {% if messages %}
+                            {% for message in messages %}
+                            <div class="alert alert-success d-flex align-items-center container" id="message_alert" role="alert">
+                                <i class="fa-solid fa-circle-check fa-lg m-2"></i> 
+                                <div class="message">
+                                    {{ message }}
+                                </div>
+                            </div>
+                            {% endfor %}
+                            {% endif %}
                         </div>
 
                         <!-- Form START -->

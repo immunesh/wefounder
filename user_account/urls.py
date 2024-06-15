@@ -10,7 +10,7 @@ urlpatterns = [
     path('logout/', views.logOut, name='logout'),
     path('account-notification/', views.accountNotification, name='account_notification'),
     path('account-projects/', views.accountProjects, name='account_projects'),
-    path('accountProject/update/<id>/',views.accountProject_update, name="accountProject_update"),
-    path('account-projects_delete/<id>', views.delete, name="account-projects_delete"),
+    path('accountProject/update/<int:id>/', views.accountProject_update, name='accountProject_update'),
+    path('account-projects_delete/<id>/', views.ProjectDelete, name="account-projects_delete"),
     path('wishlist/', views.wishlist, name='wishlist'),
 ]

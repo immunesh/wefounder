@@ -8,7 +8,7 @@ from django.utils.decorators import method_decorator
 @login_required(login_url='signin')
 def Community(request):
     communities = CommunityCategory.objects.all()
-    CategoryName = request.GET.get('communities',None)
+    CategoryName = request.GET.get('community',None)
     if CategoryName:
         category = CommunityCategory.objects.get(name=CategoryName)
         posts = CommunityPost.objects.filter(category=category)
@@ -24,8 +24,6 @@ def Community(request):
     }
 
     return render(request, 'community.html', context)
-
-
     
 @method_decorator(login_required(login_url='signin'), name='dispatch')
 class CommunitySingle(View):

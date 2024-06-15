@@ -1,7 +1,7 @@
 {% extends "user-account-dashboard/base.html" %}
 {% load static %}
 {% block UserMainContent %}
-<!--edit  Modal -->
+<!--edit Modal -->
 <div class="modal fade" id="editModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
     <div class="modal-dialog">
       <div class="modal-content">
@@ -10,7 +10,7 @@
           <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
         </div>
         <div class="modal-body">
-            <form action="" method="POST">
+            <form id="editForm" action="" method="POST">
                 {% csrf_token %}
                 <div class="mb-4">
                     <select class="form-select" name="category" required>
@@ -52,9 +52,6 @@
       </div>
     </div>
 </div>
-
-
-
 
 <!-- Modal -->
 <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
@@ -109,7 +106,7 @@
   </div>
 
 
-<!-- Main content -->
+  <!-- Main content -->
 <div class="col-lg-8 col-xl-9 ps-lg-4 ps-xl-6">
     <!-- Title and offcanvas button -->
     <div class="d-flex justify-content-between align-items-center mb-5 mb-sm-6">
@@ -147,12 +144,16 @@
     </div>
     <!-- my_template.html -->
     {% if messages %}
-    <div class="messages mb-2">
         {% for message in messages %}
-            <div class=" {{ message.tags }} align-middle p-2 mb-0 bg-primary text-white" {% if message.tags %} {% endif %}>{{ message }}</div>
+            <div class="alert alert-success d-flex align-items-center container" id="message_alert" role="alert">
+                <i class="fa-solid fa-circle-check fa-lg m-2"></i> 
+                <div class="message">
+                    {{ message }}
+                </div>
+            </div>
         {% endfor %}
-    </div>
     {% endif %}
+
     <!-- Table -->
     <div class="table-responsive border-0">
         <table class="table align-middle p-4 mb-0 table-hover">
@@ -178,7 +179,7 @@
 
                         <!-- Table data -->
                         <td>
-                            <a href="{% url 'accountProject_update' project.id %}" class="btn btn-sm btn-dark me-1 mb-1 mb-md-0" data-bs-toggle="modal" data-bs-target="#editModal"><i
+                            <a href="{% url 'accountProject_update' project.id %}" class="btn btn-sm btn-dark me-1 mb-1 mb-md-0 edit-btn" data-bs-toggle="modal" data-bs-target="#editModal" data-id="{{ project.id }}"><i
                                     class="bi bi-pencil-square"></i></a>
                             <a href="{% url 'account-projects_delete' project.id %}" class="btn btn-sm btn-danger me-1 mb-1 mb-md-0"><i
                                     class="bi bi-trash"></i></a>
@@ -192,3 +193,42 @@
 
 </div>
 {% endblock UserMainContent %}
+{% block javascript %}
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            var editButtons = document.querySelectorAll('.edit-btn');
+            editButtons.forEach(function (button) {
+                button.addEventListener('click', function (event) {
+                    event.preventDefault();
+                    var projectId = this.getAttribute('data-id');
+                    var url = this.getAttribute('href');
+                    
+                    fetch(url, {
+                        headers: {
+                            'x-requested-with': 'XMLHttpRequest'
+                        }
+                    })
+                        .then(response => {
+                            if (!response.ok) {
+                                throw new Error('Network response was not ok');
+                            }
+                            return response.json();
+                        })
+                        .then(data => {
+                            document.querySelector('#editModal select[name="category"]').value = data.category;
+                            document.querySelector('#editModal input[name="title"]').value = data.title;
+                            document.querySelector('#editModal input[name="timeline"]').value = data.timeline;
+                            document.querySelector('#editModal input[name="price"]').value = data.price;
+                            document.querySelector('#editModal input[name="skills"]').value = data.skills;
+                            document.querySelector('#editModal input[name="responsibilities"]').value = data.responsibilities;
+                            document.querySelector('#editModal textarea[name="description"]').value = data.description;
+                            document.querySelector('#editForm').action = url;
+                        })
+                        .catch(error => {
+                            console.error('There was a problem with the fetch operation:', error);
+                        });
+                });
+            });
+        });
+    </script>
+{% endblock javascript %}

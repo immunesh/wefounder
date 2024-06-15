@@ -17,6 +17,16 @@
                         <!-- Advanced filter responsive toggler END -->
 
                     </div>
+                    {% if messages %}
+                    {% for message in messages %}
+                    <div class="alert alert-success d-flex align-items-center container" id="message_alert" role="alert">
+                        <i class="fa-solid fa-circle-check fa-lg m-2"></i> 
+                        <div class="message">
+                            {{ message }}
+                        </div>
+                    </div>
+                    {% endfor %}
+                    {% endif %}
 
                     <!-- Personal Information -->
                     <form>
