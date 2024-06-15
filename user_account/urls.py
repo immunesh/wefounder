@@ -12,5 +12,5 @@ urlpatterns = [
     path('account-projects/', views.accountProjects, name='account_projects'),
     path('accountProject/update/<int:id>/', views.accountProject_update, name='accountProject_update'),
     path('account-projects_delete/<id>/', views.ProjectDelete, name="account-projects_delete"),
-    path('wishlist/', views.wishlist, name='wishlist'),
+    path('messages/', views.Messages, name='messages'),
 ]

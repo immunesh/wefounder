@@ -266,6 +266,9 @@ def accountProjects(request):
 
         user = request.user
 
+        if not price:
+            price = 0
+
         try:
             category = CommunityCategory.objects.get(id=category_id)
             data = CommunityPost(
@@ -339,8 +342,13 @@ def ProjectDelete(request, id = None):
 
 def profile(request, username):
     user = get_object_or_404(CustomUser, username=username)
-    return render(request, 'user-account-dashboard/user-profile.html', {'user_data': user})
+    posts= CommunityPost.objects.filter(user=user)
+    context ={
+        'user_data': user,
+        'posts': posts
+    }
+    return render(request, 'user-account-dashboard/user-profile.html', context)
 
 @login_required(login_url='signin')
-def wishlist(request):
+def Messages(request):
     return render(request, 'user-account-dashboard/account-wishlist.html')
