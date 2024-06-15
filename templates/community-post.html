@@ -22,9 +22,17 @@
                             <h4 class="mb-0">{{post.category}}</h4>
                             <!-- List -->
                             <div class="hstack gap-3 gap-md-4 flex-wrap mt-3">
-                                <span><i class="bi bi-geo-alt me-2"></i>USA, ontario</span>
-                                <span><i class="bi bi-clock me-2"></i>{{post.timeline}}</span>
-                                <span><i class="bi bi-briefcase me-2"></i>${{post.price}}</span>
+                                {% if post.price %}
+                                    <span><i class="bi bi-geo-alt me-2"></i>USA, ontario</span>
+                                {% endif %}
+                                
+                                {% if post.timeline %}
+                                    <span><i class="bi bi-clock me-2"></i>{{post.timeline}}</span>
+                                {% endif %}
+
+                                {% if post.price %}
+                                    <span><i class="bi bi-briefcase me-2"></i>${{post.price}}</span>
+                                {% endif %}
                             </div>
                         </div>
                         <!-- Button -->
@@ -34,27 +42,30 @@
 
                     <!-- Detail list -->
                     <div class="row">
-                        <div class="col-md-6">
-                            <h6>Skills:</h6>
-                            <ul class="list-group list-group-borderless mb-4">
-                                <li class="list-group-item d-flex mb-0"><i
-                                        class="bi bi-patch-check text-primary me-2"></i>Involving The Team In Decisions
-                                    That Affect Them</li>
-                                <li class="list-group-item d-flex mb-0"><i
-                                        class="bi bi-patch-check text-primary me-2"></i>Displays technical or
-                                    professional expertise</li>
-                                <li class="list-group-item d-flex mb-0"><i
-                                        class="bi bi-patch-check text-primary me-2"></i>Displays high integrity and
-                                    honesty</li>
-                                <li class="list-group-item d-flex mb-0"><i
-                                        class="bi bi-patch-check text-primary me-2"></i>Solves problems and analyzes
-                                    issues</li>
-                                <li class="list-group-item d-flex mb-0"><i
-                                        class="bi bi-patch-check text-primary me-2"></i>Communicates powerfully and
-                                    prolifically</li>
-                            </ul>
-                        </div>
+                        {% if post.skills %}
+                            <div class="col-md-6">
+                                <h6>Skills:</h6>
+                                <ul class="list-group list-group-borderless mb-4">
+                                    <li class="list-group-item d-flex mb-0"><i
+                                            class="bi bi-patch-check text-primary me-2"></i>Involving The Team In Decisions
+                                        That Affect Them</li>
+                                    <li class="list-group-item d-flex mb-0"><i
+                                            class="bi bi-patch-check text-primary me-2"></i>Displays technical or
+                                        professional expertise</li>
+                                    <li class="list-group-item d-flex mb-0"><i
+                                            class="bi bi-patch-check text-primary me-2"></i>Displays high integrity and
+                                        honesty</li>
+                                    <li class="list-group-item d-flex mb-0"><i
+                                            class="bi bi-patch-check text-primary me-2"></i>Solves problems and analyzes
+                                        issues</li>
+                                    <li class="list-group-item d-flex mb-0"><i
+                                            class="bi bi-patch-check text-primary me-2"></i>Communicates powerfully and
+                                        prolifically</li>
+                                </ul>
+                            </div>
+                        {% endif %}
 
+                        {% if post.responsibilities %}
                         <div class="col-md-6">
                             <h6>Responsibilities:</h6>
                             <ul class="list-group list-group-borderless mb-4">
@@ -64,20 +75,7 @@
                                         class="bi bi-patch-check text-primary me-2"></i>Converting Design to Code</li>
                             </ul>
                         </div>
-
-                        <div class="col-md-6">
-                            <h6>Experience:</h6>
-                            <ul class="list-group list-group-borderless mb-4">
-                                <li class="list-group-item mb-0"><i
-                                        class="bi bi-patch-check text-primary me-2"></i>Bachelor Degree</li>
-                            </ul>
-                        </div>
-
-                        <div class="col-md-6">
-                            <h6>Educational requirements:</h6>
-                            <p>Ideally, 2 years to 4 years experience in an agency environment working in multi-tiered
-                                tasks</p>
-                        </div>
+                        {% endif %}
                     </div>
 
                     <!-- Description -->
@@ -88,7 +86,7 @@
                         <!-- Review item -->
                         <div class="d-flex">
                             <img class="avatar avatar-md rounded-circle float-start me-3"
-                                src="{{user.profile_image.url}}" alt="avatar">
+                                src="{{post.user.profile_image.url}}" alt="avatar">
                             <div>
                                 <div class="d-sm-flex justify-content-between mb-2">
                                     <div>
@@ -111,7 +109,7 @@
                                 </div>
                                 <p>{{user.skills_expertise}}</p>
                     
-                                <a href="{% url "profile" user.username %}" class="btn btn-dark rounded-2 mb-0">Profile</a>
+                                <a href="{% url "profile" post.user.username %}" class="btn btn-dark rounded-2 mb-0">Profile</a>
                                 <a href="{% url "home" %}" class="btn btn-dark rounded-2 mb-0">Chat</a>    
                             </div>
                         </div>
