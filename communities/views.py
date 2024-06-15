@@ -8,9 +8,13 @@ from django.utils.decorators import method_decorator
 @login_required(login_url='signin')
 def Community(request):
     communities = CommunityCategory.objects.all()
-    if request.method == 'POST':
+    CategoryName = request.GET.get('communities',None)
+    if CategoryName:
+        category = CommunityCategory.objects.get(name=CategoryName)
+        posts = CommunityPost.objects.filter(category=category)
+    elif request.method == 'POST':
         data = request.POST.get('search_filter')
-        posts = CommunityPost.objects.filter(title =data)
+        posts = CommunityPost.objects.filter(title__icontains=data)
     else:
         posts = CommunityPost.objects.all()
 
@@ -21,17 +25,8 @@ def Community(request):
 
     return render(request, 'community.html', context)
 
-@login_required(login_url='signin')
-def CommunityFilter(request,str):
-    posts = CommunityPost.objects.get(category=str)
-    context = {
-        'posts': posts
-    }
-    return redirect('/communityfilter/')
-
 
     
-
 @method_decorator(login_required(login_url='signin'), name='dispatch')
 class CommunitySingle(View):
     def get(self, request, slug):

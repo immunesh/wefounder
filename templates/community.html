@@ -15,11 +15,11 @@
                     <!-- Tabs -->
                     <ul class="nav nav-pills gap-1 nav-pills-light">
                         <li class="nav-item">
-                            <a class="nav-link active">All Posts</a>
+                            <a href="{% url 'community' %}"class="nav-link active">All Posts</a>
                         </li>
                         {% for community in communities %}
                             <li class="nav-item">
-                                <a class="nav-link active" href="{{ community.name }}">{{ community.name }}</a>
+                                <a class="nav-link active" href="?communities={{ community.name }}">{{ community.name }}</a>
                             </li>
                         {% endfor %}
                     </ul>

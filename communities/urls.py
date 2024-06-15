@@ -3,5 +3,5 @@ from . import views
 urlpatterns = [
     path('community/', views.Community, name='community'),
     path('community/<slug:slug>/', views.CommunitySingle.as_view(), name='community_single'),
-    path('filter/<str:cat>/',views.CommunityFilter,name='communityfilter'),
+
 ]
