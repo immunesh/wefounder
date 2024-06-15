@@ -1,5 +1,6 @@
 from .models import CustomUser
 from django.contrib import messages
+from django.http import JsonResponse
 from django.shortcuts import render, redirect
 from django.contrib.auth.hashers import make_password
 from django.shortcuts import render, get_object_or_404
@@ -293,19 +294,47 @@ def accountProjects(request):
     }
 
     return render(request, 'user-account-dashboard/account-projects.html', context)
+
 @login_required(login_url='signin')
-def accountProject_update(request, id = None):
-    post = CommunityPost.objects.get(id = id)
-    print(post)
+def accountProject_update(request, id=None):
+    post = get_object_or_404(CommunityPost, id=id)
+    
+    if request.method == 'POST':
+        post.category_id = request.POST.get('category')
+        post.title = request.POST.get('title')
+        post.timeline = request.POST.get('timeline')
+        post.price = request.POST.get('price')
+        post.skills = request.POST.get('skills')
+        post.responsibilities = request.POST.get('responsibilities')
+        post.description = request.POST.get('description')
+        
+        post.save()
+        messages.success(request, "Post updated successfully.")
+        return redirect('account_projects')
+    
+    elif request.headers.get('x-requested-with') == 'XMLHttpRequest':
+        data = {
+            'category': post.category_id,
+            'title': post.title,
+            'timeline': post.timeline,
+            'price': post.price,
+            'skills': post.skills,
+            'responsibilities': post.responsibilities,
+            'description': post.description,
+        }
+        return JsonResponse(data)
+    
     context = {
-        post:post,
+        'post': post,
     }
+    
     return render(request, 'user-account-dashboard/account-projects.html', context)
 
 @login_required(login_url='signin')
-def delete(request, id = None):
+def ProjectDelete(request, id = None):
     delete_project = CommunityPost.objects.get(id = id)
     delete_project.delete()
+    messages.success(request, "Post deleted successfully.")
     return redirect('account_projects')
 
 def profile(request, username):
