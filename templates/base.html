@@ -380,6 +380,13 @@
     <script src="{% static 'theme-assets/js/functions.js'%}"></script>
     <script src="{% static 'theme-assets/vendor/glightbox/js/glightbox.js' %}"></script>
     {% block javascript %}{% endblock javascript %}
+    <script>
+        var message_timeout = document.getElementById("message_alert");
+
+        setTimeout(function () {
+            message_timeout.style.setProperty("display", "none", "important");
+        }, 3000);
+    </script>
 </body>
     
 </html>

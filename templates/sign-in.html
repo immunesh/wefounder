@@ -328,7 +328,13 @@
 
     <!-- Theme Functions -->
     <script src="{% static 'theme-assets/js/functions.js'%}"></script>
+    <script>
+        var message_timeout = document.getElementById("message_alert");
 
+        setTimeout(function () {
+            message_timeout.style.setProperty("display", "none", "important");
+        }, 3000);
+    </script>
 </body>
 
 </html>

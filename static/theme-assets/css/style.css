@@ -22068,3 +22068,9 @@ button.text-primary-hover:hover {
     background-color: #0056b3;
     color: white;
 }
+
+.item-link {
+    display: block;
+    border-bottom: 1px solid #09b850;
+
+}

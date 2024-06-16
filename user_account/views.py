@@ -351,4 +351,4 @@ def profile(request, username):
 
 @login_required(login_url='signin')
 def Messages(request):
-    return render(request, 'user-account-dashboard/account-wishlist.html')
+    return render(request, 'user-account-dashboard/messages.html')
