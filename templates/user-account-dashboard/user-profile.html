@@ -12,13 +12,27 @@
 
                 <!-- Image and content -->
                 <div class="row justify-content-evenly flex-lg-nowrap mb-7">
-                    <div class="col-sm-4 d-flex mb-5 mb-sm-6 mb-lg-0">
+                    <div class="col-sm-6 d-flex mb-5 mb-sm-6 mb-lg-0">
                         <!-- Image -->
-                        <img src="{% static 'theme-assets/images/portfolio/case-study-02.jpg' %}" class="rounded-circle" alt="portfolio-img">
+                        <img src="{{user.profile_image.url}}" class="rounded-circle" alt="portfolio-img">
                     </div>
                 
                     <div class="col-sm-6 ps-lg-6">
                         <p class="mb-4">{{user_data.skills_expertise}}</p>
+
+                        <div class="d-flex align-items-center flex-wrap mb-4">
+                            <ul class="list-inline mb-0">
+                                <li class="list-inline-item me-0"><i class="fas fa-star text-warning"></i></li>
+                                <li class="list-inline-item me-0"><i class="fas fa-star text-warning"></i></li>
+                                <li class="list-inline-item me-0"><i class="fas fa-star text-warning"></i></li>
+                                <li class="list-inline-item me-0"><i class="fas fa-star text-warning"></i></li>
+                                <li class="list-inline-item me-0"><i class="fas fa-star-half-alt text-warning"></i></li>
+                                <li class="list-inline-item me-0 heading-color fw-normal">(4.5)</li>
+                            </ul>
+                            <span class="text-secondary opacity-3 mx-2 mx-sm-3">|</span>
+                            <a href="#reviews" class="heading-color text-primary-hover mb-0">345 reviews</a>
+                        </div>
+
                         <!-- Project list -->
                         <table class="table table-borderless mb-4">
                             <tbody>
@@ -50,11 +64,10 @@
                     </div>
                 </div>
                 
-
-                <!-- Challenge -->
+                <!-- Project Posting -->
                 <div class="row justify-content-center">
-                    <div class="col-md-4 text-center">
-                        <h4>Project Posts</h4>
+                    <div class="col-md-4 text-center mb-3 mt-3">
+                        <h2>Project Posts</h2>
                     </div>
                     {% for post in posts %}
                         <!-- Job item -->
@@ -68,8 +81,8 @@
                                 <!-- List -->
                                 <p class="mt-3">{{post.description}}</p>
                                 <div class="hstack gap-3 gap-sm-4 flex-wrap mt-3">
-                                    {% if post.price %}
-                                        <span><i class="bi bi-geo-alt me-2"></i>USA, ontario</span>
+                                    {% if post.location %}
+                                        <span><i class="bi bi-geo-alt me-2"></i>{{post.location}}</span>
                                     {% endif %}
                                     
                                     {% if post.timeline %}
@@ -86,9 +99,227 @@
                         </div>
                     {% endfor %}
                 </div>
+
+                <div class="row">
+                    <div class="col-12 mx-auto">
+                        <ul class="pagination pagination-primary-soft d-flex justify-content-center mb-0">
+                    <li>
+                                <ul class="list-unstyled">
+                                    <li class="page-item disabled">
+                                        <a class="page-link" href="#" tabindex="-1" aria-disabled="true">Prev</a>
+                                    </li>
+                                    <li class="page-item active"><a class="page-link" href="#">1</a></li>
+                                    <li class="page-item"><a class="page-link" href="#">2</a></li>
+                                    <li class="page-item"><a class="page-link" href="#">..</a></li>
+                                    <li class="page-item"><a class="page-link" href="#">22</a></li>
+                                    <li class="page-item">
+                                        <a class="page-link" href="#">Next</a>
+                                    </li>
+                                </ul>
+                            </li>
+                  </ul>
+                    </div>
+                </div>
             </div>
         </section>
         <!-- Case studies detail END -->
+
+        <!-- Rating & review START -->
+        <section class="pt-0" id="reviews">
+            <div class="container">
+                <!-- Title -->
+                <h2 class="h4 mb-5">Rating &amp; review</h2>
+        
+                <div class="row">
+                    <!-- Rating START -->
+                    <div class="col-lg-5 pe-lg-5 mb-5 mb-lg-0">
+                        <!-- Rating and progressbar -->
+                        <div class="border rounded-2 p-4">
+                            <div class="row">
+                                <!-- Total rating -->
+                                <div class="col-md-5">
+                                    <!-- Info -->
+                                    <h2 class="mb-0">4.5</h2>
+                                    <!-- Star -->
+                                    <ul class="list-inline mb-2">
+                                        <li class="list-inline-item me-0"><i class="fas fa-star text-warning"></i></li>
+                                        <li class="list-inline-item me-0"><i class="fas fa-star text-warning"></i></li>
+                                        <li class="list-inline-item me-0"><i class="fas fa-star text-warning"></i></li>
+                                        <li class="list-inline-item me-0"><i class="fas fa-star text-warning"></i></li>
+                                        <li class="list-inline-item me-0"><i class="fas fa-star-half-alt text-warning"></i></li>
+                                    </ul>
+                                    <p class="mb-2">Based on 56 Reviews</p>
+                                </div>
+        
+                                <!-- Progress bar -->
+                                <div class="col-md-7">
+                                    <!-- Progress item -->
+                                    <div class="d-flex align-items-center">
+                                        <div class="progress progress-sm bg-warning bg-opacity-15 w-100 me-3">
+                                            <div class="progress-bar bg-warning" role="progressbar" style="width: 95%" aria-valuenow="95" aria-valuemin="0" aria-valuemax="100">
+                                            </div>
+                                        </div>
+                                        <span class="heading-color">5</span>
+                                    </div>
+        
+                                    <!-- Progress item -->
+                                    <div class="d-flex align-items-center">
+                                        <div class="progress progress-sm bg-warning bg-opacity-15 w-100 me-3">
+                                            <div class="progress-bar bg-warning" role="progressbar" style="width: 75%" aria-valuenow="75" aria-valuemin="0" aria-valuemax="100">
+                                            </div>
+                                        </div>
+                                        <span class="heading-color">4</span>
+                                    </div>
+        
+                                    <!-- Progress item -->
+                                    <div class="d-flex align-items-center">
+                                        <div class="progress progress-sm bg-warning bg-opacity-15 w-100 me-3">
+                                            <div class="progress-bar bg-warning" role="progressbar" style="width: 55%" aria-valuenow="55" aria-valuemin="0" aria-valuemax="100">
+                                            </div>
+                                        </div>
+                                        <span class="heading-color">3</span>
+                                    </div>
+        
+                                    <!-- Progress item -->
+                                    <div class="d-flex align-items-center">
+                                        <div class="progress progress-sm bg-warning bg-opacity-15 w-100 me-3">
+                                            <div class="progress-bar bg-warning" role="progressbar" style="width: 35%" aria-valuenow="35" aria-valuemin="0" aria-valuemax="100">
+                                            </div>
+                                        </div>
+                                        <span class="heading-color">2</span>
+                                    </div>
+        
+                                    <!-- Progress item -->
+                                    <div class="d-flex align-items-center">
+                                        <div class="progress progress-sm bg-warning bg-opacity-15 w-100 me-3">
+                                            <div class="progress-bar bg-warning" role="progressbar" style="width: 25%" aria-valuenow="25" aria-valuemin="0" aria-valuemax="100">
+                                            </div>
+                                        </div>
+                                        <span class="heading-color">1</span>
+                                    </div>
+                                </div>
+                            </div> <!-- Row END -->
+                        </div>
+                    </div>
+                    <!-- Rating END -->
+        
+                    <!-- Review START -->
+                    <div class="col-lg-7">
+                        <!-- Title and Select -->
+                        <div class="d-flex justify-content-between align-items-center">
+                            <!-- Title -->
+                            <h5 class="mb-0">Sort by</h5>
+                            <!-- Select -->
+                            <div class="col-xl-3">
+                                <select class="form-select" aria-label="Default select example">
+                                    <option value="1">Most Recent</option>
+                                    <option value="2">Most Viewed</option>
+                                    <option value="3">Helpful</option>
+                                </select>
+                            </div>	
+                        </div>
+        
+                        <hr class="my-4"> <!-- Divider -->
+        
+                        <!-- Review item -->
+                        <div class="d-flex">
+                            <img class="avatar avatar-md rounded-circle float-start me-3" src="{% static 'theme-assets/images/avatar/01.jpg' %}" alt="avatar">
+                            <div>
+                                <div class="d-sm-flex justify-content-between mb-2">
+                                    <div>
+                                        <h6 class="m-0">Allen Smith</h6>
+                                        <span class="me-3 small">June 11, 2022, at 6:01 am </span>
+                                    </div>	
+                                    <!-- Rating Star -->
+                                    <ul class="list-inline mb-0">
+                                        <li class="list-inline-item small me-0"><i class="fas fa-star text-warning"></i></li>
+                                        <li class="list-inline-item small me-0"><i class="fas fa-star text-warning"></i></li>
+                                        <li class="list-inline-item small me-0"><i class="fas fa-star text-warning"></i></li>
+                                        <li class="list-inline-item small me-0"><i class="fas fa-star text-warning"></i></li>
+                                        <li class="list-inline-item small me-0"><i class="fas fa-star-half-alt text-warning"></i></li>
+                                    </ul>
+                                </div>
+                                <p>Warrant private blushes removed an in equally totally if. Delivered dejection necessary objection do Mr prevailed. Mr feeling does chiefly cordial in do. </p>
+                                
+                                <span>Was it helpful?</span>
+                                <div class="btn-group ms-md-2" role="group" aria-label="Basic radio toggle button group">
+                                    <!-- Yes button -->
+                                    <input type="radio" class="btn-check" name="btnradio1" id="btnradior1">
+                                    <label class="btn btn-outline-secondary btn-sm mb-0" for="btnradior1"><i class="far fa-thumbs-up me-1"></i> Yes</label>
+                                    <!-- No button -->
+                                    <input type="radio" class="btn-check" name="btnradio1" id="btnradior2">
+                                    <label class="btn btn-outline-secondary btn-sm mb-0" for="btnradior2"> No <i class="far fa-thumbs-down ms-1"></i></label>
+                                </div>
+                            </div>
+                        </div>
+        
+                        <hr class="my-4"> <!-- Divider -->
+        
+                        <!-- Review item -->
+                        <div class="d-flex">
+                            <img class="avatar avatar-md rounded-circle float-start me-3" src="{% static 'theme-assets/images/avatar/02.jpg' %}" alt="avatar">
+                            <div>
+                                <div class="d-sm-flex justify-content-between mb-2">
+                                    <div>
+                                        <h6 class="m-0">Louis Ferguson</h6>
+                                        <span class="me-3 small">June 14, 2022, at 6:01 am </span>
+                                    </div>	
+                                    <!-- Rating Star -->
+                                    <ul class="list-inline mb-0">
+                                        <li class="list-inline-item small me-0"><i class="fas fa-star text-warning"></i></li>
+                                        <li class="list-inline-item small me-0"><i class="fas fa-star text-warning"></i></li>
+                                        <li class="list-inline-item small me-0"><i class="fas fa-star text-warning"></i></li>
+                                        <li class="list-inline-item small me-0"><i class="fas fa-star text-warning"></i></li>
+                                        <li class="list-inline-item small me-0"><i class="fas fa-star-half-alt text-warning"></i></li>
+                                    </ul>
+                                </div>
+                                <p>Delivered dejection necessary objection do Mr prevailed. Mr feeling does chiefly cordial in do. </p>
+                                
+                                <span>Was it helpful?</span>
+                                <div class="btn-group ms-md-2" role="group" aria-label="Basic radio toggle button group">
+                                    <!-- Yes button -->
+                                    <input type="radio" class="btn-check" name="btnradio" id="btnradior3">
+                                    <label class="btn btn-outline-secondary btn-sm mb-0" for="btnradior3"><i class="far fa-thumbs-up me-1"></i> Yes</label>
+                                    <!-- No button -->
+                                    <input type="radio" class="btn-check" name="btnradio" id="btnradior4">
+                                    <label class="btn btn-outline-secondary btn-sm mb-0" for="btnradior4"> No <i class="far fa-thumbs-down ms-1"></i></label>
+                                </div>
+                            </div>
+                        </div>
+        
+                        <!-- button -->
+                        <div class="mt-4 text-end">
+                            <a class="btn btn-primary-soft mb-0" data-bs-toggle="collapse" href="#collapseExample" role="button" aria-expanded="false" aria-controls="collapseExample">
+                                Write a review
+                            </a>
+                        </div>
+        
+                        <!-- Collapse body -->
+                        <div class="collapse" id="collapseExample">
+                            <div class="card card-body">
+                                <form>
+                                    <select class="form-select mb-3" aria-label="Default select example">
+                                        <option value="1">★★★★★ (5/5)</option>
+                                        <option value="2">★★★★☆ (4/5)</option>
+                                        <option value="3">★★★☆☆ (3/5)</option>
+                                        <option value="3">★★☆☆☆ (2/5)</option>
+                                        <option value="3">★☆☆☆☆ (1/5)</option>
+                                    </select>
+                                    <!-- Text area -->
+                                    <textarea class="form-control mb-3" id="exampleFormControlTextarea1" placeholder="Your review" rows="3"></textarea>
+                                    <!-- Button -->
+                                    <button type="submit" class="btn btn-primary mb-0">Post It <i class="bi fa-fw bi-arrow-right ms-2"></i></button>
+                                </form>
+                            </div>
+                        </div>
+        
+                    </div>
+                    <!-- Review END -->
+                </div>
+            </div>
+        </section>
+        <!-- Rating & review START END -->
+        
     </main>
     <!-- **************** MAIN CONTENT END **************** -->
 {% endblock Content %}

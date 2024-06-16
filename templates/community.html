@@ -45,8 +45,8 @@
                             <!-- List -->
                             <p class="mt-3">{{post.description}}</p>
                             <div class="hstack gap-3 gap-sm-4 flex-wrap mt-3">
-                                {% if post.price %}
-                                    <span><i class="bi bi-geo-alt me-2"></i>USA, ontario</span>
+                                {% if post.location %}
+                                    <span><i class="bi bi-geo-alt me-2"></i>{{post.location}}</span>
                                 {% endif %}
                                 
                                 {% if post.timeline %}
