@@ -1,5 +1,6 @@
 {% extends "base.html" %}
 {% load static %}
+{% load custom_filters %}
 {% block Content %}
     <!-- **************** MAIN CONTENT START **************** -->
     <main>
@@ -22,15 +23,17 @@
 
                         <div class="d-flex align-items-center flex-wrap mb-4">
                             <ul class="list-inline mb-0">
-                                <li class="list-inline-item me-0"><i class="fas fa-star text-warning"></i></li>
-                                <li class="list-inline-item me-0"><i class="fas fa-star text-warning"></i></li>
-                                <li class="list-inline-item me-0"><i class="fas fa-star text-warning"></i></li>
-                                <li class="list-inline-item me-0"><i class="fas fa-star text-warning"></i></li>
-                                <li class="list-inline-item me-0"><i class="fas fa-star-half-alt text-warning"></i></li>
-                                <li class="list-inline-item me-0 heading-color fw-normal">(4.5)</li>
+                                    {% for i in "12345" %}
+                                        {% if i <= avg_rating|default:"0"|floatformat %}
+                                            <li class="list-inline-item me-0"><i class="fas fa-star text-warning"></i></li>
+                                        {% else %}
+                                            <li class="list-inline-item me-0"><i class="fas fa-star-half-alt text-warning"></i></li>
+                                        {% endif %}
+                                    {% endfor %}
+                                <li class="list-inline-item me-0 heading-color fw-normal">({{ avg_rating|default:"0"|floatformat:1 }})</li>
                             </ul>
                             <span class="text-secondary opacity-3 mx-2 mx-sm-3">|</span>
-                            <a href="#reviews" class="heading-color text-primary-hover mb-0">345 reviews</a>
+                            <a href="#reviews" class="heading-color text-primary-hover mb-0">{{ reviews.count }} reviews</a>
                         </div>
 
                         <!-- Project list -->
@@ -139,64 +142,31 @@
                                 <!-- Total rating -->
                                 <div class="col-md-5">
                                     <!-- Info -->
-                                    <h2 class="mb-0">4.5</h2>
+                                    <h2 class="mb-0">{{ avg_rating|default:"0"|floatformat:1 }}</h2>
                                     <!-- Star -->
                                     <ul class="list-inline mb-2">
-                                        <li class="list-inline-item me-0"><i class="fas fa-star text-warning"></i></li>
-                                        <li class="list-inline-item me-0"><i class="fas fa-star text-warning"></i></li>
-                                        <li class="list-inline-item me-0"><i class="fas fa-star text-warning"></i></li>
-                                        <li class="list-inline-item me-0"><i class="fas fa-star text-warning"></i></li>
-                                        <li class="list-inline-item me-0"><i class="fas fa-star-half-alt text-warning"></i></li>
+                                        {% for i in "12345" %}
+                                            {% if i <= avg_rating|default:"0"|floatformat %}
+                                                <li class="list-inline-item me-0"><i class="fas fa-star text-warning"></i></li>
+                                            {% else %}
+                                                <li class="list-inline-item me-0"><i class="fas fa-star-half-alt text-warning"></i></li>
+                                            {% endif %}
+                                        {% endfor %}
                                     </ul>
-                                    <p class="mb-2">Based on 56 Reviews</p>
+                                    <p class="mb-2">Based on {{ reviews.count }} Reviews</p>
                                 </div>
-        
+
                                 <!-- Progress bar -->
                                 <div class="col-md-7">
-                                    <!-- Progress item -->
-                                    <div class="d-flex align-items-center">
-                                        <div class="progress progress-sm bg-warning bg-opacity-15 w-100 me-3">
-                                            <div class="progress-bar bg-warning" role="progressbar" style="width: 95%" aria-valuenow="95" aria-valuemin="0" aria-valuemax="100">
+                                    {% for rating_count in rating_counts %}
+                                        <div class="d-flex align-items-center">
+                                            <div class="progress progress-sm bg-warning bg-opacity-15 w-100 me-3">
+                                                <div class="progress-bar bg-warning" role="progressbar" style="width: {{ rating_count.count|divisibleby:reviews.count|yesno:"100,0" }}%" aria-valuenow="{{ rating_count.count|divisibleby:reviews.count|yesno:"100,0" }}" aria-valuemin="0" aria-valuemax="100">
+                                                </div>
                                             </div>
+                                            <span class="heading-color">{{ rating_count.rating }}</span>
                                         </div>
-                                        <span class="heading-color">5</span>
-                                    </div>
-        
-                                    <!-- Progress item -->
-                                    <div class="d-flex align-items-center">
-                                        <div class="progress progress-sm bg-warning bg-opacity-15 w-100 me-3">
-                                            <div class="progress-bar bg-warning" role="progressbar" style="width: 75%" aria-valuenow="75" aria-valuemin="0" aria-valuemax="100">
-                                            </div>
-                                        </div>
-                                        <span class="heading-color">4</span>
-                                    </div>
-        
-                                    <!-- Progress item -->
-                                    <div class="d-flex align-items-center">
-                                        <div class="progress progress-sm bg-warning bg-opacity-15 w-100 me-3">
-                                            <div class="progress-bar bg-warning" role="progressbar" style="width: 55%" aria-valuenow="55" aria-valuemin="0" aria-valuemax="100">
-                                            </div>
-                                        </div>
-                                        <span class="heading-color">3</span>
-                                    </div>
-        
-                                    <!-- Progress item -->
-                                    <div class="d-flex align-items-center">
-                                        <div class="progress progress-sm bg-warning bg-opacity-15 w-100 me-3">
-                                            <div class="progress-bar bg-warning" role="progressbar" style="width: 35%" aria-valuenow="35" aria-valuemin="0" aria-valuemax="100">
-                                            </div>
-                                        </div>
-                                        <span class="heading-color">2</span>
-                                    </div>
-        
-                                    <!-- Progress item -->
-                                    <div class="d-flex align-items-center">
-                                        <div class="progress progress-sm bg-warning bg-opacity-15 w-100 me-3">
-                                            <div class="progress-bar bg-warning" role="progressbar" style="width: 25%" aria-valuenow="25" aria-valuemin="0" aria-valuemax="100">
-                                            </div>
-                                        </div>
-                                        <span class="heading-color">1</span>
-                                    </div>
+                                    {% endfor %}
                                 </div>
                             </div> <!-- Row END -->
                         </div>
@@ -220,72 +190,42 @@
                         </div>
         
                         <hr class="my-4"> <!-- Divider -->
-        
-                        <!-- Review item -->
-                        <div class="d-flex">
-                            <img class="avatar avatar-md rounded-circle float-start me-3" src="{% static 'theme-assets/images/avatar/01.jpg' %}" alt="avatar">
-                            <div>
-                                <div class="d-sm-flex justify-content-between mb-2">
-                                    <div>
-                                        <h6 class="m-0">Allen Smith</h6>
-                                        <span class="me-3 small">June 11, 2022, at 6:01 am </span>
-                                    </div>	
-                                    <!-- Rating Star -->
-                                    <ul class="list-inline mb-0">
-                                        <li class="list-inline-item small me-0"><i class="fas fa-star text-warning"></i></li>
-                                        <li class="list-inline-item small me-0"><i class="fas fa-star text-warning"></i></li>
-                                        <li class="list-inline-item small me-0"><i class="fas fa-star text-warning"></i></li>
-                                        <li class="list-inline-item small me-0"><i class="fas fa-star text-warning"></i></li>
-                                        <li class="list-inline-item small me-0"><i class="fas fa-star-half-alt text-warning"></i></li>
-                                    </ul>
-                                </div>
-                                <p>Warrant private blushes removed an in equally totally if. Delivered dejection necessary objection do Mr prevailed. Mr feeling does chiefly cordial in do. </p>
-                                
-                                <span>Was it helpful?</span>
-                                <div class="btn-group ms-md-2" role="group" aria-label="Basic radio toggle button group">
-                                    <!-- Yes button -->
-                                    <input type="radio" class="btn-check" name="btnradio1" id="btnradior1">
-                                    <label class="btn btn-outline-secondary btn-sm mb-0" for="btnradior1"><i class="far fa-thumbs-up me-1"></i> Yes</label>
-                                    <!-- No button -->
-                                    <input type="radio" class="btn-check" name="btnradio1" id="btnradior2">
-                                    <label class="btn btn-outline-secondary btn-sm mb-0" for="btnradior2"> No <i class="far fa-thumbs-down ms-1"></i></label>
-                                </div>
-                            </div>
-                        </div>
-        
-                        <hr class="my-4"> <!-- Divider -->
-        
-                        <!-- Review item -->
-                        <div class="d-flex">
-                            <img class="avatar avatar-md rounded-circle float-start me-3" src="{% static 'theme-assets/images/avatar/02.jpg' %}" alt="avatar">
-                            <div>
-                                <div class="d-sm-flex justify-content-between mb-2">
-                                    <div>
-                                        <h6 class="m-0">Louis Ferguson</h6>
-                                        <span class="me-3 small">June 14, 2022, at 6:01 am </span>
-                                    </div>	
-                                    <!-- Rating Star -->
-                                    <ul class="list-inline mb-0">
-                                        <li class="list-inline-item small me-0"><i class="fas fa-star text-warning"></i></li>
-                                        <li class="list-inline-item small me-0"><i class="fas fa-star text-warning"></i></li>
-                                        <li class="list-inline-item small me-0"><i class="fas fa-star text-warning"></i></li>
-                                        <li class="list-inline-item small me-0"><i class="fas fa-star text-warning"></i></li>
-                                        <li class="list-inline-item small me-0"><i class="fas fa-star-half-alt text-warning"></i></li>
-                                    </ul>
-                                </div>
-                                <p>Delivered dejection necessary objection do Mr prevailed. Mr feeling does chiefly cordial in do. </p>
-                                
-                                <span>Was it helpful?</span>
-                                <div class="btn-group ms-md-2" role="group" aria-label="Basic radio toggle button group">
-                                    <!-- Yes button -->
-                                    <input type="radio" class="btn-check" name="btnradio" id="btnradior3">
-                                    <label class="btn btn-outline-secondary btn-sm mb-0" for="btnradior3"><i class="far fa-thumbs-up me-1"></i> Yes</label>
-                                    <!-- No button -->
-                                    <input type="radio" class="btn-check" name="btnradio" id="btnradior4">
-                                    <label class="btn btn-outline-secondary btn-sm mb-0" for="btnradior4"> No <i class="far fa-thumbs-down ms-1"></i></label>
+                        
+                        {% for review in reviews %}
+                            <!-- Review item -->
+                            <div class="d-flex">
+                                <img class="avatar avatar-md rounded-circle float-start me-3" src="{{ review.reviewer.profile_image.url }}" alt="avatar">
+                                <div>
+                                    <div class="d-sm-flex justify-content-between mb-2">
+                                        <div>
+                                            <h6 class="m-0">{{ review.reviewer.full_name }}</h6>
+                                            <span class="me-3 small">{{ review.created_at|date:"F j, Y, g:i a" }}</span>
+                                        </div>	
+                                        <!-- Rating Star -->
+                                        <ul class="list-inline mb-0">
+                                            {% for i in "12345" %}
+                                                <li class="list-inline-item small me-0">
+                                                    <i class="fas fa-star{% if review.rating|to_int < i|to_int %}-half-alt{% endif %} text-warning"></i>
+                                                </li>
+                                            {% endfor %}
+                                        </ul>
+                                    </div>
+                                    <p>{{ review.content }}</p>
+                                    
+                                    <span>Was it helpful?</span>
+                                    <div class="btn-group ms-md-2" role="group" aria-label="Basic radio toggle button group">
+                                        <!-- Yes button -->
+                                        <input type="radio" class="btn-check" name="btnradio{{ forloop.counter }}" id="btnradior1{{ forloop.counter }}">
+                                        <label class="btn btn-outline-secondary btn-sm mb-0" for="btnradior1{{ forloop.counter }}"><i class="bi bi-hand-thumbs-up"></i></i> Yes</label>
+                                        <!-- No button -->
+                                        <input type="radio" class="btn-check" name="btnradio{{ forloop.counter }}" id="btnradior2{{ forloop.counter }}">
+                                        <label class="btn btn-outline-secondary btn-sm mb-0" for="btnradior2{{ forloop.counter }}"> No <i class="bi bi-hand-thumbs-down"></i></i></label>
+                                    </div>
                                 </div>
                             </div>
-                        </div>
+            
+                            <hr class="my-4"> <!-- Divider -->
+                        {% endfor %}
         
                         <!-- button -->
                         <div class="mt-4 text-end">
@@ -297,22 +237,22 @@
                         <!-- Collapse body -->
                         <div class="collapse" id="collapseExample">
                             <div class="card card-body">
-                                <form>
-                                    <select class="form-select mb-3" aria-label="Default select example">
-                                        <option value="1">★★★★★ (5/5)</option>
-                                        <option value="2">★★★★☆ (4/5)</option>
+                                <form method="POST" action="{% url "profile" user_data.username %}">
+                                    {% csrf_token %}
+                                    <select class="form-select mb-3" aria-label="Default select example" name="rating">
+                                        <option value="5">★★★★★ (5/5)</option>
+                                        <option value="4">★★★★☆ (4/5)</option>
                                         <option value="3">★★★☆☆ (3/5)</option>
                                         <option value="3">★★☆☆☆ (2/5)</option>
-                                        <option value="3">★☆☆☆☆ (1/5)</option>
+                                        <option value="1">★☆☆☆☆ (1/5)</option>
                                     </select>
                                     <!-- Text area -->
-                                    <textarea class="form-control mb-3" id="exampleFormControlTextarea1" placeholder="Your review" rows="3"></textarea>
+                                    <textarea class="form-control mb-3" id="exampleFormControlTextarea1" name="content" placeholder="Your review" rows="3"></textarea>
                                     <!-- Button -->
                                     <button type="submit" class="btn btn-primary mb-0">Post It <i class="bi fa-fw bi-arrow-right ms-2"></i></button>
                                 </form>
                             </div>
                         </div>
-        
                     </div>
                     <!-- Review END -->
                 </div>

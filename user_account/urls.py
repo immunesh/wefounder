@@ -13,4 +13,5 @@ urlpatterns = [
     path('accountProject/update/<int:id>/', views.accountProject_update, name='accountProject_update'),
     path('account-projects_delete/<id>/', views.ProjectDelete, name="account-projects_delete"),
     path('messages/', views.Messages, name='messages'),
+    path('chat/', views.chat, name='chat'),
 ]

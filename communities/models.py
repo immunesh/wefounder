@@ -26,6 +26,8 @@ class CommunityPost(models.Model):
     description = models.TextField(verbose_name="Description")
     created_at = models.DateTimeField(auto_now_add=True, verbose_name="Created At")
     updated_at = models.DateTimeField(auto_now=True, verbose_name="Updated At")
+    likes = models.PositiveIntegerField(default=0)
+    dislikes = models.PositiveIntegerField(default=0)
 
     def __str__(self):
         return self.title
@@ -33,7 +35,6 @@ class CommunityPost(models.Model):
     class Meta:
         verbose_name = "Community Post"
         verbose_name_plural = "Community Posts"
-
 
 @receiver(pre_save, sender=CommunityPost)
 def pre_save_community_post(sender, instance, **kwargs):

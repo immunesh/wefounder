@@ -6,15 +6,6 @@ class Subscribe(models.Model):
     def __str__(self):
         return self.email
 
-class Review(models.Model):
-    name = models.CharField(max_length=80)
-    Contact = models.IntegerField()
-    rating = models.CharField(max_length=5)
-    created_at = models.DateTimeField(auto_now_add=True)
-    
-    def __str__(self):
-        return self.name
-
 class Faq(models.Model):
     question = models.CharField(max_length=450, null=False)
     answer = models.CharField(max_length=500, null = False)

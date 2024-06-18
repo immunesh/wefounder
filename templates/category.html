@@ -7,20 +7,8 @@
         <section class="pt-7">
             <div class="container pt-3 pt-xl-5">
                 <!-- Slider START -->
-                <div class="swiper rounded" data-swiper-options='{
-			"effect": "fade",
-			"navigation":{
-				"nextEl":".swiper-button-next",
-				"prevEl":".swiper-button-prev"
-			},
-			"pagination":{
-				"el":".swiper-pagination",
-				"clickable":"true"
-			}}'>
-
                     <!-- Slider items -->
                     <div class="swiper-wrapper">
-                        {% for category in categories %}
                             <!-- Slider item -->
                             <div class="swiper-slide">
                                 <!-- Card item START -->
@@ -33,9 +21,9 @@
                                             <div class="row justify-content-center">
                                                 <div class="col-11 col-lg-9">
                                                     <!-- Badge -->
-                                                    <a href="{% url 'category' slug=category.slug %}" class="badge text-bg-dark mb-4">{{ category.name }}</a>
+                                                    <a href="{% url 'category' category.slug %}" class="badge text-bg-dark mb-4">{{ category.name }}</a>
                                                     <!-- Title -->
-                                                    <h1 class="h2 mb-4"><a href="{% url 'category' slug=category.slug %}" class="text-white text-primary-hover">{{category.title}}</a></h1>
+                                                    <h1 class="h2 mb-4"><a href="{% url 'category' category.slug %}" class="text-white text-primary-hover">{{category.title}}</a></h1>
                                                 </div>
                                             </div>
                                         </div>
@@ -43,16 +31,6 @@
                                 </div>
                                 <!-- Card item END -->
                             </div>
-                        {% endfor %}
-                    </div>
-
-                    <!-- Slider Pagination -->
-                    <div class="swiper-pagination swiper-pagination-white mb-3"></div>
-
-                    <!-- Add pagination and navigation elements here -->
-                    <div class="d-flex justify-content-between position-absolute top-50 start-0 w-100 px-1 px-sm-3">
-                        <a href="#" class="btn btn-dark btn-icon rounded-circle mb-0 swiper-button-prev"><i class="bi bi-arrow-left"></i></a>
-                        <a href="#" class="btn btn-dark btn-icon rounded-circle mb-0 swiper-button-next"><i class="bi bi-arrow-right"></i></a>
                     </div>
                 </div>
                 <!-- Slider END -->
@@ -70,11 +48,11 @@
                     <!-- Tabs -->
                     <ul class="nav nav-pills gap-1 nav-pills-light">
                         <li class="nav-item">
-                            <a class="nav-link active" href={% url "blogs" %}>All blog</a>
+                            <a class="nav-link {% if not current_category %}active{% endif %}" href="{% url 'blogs' %}">All blog</a>
                         </li>
                         {% for category in categories %}
                             <li class="nav-item">
-                                <a class="nav-link" href={% url "category" category.slug %}>{{category.name}}</a>
+                                <a class="nav-link {% if category == current_category %}active{% endif %}" href="{% url 'category' category.slug %}">{{ category.name }}</a>
                             </li>
                         {% endfor %}
                     </ul>

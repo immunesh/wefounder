@@ -1,15 +1,9 @@
 from django.contrib import admin
-from .models import Subscribe, Review, Faq, Contact
+from .models import Subscribe, Faq, Contact
 
 @admin.register(Subscribe)
 class SubscribeAdmin(admin.ModelAdmin):
     list_display = ('email',)
-
-@admin.register(Review)
-class ReviewAdmin(admin.ModelAdmin):
-    list_display = ('name', 'Contact', 'rating', 'created_at')
-    search_fields = ('name', 'Contact')
-    list_filter = ('rating', 'created_at')
 
 @admin.register(Faq)
 class FaqAdmin(admin.ModelAdmin):

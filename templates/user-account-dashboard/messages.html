@@ -8,6 +8,13 @@
                         <div class="d-flex justify-content-between align-items-center mb-5 mb-sm-6">
                             <!-- Title -->
                             <h1 class="h3 mb-0">Messages</h1>
+                            <!-- Advanced filter responsive toggler START -->
+                            <button class="btn btn-primary d-lg-none flex-shrink-0 ms-2" type="button"
+                            data-bs-toggle="offcanvas" data-bs-target="#offcanvasSidebar"
+                            aria-controls="offcanvasSidebar">
+                                <i class="fas fa-sliders-h"></i> Menu
+                            </button>
+                            <!-- Advanced filter responsive toggler END -->
                         </div>
 
                         <!-- Search and buttons -->
@@ -28,7 +35,7 @@
 
                         <div class="mt-3 border bg-white border-light shadow-sm py-1 rounded">
                             <!-- First item -->
-                            <a href="#" class="text-decoration-none text-reset item-link">
+                            <a href="{% url "chat" %}" class="text-decoration-none text-reset item-link">
                                 <div class="d-md-flex align-items-center rounded mb-2 p-2">
                                     <!-- Avatar -->
                                     <div class="avatar avatar-lg position-relative mb-2 me-3">
@@ -49,7 +56,7 @@
                                 </div>
                             </a>
                             <!-- Second item -->
-                            <a href="#" class="text-decoration-none text-reset item-link">
+                            <a href="{% url "chat" %}" class="text-decoration-none text-reset item-link">
                                 <div class="d-md-flex align-items-center rounded mb-2 p-2">
                                     <!-- Avatar -->
                                     <div class="avatar avatar-lg position-relative mb-2 me-3">
@@ -70,7 +77,7 @@
                                 </div>
                             </a>
                             <!-- Third item -->
-                            <a href="#" class="text-decoration-none text-reset">
+                            <a href="{% url "chat" %}" class="text-decoration-none text-reset">
                                 <div class="d-md-flex align-items-center rounded mb-2 p-2">
                                     <!-- Avatar -->
                                     <div class="avatar avatar-lg position-relative mb-2 me-3">
