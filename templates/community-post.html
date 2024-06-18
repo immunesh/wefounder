@@ -22,8 +22,10 @@
                             <h4 class="mb-0">{{post.category}}</h4>
                             <!-- List -->
                             <div class="hstack gap-3 gap-md-4 flex-wrap mt-3">
-                                {% if post.price %}
-                                    <span><i class="bi bi-geo-alt me-2"></i>USA, ontario</span>
+                                <button><i class="bi bi-hand-thumbs-up me-2"></i>200</button>
+                                <span><i class="bi bi-hand-thumbs-down me-2"></i>10</span>
+                                {% if post.location %}
+                                    <span><i class="bi bi-geo-alt me-2"></i>{{post.location}}</span>
                                 {% endif %}
                                 
                                 {% if post.timeline %}
@@ -87,27 +89,29 @@
                         <div class="d-flex">
                             <img class="avatar avatar-md rounded-circle float-start me-3"
                                 src="{{post.user.profile_image.url}}" alt="avatar">
-                            <div>
+                            <div style="width: -webkit-fill-available;">
                                 <div class="d-sm-flex justify-content-between mb-2">
                                     <div>
                                         <h6 class="m-0">{{post.user.full_name}}</h6>
                                         <span class="me-3 small">{{post.user.role}}</span>
                                     </div>
                                     <!-- Rating Star -->
-                                    <ul class="list-inline mb-0">
-                                        <li class="list-inline-item small me-0"><i class="fas fa-star text-warning"></i>
-                                        </li>
-                                        <li class="list-inline-item small me-0"><i class="fas fa-star text-warning"></i>
-                                        </li>
-                                        <li class="list-inline-item small me-0"><i class="fas fa-star text-warning"></i>
-                                        </li>
-                                        <li class="list-inline-item small me-0"><i class="fas fa-star text-warning"></i>
-                                        </li>
-                                        <li class="list-inline-item small me-0"><i
-                                                class="fas fa-star-half-alt text-warning"></i></li>
-                                    </ul>
+                                    <div class="d-flex align-items-center flex-wrap mb-4">
+                                        <ul class="list-inline mb-0">
+                                            {% for i in "12345" %}
+                                                    {% if i <= avg_rating|default:"0"|floatformat %}
+                                                        <li class="list-inline-item me-0"><i class="fas fa-star text-warning"></i></li>
+                                                    {% else %}
+                                                        <li class="list-inline-item me-0"><i class="fas fa-star-half-alt text-warning"></i></li>
+                                                    {% endif %}
+                                                {% endfor %}
+                                            <li class="list-inline-item me-0 heading-color fw-normal">({{ avg_rating|default:"0"|floatformat:1 }})</li>
+                                        </ul>
+                                        <span class="text-secondary opacity-3 mx-2 mx-sm-3">|</span>
+                                        <p class="mb-0">{{ reviews.count }} reviews</p>
+                                    </div>
                                 </div>
-                                <p>{{user.skills_expertise}}</p>
+                                <p>{{post.user.skills_expertise}}</p>
                     
                                 <a href="{% url "profile" post.user.username %}" class="btn btn-dark rounded-2 mb-0">Profile</a>
                                 <a href="{% url "home" %}" class="btn btn-dark rounded-2 mb-0">Chat</a>    

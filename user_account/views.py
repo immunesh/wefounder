@@ -1,6 +1,7 @@
-from .models import CustomUser
 from django.contrib import messages
 from django.http import JsonResponse
+from .models import CustomUser, Review
+from django.db.models import Avg, Count
 from django.shortcuts import render, redirect
 from django.contrib.auth.hashers import make_password
 from django.shortcuts import render, get_object_or_404
@@ -343,12 +344,34 @@ def ProjectDelete(request, id = None):
 def profile(request, username):
     user = get_object_or_404(CustomUser, username=username)
     posts= CommunityPost.objects.filter(user=user)
-    context ={
+    reviews = Review.objects.filter(reviewed_user=user)
+    
+    # Calculate average rating
+    avg_rating = reviews.aggregate(Avg('rating'))['rating__avg'] or 0
+    
+    # Calculate distribution of ratings
+    rating_counts = reviews.values('rating').annotate(count=Count('rating')).order_by('rating')
+    
+    if request.method == 'POST':
+        rating = request.POST.get('rating')
+        content = request.POST.get('content')
+        reviewer = request.user
+        Review.objects.create(reviewer=reviewer, reviewed_user=user, rating=rating, content=content)
+        return redirect('profile', username=username)
+
+    context = {
         'user_data': user,
-        'posts': posts
+        'posts': posts,
+        'reviews': reviews,
+        'avg_rating': avg_rating,
+        'rating_counts': rating_counts,
     }
     return render(request, 'user-account-dashboard/user-profile.html', context)
 
 @login_required(login_url='signin')
 def Messages(request):
     return render(request, 'user-account-dashboard/messages.html')
+
+@login_required(login_url='signin')
+def chat(request):
+    return render(request, 'user-account-dashboard/chat.html')
