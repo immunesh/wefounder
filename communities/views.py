@@ -70,3 +70,4 @@ def dislike_post(request, post_id):
         post.save(update_fields=['dislikes'])
         post.refresh_from_db(fields=['dislikes'])
     return JsonResponse({'likes': post.likes, 'dislikes': post.dislikes})
+    

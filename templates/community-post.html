@@ -2,6 +2,63 @@
 {% load static %}
 {% block Content %}
 <!-- **************** MAIN CONTENT START **************** -->
+<!-- in your template file, e.g., post_detail.html -->
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+
+<style>
+    button{
+        background: none;
+        border: none;
+        cursor: pointer;
+        color: var(--bs-card-color);
+    }
+    .icon-btn.active {
+        color: green;
+    }
+
+    .icon-btn.dislike.active {
+        color: red; /* Change to your desired active color for dislike */
+    }
+</style>
+
+<script>
+    $(document).ready(function() {
+        $('#like-btn').click(function() {
+            var postId = $(this).data('post-id');
+            $.ajax({
+                url: '/like/' + postId + '/',
+                type: 'POST',
+                headers: {'X-CSRFToken': '{{ csrf_token }}'},
+                success: function(response) {
+                    $('#like-btn').text(response.likes);
+                    $('#dislike-btn').text(response.dislikes);
+                    $('#like-btn').addClass('active');
+                    $('#dislike-btn').removeClass('active dislike');
+                }
+            });
+        });
+
+        $('#dislike-btn').click(function() {
+            var postId = $(this).data('post-id');
+            $.ajax({
+                url: '/dislike/' + postId + '/',
+                type: 'POST',
+                headers: {'X-CSRFToken': '{{ csrf_token }}'},
+                success: function(response) {
+                    $('#like-btn').text(response.likes);
+                    $('#dislike-btn').text(response.dislikes);
+                    $('#dislike-btn').addClass('active dislike');
+                    $('#like-btn').removeClass('active');
+                }
+            });
+        });
+    });
+
+
+
+    
+</script>
+
 <main>
 
     <!-- Career detail START -->
@@ -21,21 +78,23 @@
                             <!-- Title -->
                             <h4 class="mb-0">{{post.category}}</h4>
                             <!-- List -->
-                            <div class="hstack gap-3 gap-md-4 flex-wrap mt-3">
-                                <button><i class="bi bi-hand-thumbs-up me-2"></i>200</button>
-                                <span><i class="bi bi-hand-thumbs-down me-2"></i>10</span>
+                            <div class="hstack gap-3 gap-md-4 flex-wrap mt-3" id="post-{{ post.id }}">
+                                <button id="like-btn" class="icon-btn bi bi-hand-thumbs-up" data-post-id="{{ post.id }}"> {{ post.likes }} </button>
+                                <button id="dislike-btn" class="icon-btn bi bi-hand-thumbs-down" data-post-id="{{ post.id }}"> {{post.dislikes}} </button>
+                                
                                 {% if post.location %}
-                                    <span><i class="bi bi-geo-alt me-2"></i>{{post.location}}</span>
+                                    <span><i class="bi bi-geo-alt me-2"></i>{{ post.location }}</span>
                                 {% endif %}
                                 
                                 {% if post.timeline %}
-                                    <span><i class="bi bi-clock me-2"></i>{{post.timeline}}</span>
+                                    <span><i class="bi bi-clock me-2"></i>{{ post.timeline }}</span>
                                 {% endif %}
-
+                                
                                 {% if post.price %}
-                                    <span><i class="bi bi-briefcase me-2"></i>${{post.price}}</span>
+                                    <span><i class="bi bi-briefcase me-2"></i>${{ post.price }}</span>
                                 {% endif %}
                             </div>
+
                         </div>
                         <!-- Button -->
                         <a href="#contact-form" class="btn btn-primary mb-0">Apply now<i
