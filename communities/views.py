@@ -5,6 +5,7 @@ from django.http import JsonResponse
 from django.db.models import Avg, Count
 from user_account.models import CustomUser, Review
 from .models import CommunityCategory, CommunityPost
+from django.core.paginator import Paginator,EmptyPage,PageNotAnInteger
 from django.utils.decorators import method_decorator
 from django.views.decorators.http import require_POST
 from django.shortcuts import render, get_object_or_404
@@ -24,9 +25,26 @@ def Community(request):
     else:
         posts = CommunityPost.objects.all()
 
+    posts = CommunityPost.objects.all()
+    paginator = Paginator(posts,4)
+    page_number = request.GET.get('page')
+    try:
+        paginated_posts = paginator.page(page_number)
+    except PageNotAnInteger:
+       
+        paginated_posts = paginator.page(1)
+    except EmptyPage:
+       
+        paginated_posts = paginator.page(paginator.num_pages)
+
+   
+    paginated_posts = paginator.get_page(page_number)
+
+
     context = {
         'communities': communities,
-        'posts': posts
+        'posts': posts,
+        'paginated_posts': paginated_posts,
     }
 
     return render(request, 'community.html', context)
