@@ -8,6 +8,7 @@ from django.shortcuts import render, get_object_or_404
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth import login, authenticate, logout
 from communities.models import CommunityCategory, CommunityPost
+from django.core.paginator import Paginator
 
 # Create your views here.
 def signUp(request):
@@ -345,6 +346,11 @@ def profile(request, username):
     user = get_object_or_404(CustomUser, username=username)
     posts= CommunityPost.objects.filter(user=user)
     reviews = Review.objects.filter(reviewed_user=user)
+
+    paginator = Paginator(posts, 3)
+    page_num = request.GET.get('page')
+    posts_data = paginator.get_page(page_num)
+    
     
     # Calculate average rating
     avg_rating = reviews.aggregate(Avg('rating'))['rating__avg'] or 0
@@ -365,6 +371,7 @@ def profile(request, username):
         'reviews': reviews,
         'avg_rating': avg_rating,
         'rating_counts': rating_counts,
+        'posts_data':posts_data,
     }
     return render(request, 'user-account-dashboard/user-profile.html', context)
 

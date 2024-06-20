@@ -36,6 +36,7 @@ class CommunityPost(models.Model):
         verbose_name = "Community Post"
         verbose_name_plural = "Community Posts"
 
+
 @receiver(pre_save, sender=CommunityPost)
 def pre_save_community_post(sender, instance, **kwargs):
     if not instance.slug:
