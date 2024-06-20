@@ -15,11 +15,11 @@
                     <!-- Tabs -->
                     <ul class="nav nav-pills gap-1 nav-pills-light">
                         <li class="nav-item">
-                            <a href="{% url 'communities' %}"class="nav-link active">All Posts</a>
+                            <a href="{% url 'communities' %}"class="nav-link {% if not request.GET.community %}active{% endif %}">All Posts</a>
                         </li>
                         {% for community in communities %}
                             <li class="nav-item">
-                                <a class="nav-link active" href="?community={{ community.name }}">{{ community.name }}</a>
+                                <a class="nav-link nav-link {% if request.GET.community == community.name %}active{% endif %}" href="?community={{ community.name }}">{{ community.name }}</a>
                             </li>
                         {% endfor %}
                     </ul>
@@ -71,16 +71,34 @@
                         <ul class="pagination pagination-primary-soft d-flex justify-content-center mb-0">
                             <li>
                                 <ul class="list-unstyled">
+                                    {% if paginated_posts.has_previous %}
+                                    <li class="page-item ">
+                                        <a class="page-link" href="?page={{ paginated_posts.previous_page_number }}">Prev</a>
+                                    </li>
+                                    {% else %}
                                     <li class="page-item disabled">
                                         <a class="page-link" href="#" tabindex="-1" aria-disabled="true">Prev</a>
                                     </li>
-                                    <li class="page-item active"><a class="page-link" href="#">1</a></li>
-                                    <li class="page-item"><a class="page-link" href="#">2</a></li>
-                                    <li class="page-item"><a class="page-link" href="#">..</a></li>
-                                    <li class="page-item"><a class="page-link" href="#">22</a></li>
-                                    <li class="page-item">
-                                        <a class="page-link" href="#">Next</a>
-                                    </li>
+                                    {% endif %}
+                                     <!-- Page links -->
+                                    {% for page_number in paginated_posts.paginator.page_range %}
+                                    {% if page_number == paginated_posts.number %}
+                                        <li class="page-item active"><a class="page-link" href="#">{{ page_number }}</a></li>
+                                    {% else %}
+                                        <li class="page-item"><a class="page-link" href="?page={{ page_number }}">{{ page_number }}</a></li>
+                                    {% endif %}
+                                    {% endfor %}
+
+                                     <!-- Next page link -->
+                                    {% if paginated_posts.has_next %}
+                                        <li class="page-item">
+                                            <a class="page-link" href="?page={{ paginated_posts.next_page_number }}">Next</a>
+                                        </li>
+                                    {% else %}
+                                        <li class="page-item disabled">
+                                            <a class="page-link" href="#" tabindex="-1" aria-disabled="true">Next</a>
+                                        </li>
+                                    {% endif %}
                                 </ul>
                             </li>
                         </ul>
