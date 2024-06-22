@@ -30,7 +30,6 @@ INSTALLED_APPS = [
     'user_account',
     'communities',
     'blog',
-    'channels'
 ]
 
 MIDDLEWARE = [
@@ -65,8 +64,6 @@ TEMPLATES = [
 ]
 
 WSGI_APPLICATION = 'kofounder.wsgi.application'
-ASGI_APPLICATION = 'kofounder.asgi.application'
-
 
 # Database
 # https://docs.djangoproject.com/en/5.0/ref/settings/#databases
