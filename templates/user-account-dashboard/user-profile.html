@@ -63,7 +63,11 @@
                         </table>
                 
                         <!-- Button -->
-                        <a href="#" class="btn btn-dark mb-0">Chat</a>
+                        {% if request.user == user_data %}
+                            <a href="{% url 'viewProfile' user.username %}" class="btn btn-dark mb-0">Edit Profile</a>
+                        {% else %}
+                            <a href="{% url 'chat' %}" class="btn btn-dark mb-0">Chat</a>
+                        {% endif %}
                     </div>
                 </div>
                 
