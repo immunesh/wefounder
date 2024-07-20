@@ -1,10 +1,9 @@
 from django.contrib import messages
 from django.http import JsonResponse
 from .models import CustomUser, Review
-from django.db.models import Avg, Count
-from django.shortcuts import render, redirect
+from django.db.models import Q
+from django.shortcuts import render, redirect, get_object_or_404
 from django.contrib.auth.hashers import make_password
-from django.shortcuts import render, get_object_or_404
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth import login, authenticate, logout
 from communities.models import CommunityCategory, CommunityPost
@@ -20,6 +19,67 @@ from django.conf import settings
 from django.urls import reverse
 from django.http import HttpResponse
 from user_account.models import CustomUser
+from django.http import JsonResponse
+from django.views.decorators.csrf import csrf_exempt
+import json
+
+@csrf_exempt
+def set_chat_user(request):
+    if request.method == 'POST':
+        data = json.loads(request.body)
+        request.session['chat_user_id'] = data.get('user_id')
+        request.session['chat_user_name'] = data.get('user_name')
+        request.session['chat_user_email'] = data.get('user_email')
+        return JsonResponse({'status': 'success'})
+    return JsonResponse({'status': 'error'}, status=400)
+
+
+@login_required
+def chat_messages(request):
+    user_id = request.GET.get('user_id')
+    messages = [] 
+    return JsonResponse({'messages': messages})
+
+
+
+@login_required
+def chat_view(request, user_id):
+    user = get_object_or_404(CustomUser, id=user_id)
+    room_name = f"chat_{request.user.id}_{user_id}"
+    return render(request, 'user-account-dashboard/chat.html', {
+        'user': user,
+        'room_name': room_name
+    })
+
+
+
+
+    
+def chat_list_view(request):
+    # Your view logic here, if any
+    return render(request, 'user-account-dashboard/chat.html')
+
+@login_required
+def message(request):
+    # Logic for messages view
+    return render(request, 'user-account-dashboard/messages.html')
+
+
+
+@login_required
+def search_profiles(request):
+    query = request.GET.get('q')
+    results = CustomUser.objects.filter(
+        Q(full_name__icontains=query) |
+        Q(role__icontains=query) |
+        Q(company__icontains=query) |
+        Q(city__icontains=query) |
+        Q(zip_code__icontains=query)
+    )
+    return render(request, 'user-account-dashboard/messages.html', {'results': results, 'query': query})
+
+
+
 
 # Create your views here.
 def signUp(request):
