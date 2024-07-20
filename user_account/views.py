@@ -9,6 +9,17 @@ from django.contrib.auth.decorators import login_required
 from django.contrib.auth import login, authenticate, logout
 from communities.models import CommunityCategory, CommunityPost
 from django.core.paginator import Paginator
+from django.contrib.auth.models import User
+from django.core.mail import send_mail
+from django.template.loader import render_to_string
+from django.utils.http import urlsafe_base64_encode, urlsafe_base64_decode
+from django.utils.encoding import force_bytes, force_str
+from django.contrib.auth.tokens import default_token_generator
+from django.shortcuts import render, redirect
+from django.conf import settings
+from django.urls import reverse
+from django.http import HttpResponse
+from user_account.models import CustomUser
 
 # Create your views here.
 def signUp(request):
@@ -382,3 +393,44 @@ def Messages(request):
 @login_required(login_url='signin')
 def chat(request):
     return render(request, 'user-account-dashboard/chat.html')
+
+def PasswordReset(request):
+    if request.method == "POST":
+        email = request.POST.get('email')
+        associated_users = CustomUser.objects.filter(email=email)
+        if associated_users.exists():
+            for user in associated_users:
+                subject = "Password Reset Requested"
+                email_template_name = "password/password_reset_email.txt"
+                c = {
+                    "email": user.email,
+                    "domain": request.META['HTTP_HOST'],
+                    "site_name": "Website",
+                    "uid": urlsafe_base64_encode(force_bytes(user.pk)),
+                    "user": user,
+                    "token": default_token_generator.make_token(user),
+                    "protocol": "http",
+                }
+                email = render_to_string(email_template_name, c)
+                send_mail(subject, email, settings.DEFAULT_FROM_EMAIL, [user.email], fail_silently=False)
+            return redirect("/password_reset/done/")
+    return render(request, "password/password_reset.html")
+
+def PasswordResetConfirm(request, uidb64=None, token=None):
+    if request.method == 'POST':
+        uid = force_str(urlsafe_base64_decode(uidb64))
+        user =CustomUser.objects.get(pk=uid)
+        if default_token_generator.check_token(user, token):
+            new_password = request.POST.get('password')
+            confirm_password = request.POST.get('password1')
+            if new_password and new_password == confirm_password:
+                user.set_password(new_password)
+                user.save()
+                return redirect('password_reset_complete')
+            else:
+                return HttpResponse("Passwords do not match.")
+        else:
+            return HttpResponse("Invalid token.")
+    return render(request, 'password/password_reset_confirm.html', {'uidb64': uidb64, 'token': token})
+
+
