@@ -63,7 +63,8 @@ TEMPLATES = [
     },
 ]
 
-WSGI_APPLICATION = 'kofounder.wsgi.application'
+ASGI_APPLICATION = 'kofounder.asgi.application'
+
 
 # Database
 # https://docs.djangoproject.com/en/5.0/ref/settings/#databases
@@ -124,3 +125,14 @@ MEDIA_URL = '/media/'
 # https://docs.djangoproject.com/en/5.0/ref/settings/#default-auto-field
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
+
+# settings.py
+
+EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
+EMAIL_HOST = 'smtp.gmail.com'  # e.g., 'smtp.gmail.com' for Gmail
+EMAIL_PORT = 587  # or 465 for SSL
+EMAIL_USE_TLS = True  # or EMAIL_USE_SSL = True for SSL
+EMAIL_HOST_USER = 'golapoonam87@gmail.com'
+EMAIL_HOST_PASSWORD = 'rodt pxov zypx repz'
+DEFAULT_FROM_EMAIL = 'golapoonam87@gmail.com'
+
