@@ -88,4 +88,38 @@ def dislike_post(request, post_id):
         post.save(update_fields=['dislikes'])
         post.refresh_from_db(fields=['dislikes'])
     return JsonResponse({'likes': post.likes, 'dislikes': post.dislikes})
+
+
+@login_required(login_url='signin')
+def Community(request):
+    communities = CommunityCategory.objects.all()
+    CategoryName = request.GET.get('community', None)
+    search_filter = request.GET.get('search_filter', '')
+
+    if CategoryName:
+        category = CommunityCategory.objects.get(name=CategoryName)
+        posts = CommunityPost.objects.filter(category=category)
+    elif search_filter:
+        posts = CommunityPost.objects.filter(title__icontains=search_filter)
+    else:
+        posts = CommunityPost.objects.all()
+
+    paginator = Paginator(posts, 4)
+    page_number = request.GET.get('page')
+    try:
+        paginated_posts = paginator.page(page_number)
+    except PageNotAnInteger:
+        paginated_posts = paginator.page(1)
+    except EmptyPage:
+        paginated_posts = paginator.page(paginator.num_pages)
+
+    context = {
+        'communities': communities,
+        'posts': posts,
+        'paginated_posts': paginated_posts,
+        'search_filter': search_filter,  # Add this to retain the search input
+    }
+
+    return render(request, 'community.html', context)
+
     
