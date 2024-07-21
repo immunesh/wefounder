@@ -11,13 +11,13 @@
                     <div class="col-xl-10 text-center mx-auto">
                         <!-- Hero title -->
                         <h1 class="mb-4">About Us</h1>
-                        <p class="lead mb-0">Welcome to our platform, where entrepreneurial dreams meet local collaboration. We believe that starting a business should be an empowering and exciting journey, not a solitary struggle. Our mission is to connect aspiring entrepreneurs with local partners who share their business aspirations, creating a supportive network where resources, skills, and experiences are shared for mutual growth.</p>
+                        <span class="mb-0">Welcome to our platform, where entrepreneurial dreams meet local collaboration. We believe that starting a business should be an empowering and exciting journey, not a solitary struggle. Our mission is to connect aspiring entrepreneurs with local partners who share their business aspirations, creating a supportive network where resources, skills, and experiences are shared for mutual growth.</span>
 
                         <!-- Image and content START -->
                         <div class="row g-4 mt-5 mx-auto align-items-end">
                             <div class="col-md-5 position-relative">
                                 <!-- Image -->
-                                <img src="{% static "theme-assets/images/about/14.jpg" %}" class="rounded mb-4" alt="about-img">
+                                <img src="{% static "theme-assets/images/about/14.png" %}" class="rounded mb-4" alt="about-img">
 
                                 <!-- SVG decoration -->
                                 <figure class="position-absolute top-0 start-0 z-index-1 mt-n6 ms-n5">
@@ -44,7 +44,7 @@
 								</svg>
                                     </figure>
                                     <!-- Image -->
-                                    <img src="{% static "theme-assets/images/about/16.jpg" %}" class="rounded mb-4 w-50" alt="about-img">
+                                    <img src="{% static "theme-assets/images/about/16.png" %}" class="rounded mb-4 w-50" alt="about-img">
                                 </div>
                             </div>
 
@@ -120,8 +120,8 @@
                                 </figure>
                                 <!-- Goal -->
                                 <div class="card card-body bg-dark text-start z-index-2 w-75 p-5 mb-4">
-                                    <span class="text-white">Our Goal:</span>
-                                    <h5 class="text-white fw-light mb-0 mt-3">"Our mission is simple: to empower local entrepreneurs by fostering connections and collaborations that lead to successful business ventures. We aim to create a community where individuals can find the support they need to turn their ideas into reality, regardless of their level of experience or access to resources."</h5>
+                                    <h5 class="text-white">Our Goal:</h5>
+                                    <span class="text-white fw-light mb-0 mt-3">"Our mission is simple: to empower local entrepreneurs by fostering connections and collaborations that lead to successful business ventures. We aim to create a community where individuals can find the support they need to turn their ideas into reality, regardless of their level of experience or access to resources."</span>
                                 </div>
 
                                 <!-- Image -->
@@ -130,7 +130,7 @@
                                     <div class="bg-overlay bg-dark opacity-2"></div>
                                     <!-- Card img overlay -->
                                     <div class="position-absolute end-0 bottom-0 m-3 z-index-2">
-                                        <a href="https://www.youtube.com/embed/tXHviS-4ygo" class="btn btn-lh btn-white" data-glightbox data-gallery="course-video"><i class="bi bi-youtube text-danger fa-fw fa-xl me-1"></i> Watch our story</a>
+                                        <a href="https://youtube.com/@wefounder003?si=8KB22FYQaYnJgxp_" class="btn btn-lh btn-white" data-glightbox data-gallery="course-video"><i class="bi bi-youtube text-danger fa-fw fa-xl me-1"></i> Watch our story</a>
                                     </div>
                                 </div>
                             </div>
@@ -229,12 +229,12 @@
         <!-- Content and value END -->
 
         <!-- Testimonials START -->
-        <section class="bg-dark" data-bs-theme="dark">
+        {% comment %} <section class="bg-dark" data-bs-theme="dark">
             <div class="container">
                 <div class="row g-4 align-items-center">
                     <div class="col-xl-4">
                         <!-- Title -->
-                        <h3 class="mb-4">Why our customers love Mizzle</h3>
+                        <h3 class="mb-4">Why our users love this Platform</h3>
                         <p class="lead mb-2">3000+ Users rated us <span class="text-warning fw-bold">4.85</span> out of 5.</p>
                         <!-- Avatar group -->
                         <ul class="avatar-group mb-sm-0">
@@ -416,18 +416,18 @@
                 </div>
                 <!-- Row END -->
             </div>
-        </section>
+        </section> {% endcomment %}
         <!-- Testimonials END -->
 
         <!-- Location START -->
-        <section class="py-xl-5">
+        {% comment %} <section class="py-xl-5">
             <div class="container py-xl-8" style="background-image:url({% static "theme-assets/images/elements/map.svg" %}); background-position: center; background-size: cover;">
                 <div class="inner-container text-center">
                     <!-- Title -->
                     <h2 class="mb-4">We're global and growing</h2>
-                    <p class="mb-6">Mizzle customer support is available free of charge. Connection charges can vary when calling from outside the area, abroad or from a mobile phone.</p>
+                    <p class="mb-6"> We-Founder customer's support is available free of charge. Connection charges can vary when calling from outside the area, abroad or from a mobile phone.</p>
 
-                    <div class="row g-4 text-start justify-content-center">
+                    <div class="row g-4 text-start justify-content-center"> {% endcomment %}
                         <!-- Location card -->
                         {% comment %} <div class="col-md-5">
                             <div class="card card-body border p-4">
@@ -445,7 +445,7 @@
                         </div> {% endcomment %}
 
                         <!-- Location card -->
-                        <div class="col-md-5">
+                        {% comment %} <div class="col-md-5">
                             <div class="card card-body border p-4">
                                 <!-- Avatar img -->
                                 <div class="avatar avatar-lg mb-4">
@@ -462,7 +462,7 @@
                     </div>
                 </div>
             </div>
-        </section>
+        </section> {% endcomment %}
         <!-- Location END -->
 
         <!-- Faqs START -->

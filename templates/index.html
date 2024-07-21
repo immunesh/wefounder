@@ -36,7 +36,7 @@
                             <span class="heading-color d-inline-block bg-light small rounded-3 px-3 py-2">🤩 Award-winning services</span>
 
                             <!-- Title -->
-                            <h1 class="mt-3 lh-base">“Connecting Local Innovators and Resources.”
+                            <h1 class="mt-3 lh-base">“Connecting Locally, Growing Globally.”
                                 <!-- <span class="cd-headline clip big-clip is-full-width text-primary mb-0 d-block d-xxl-inline-block">
 							<span class="typed" data-type-text="Web Design&&Web Dev&&UI/UX Design"></span>
                                 </span> -->
@@ -46,7 +46,7 @@
                             <!-- Buttons -->
                                 <div class="btn">
                                     <a href="{% url "signUp" %}" class="btn btn-dark rounded-2 mb-0">Join Now!</a>
-                                    <a href="{% url "about" %}" class="btn btn-dark rounded-2 mb-0">Learn More</a>
+                                    {% comment %} <a href="{% url "about" %}" class="btn btn-dark rounded-2 mb-0">Learn More</a> {% endcomment %}
                                 </div>
         
 
@@ -85,7 +85,7 @@
                                         </figure>
 
                                         <div class="ms-3">
-                                            <h6 class="mb-1">Award Winning agency</h6>
+                                            <h6 class="mb-1">Award Winning Platform</h6>
                                             <p class="mb-0">You are in safe hand</p>
                                         </div>
                                     </div>
@@ -156,7 +156,7 @@
         <!-- Main Banner END -->
 
         <!-- Client START -->
-        <section class="pb-0">
+        {% comment %} <section class="pb-0">
             <div class="container">
                 <div class="row align-items-center">
                     <div class="col-md-3 mb-2 mb-md-0">
@@ -207,7 +207,7 @@
                 </div>
                 <!-- Row END -->
             </div>
-        </section>
+        </section> {% endcomment %}
         <!-- Client END -->
 
         <!-- Work START -->
@@ -285,7 +285,7 @@
                         <div class="row pe-xl-5">
                             <div class="col-sm-8">
                                 <!-- About image -->
-                                <img src="{% static 'theme-assets/images/about/02.jpg'%}" class="rounded" alt="about-img">
+                                <img src="{% static 'theme-assets/images/about/02.png'%}" class="rounded" alt="about-img">
 
                                 <!-- SVG decoration -->
                                 <figure class="text-end me-3 mt-n3">
@@ -332,12 +332,14 @@
                     <div class="col-lg-5">
                         <span class="heading-color bg-light small rounded-3 px-3 py-2">🤝 Your gateway to digital success</span>
                         <h2 class="my-4">About We-Founder!</h2>
-                        <p class="mb-4">Embrace a new era of digital success with Mizzle. Our team combines cutting-edge design with robust development to deliver websites that captivate and convert.</p>
+                        <p class="mb-4">We-Founder connects entrepreneurs and professionals nearby to collaborate on business ideas and projects, fastering local innovation and partnerships.</p>
                         <!-- List -->
                         <ul class="list-group list-group-borderless mb-4">
-                            <li class="list-group-item heading-color d-flex mb-0"><i class="bi bi-patch-check-fill text-primary me-2"></i>Emphasis on ROI-driven solutions</li>
-                            <li class="list-group-item heading-color d-flex mb-0"><i class="bi bi-patch-check-fill text-primary me-2"></i>Expert team with diverse skill</li>
-                            <li class="list-group-item heading-color d-flex mb-0"><i class="bi bi-patch-check-fill text-primary me-2"></i>Proven track record of delivering results</li>
+                            <li class="list-group-item heading-color d-flex mb-0"><i class="bi bi-patch-check-fill text-primary me-2"></i>Trending Ideas</li>
+                            <li class="list-group-item heading-color d-flex mb-0"><i class="bi bi-patch-check-fill text-primary me-2"></i>Startup Spotlight</li>
+                            <li class="list-group-item heading-color d-flex mb-0"><i class="bi bi-patch-check-fill text-primary me-2"></i>Partnership Opportunities</li>
+                            <li class="list-group-item heading-color d-flex mb-0"><i class="bi bi-patch-check-fill text-primary me-2"></i>Resource Requests</li>
+                            
                         </ul>
                         <!-- Button -->
                         <a href="{% url "about" %}" class="btn btn-dark mb-0">Read More</a>
@@ -356,7 +358,7 @@
                     <!-- Image -->
                     <div class="col-lg-6 text-center position-relative mb-5 mb-lg-0">
                         <!-- Image -->
-                        <div class="pe-lg-6 pe-xl-8"><img src="{% static 'theme-assets/images/about/20.jpg'%}" class="rounded" alt=""></div>
+                        <div class="pe-lg-6 pe-xl-8"><img src="{% static 'theme-assets/images/about/20.png'%}" class="rounded" alt=""></div>
                         <!-- Decoration -->
                         <figure class="position-absolute bottom-0 end-0 rotate-13 mb-n6">
                             <svg class="text-primary" width="297" height="294" viewBox="0 0 297 294" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -443,7 +445,7 @@
                         <!-- Title and content -->
                         <h2 class="mb-lg-4">Featured Ideas and Needs</h2>
                         <p class="mb-lg-4">Users can showcase their business ideas and express specific needs they have for their ventures.</p>
-                        <a href="" class="btn btn-dark mb-0">Explore More</a>
+                        <a href="{% url 'communities' %}" class="btn btn-dark mb-0">Explore More</a>
                         <hr class="my-4 my-lg-5">
                         <!-- Divider -->
 
@@ -485,7 +487,7 @@
                         <!-- Title -->
                         <h2 class="my-4">"Hear From Our Members"</h2>
 
-                        <h6 class="mb-0">More than 1500+ agencies using We-Founder</h6>
+                        <h6 class="mb-0">More than 1500+ users using We-Founder</h6>
 
                         <!-- Slider START -->
                         <div class="swiper mt-2 mt-md-4" data-swiper-options='{
@@ -512,16 +514,16 @@
                                                 <li class="list-inline-item me-0"><i class="fas fa-star-half-alt text-warning"></i></li>
                                             </ul>
                                             <!-- Content -->
-                                            <p class="heading-color fw-normal">Mizzle is the perfect theme for businesses that want to create a stylish and functional website.</p>
+                                            <p class="heading-color fw-normal">WeFounder was a game-changer for me. I always wanted to open a café, but I lacked the right partner to share the journey with. Through WeFounder, I met Sourbh, who had the same dream. Today, we run a successful café in our neighborhood. WeFounder made our dream a reality!</p>
                                         </div>
 
                                         <div class="card-footer bg-transparent p-0">
                                             <!-- Avatar -->
                                             <div class="d-flex align-items-center">
                                                 <div class="avatar avatar-sm flex-shrink-0 me-2">
-                                                    <img class="avatar-img rounded" src="{% static 'theme-assets/images/avatar/03.jpg'%}" alt="avatar">
+                                                    <img class="avatar-img rounded" src="{% static 'theme-assets/images/auth1.jpg'%}" alt="avatar">
                                                 </div>
-                                                <p class="mb-0">By Nix Maxwell</p>
+                                                <p class="mb-0">By Vishal Malik, Cafe Owner</p>
                                             </div>
                                         </div>
                                     </div>
@@ -540,16 +542,17 @@
                                                 <li class="list-inline-item me-0"><i class="fas fa-star-half-alt text-warning"></i></li>
                                             </ul>
                                             <!-- Content -->
-                                            <p class="heading-color fw-normal">The best Bootstrap theme we've ever used - it's easy to customize and comes with all the features we need.</p>
+                                            <p class="heading-color fw-normal">Starting a tech startup seemed daunting until I found WeFounder. The platform connected me with Raj, who had complementary skills and shared my vision. Together, we launched our startup, and it's been a thrilling ride ever since. WeFounder brought us together, and now we're making waves in the tech industry.</p>
                                         </div>
 
                                         <div class="card-footer bg-transparent p-0">
                                             <!-- Avatar -->
                                             <div class="d-flex align-items-center">
                                                 <div class="avatar avatar-sm flex-shrink-0 me-2">
-                                                    <img class="avatar-img rounded" src="{% static 'theme-assets/images/avatar/01.jpg'%}" alt="avatar">
+                                                    <img class="avatar-img rounded" src="{% static 'theme-assets/images/auth1.jpg'%}" alt="avatar">
                                                 </div>
-                                                <p class="mb-0">By Dennis Barrett</p>
+                                                <p class="mb-0">By Himanshu Singh, Tech Startup Co-Founder
+                                                </p>
                                             </div>
                                         </div>
                                     </div>
@@ -568,16 +571,17 @@
                                                 <li class="list-inline-item me-0"><i class="fas fa-star-half-alt text-warning"></i></li>
                                             </ul>
                                             <!-- Content -->
-                                            <p class="heading-color fw-normal">Webestica helped us create a stunning website that reflects our brand perfectly.</p>
+                                            <p class="heading-color fw-normal">I had a passion for fashion but needed a partner to help with the business side of things. WeFounder connected me with Anjali, who had the expertise I lacked. We teamed up, and our boutique is now one of the most popular in the area. WeFounder made it all possible!</p>
                                         </div>
 
                                         <div class="card-footer bg-transparent p-0">
                                             <!-- Avatar -->
                                             <div class="d-flex align-items-center">
                                                 <div class="avatar avatar-sm flex-shrink-0 me-2">
-                                                    <img class="avatar-img rounded" src="{% static 'theme-assets/images/avatar/02.jpg'%}" alt="avatar">
+                                                    <img class="avatar-img rounded" src="{% static 'theme-assets/images/auth2.jpg'%}" alt="avatar">
                                                 </div>
-                                                <p class="mb-0">By Nix Maxwell</p>
+                                                <p class="mb-0">By Priya Rai, Fashion Boutique Owner
+                                                </p>
                                             </div>
                                         </div>
                                     </div>
@@ -596,16 +600,17 @@
                                                 <li class="list-inline-item me-0"><i class="fas fa-star-half-alt text-warning"></i></li>
                                             </ul>
                                             <!-- Content -->
-                                            <p class="heading-color fw-normal">I highly recommend Mizzle to anyone looking for a high-quality Bootstrap theme.</p>
+                                            <p class="heading-color fw-normal">WeFounder helped me find my perfect business partner. I wanted to start a wellness center but didn't know where to begin. Through WeFounder, I met Kavita, who had experience in the wellness industry. Together, we created a center that promotes health and well-being in our community. WeFounder truly connects people for success!</p>
                                         </div>
 
                                         <div class="card-footer bg-transparent p-0">
                                             <!-- Avatar -->
                                             <div class="d-flex align-items-center">
                                                 <div class="avatar avatar-sm flex-shrink-0 me-2">
-                                                    <img class="avatar-img rounded" src="{% static 'theme-assets/images/avatar/05.jpg'%}" alt="avatar">
+                                                    <img class="avatar-img rounded" src="{% static 'theme-assets/images/auth1.jpg'%}" alt="avatar">
                                                 </div>
-                                                <p class="mb-0">By Carolyn Ortiz</p>
+                                                <p class="mb-0">By Amit Choudhary, Wellness Center Co-Founder
+                                                </p>
                                             </div>
                                         </div>
                                     </div>
@@ -621,7 +626,7 @@
                     <!-- Testimonials image -->
                     <div class="col-sm-10 col-lg-6 col-xl-5 position-relative ms-xl-auto">
                         <!-- Image -->
-                        <img src="{% static 'theme-assets/images/about/03.jpg'%}" class="rounded" alt="testimonial-img">
+                        <img src="{% static 'theme-assets/images/about/03.png'%}" class="rounded" alt="testimonial-img">
 
                         <!-- SVG decoration -->
                         <figure class="position-absolute top-50 start-0 translate-middle ms-n5 d-none d-xl-block">
@@ -637,7 +642,7 @@
                                 <div class="avatar avatar-sm flex-shrink-0 me-2">
                                     <img class="avatar-img rounded-circle" src="{% static 'theme-assets/images/avatar/09.jpg'%}" alt="avatar">
                                 </div>
-                                <p class="text-white small mb-0">The best Bootstrap theme we've ever used 🔥</p>
+                                <p class="text-white small mb-0">The best Community platform we've ever used 🔥</p>
                             </div>
                         </div>
 
@@ -647,7 +652,7 @@
                             <div class="avatar avatar-sm flex-shrink-0 me-2">
                                 <img class="avatar-img rounded-circle" src="{% static 'theme-assets/images/avatar/03.jpg'%}" alt="avatar">
                             </div>
-                            <p class="text-dark small mb-0">Excellent Theme 💗</p>
+                            <p class="text-dark small mb-0">Excellent Platform 💗</p>
                         </div>
                     </div>
                 </div>

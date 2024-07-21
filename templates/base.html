@@ -3,7 +3,7 @@
 {% load static %}
 
 <head>
-    <title>Mizzle - Technology and Corporate Bootstrap Theme</title>
+    <title>We Founder - Connecting Local Innovators and Resources</title>
 
     <!-- Meta Tags -->
     <meta charset="utf-8">
@@ -73,7 +73,7 @@
     </script>
 
     <!-- Favicon -->
-    <link rel="shortcut icon" href="{% static 'theme-assets/images/favicon.ico'%}">
+    <link rel="shortcut icon" href="{% static 'theme-assets/images/favicon.png'%}">
 
     <!-- Google Font -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -114,8 +114,8 @@
             <div class="container">
                 <!-- Logo START -->
                 <a class="navbar-brand me-0" href="index.html">
-				<img style="height:80px;width:80px" class="light-mode-item navbar-brand-item" src="{% static 'theme-assets/images/logo.png'%}" alt="logo">
-				{% comment %} <img class="dark-mode-item navbar-brand-item" src="{% static 'theme-assets/images/logo-light.svg'%}" alt="logo"> {% endcomment %}
+				<img style="height:60px;width:100px" class="light-mode-item navbar-brand-item" src="{% static 'theme-assets/images/logo1.png'%}" alt="logo"> 
+				<img style="height:60px;width:100px" class="dark-mode-item navbar-brand-item" src="{% static 'theme-assets/images/logo4.png'%}" alt="logo"> 
 			</a>
                 <!-- Logo END -->
 
@@ -266,7 +266,7 @@
     {% block Content %}{% endblock Content %}
 
     <!-- Footer START -->
-    <footer class="bg-dark position-relative overflow-hidden pt-6 pt-lg-8" data-bs-theme="dark">
+    <footer class="bg-dark position-relative overflow-hidden pt-6 pt-lg-4" data-bs-theme="dark">
 
         <!-- SVG decoration -->
         <figure class="position-absolute top-0 start-0 mt-n8 ms-n9">
@@ -296,10 +296,10 @@
                 <div class="col-lg-3">
                     <!-- logo -->
                     <a class="me-0" href="index.html">
-                        <img class="light-mode-item h-40px" src="{% static 'theme-assets/images/logo.svg'%}" alt="logo">
-                        <img class="dark-mode-item h-40px" src="{% static 'theme-assets/images/logo-light.svg'%}" alt="logo">
+                        <img style="width:100x" class="light-mode-item h-60px" src="{% static 'theme-assets/images/logo4.png'%}" alt="logo">
+                        <img style="width:100px" class="dark-mode-item h-60px" src="{% static 'theme-assets/images/logo4.png'%}" alt="logo">
                     </a>
-                    <p class="mt-4 mb-2">We-Founder connects entrepreneurs and professionals nearby to collaborate on business ideas and projects, fastering local innovation and partnerships.</p>
+                    <p class="mt-4 mb-2">We-Founder connects entrepreneurs and professionals nearby to collaborate on business ideas and projects, fostering local innovation and partnerships.</p>
                 </div>
                 <!-- Widget 1 END -->
 
@@ -330,8 +330,8 @@
 
                         <!-- Link block -->
                         <div class="col-md-4">
-                            <h6 class="mb-2 mb-md-4">App available on</h6>
-                            <div class="row g-2 mt-2 mb-4 mb-sm-5">
+                            {% comment %} <h6 class="mb-2 mb-md-4">Blogs</h6> {% endcomment %}
+                            {% comment %} <div class="row g-2 mt-2 mb-4 mb-sm-5">
                                 <!-- Google play store button -->
                                 <div class="col-5 col-sm-4 col-md-6">
                                     <a href="#"> <img src="{% static 'theme-assets/images/elements/google-play.svg'%}" alt=""> </a>
@@ -340,17 +340,17 @@
                                 <div class="col-5 col-sm-4 col-md-6">
                                     <a href="#"> <img src="{% static 'theme-assets/images/elements/app-store.svg'%}" alt="app-store"> </a>
                                 </div>
-                            </div>
+                            </div> {% endcomment %}
 
                             <!-- Social buttons -->
                             <h6 class="mb-2 mb-md-4">Follow on</h6>
 
                             <ul class="list-inline mb-0 mt-3">
-                                <li class="list-inline-item"> <a class="btn btn-xs btn-icon btn-light" href="#"><i class="fab fa-fw fa-facebook-f lh-base"></i></a> </li>
-                                <li class="list-inline-item"> <a class="btn btn-xs btn-icon btn-light" href="#"><i class="fab fa-fw fa-instagram lh-base"></i></a> </li>
-                                <li class="list-inline-item"> <a class="btn btn-xs btn-icon btn-light" href="#"><i class="fab fa-fw fa-twitter lh-base"></i></a> </li>
-                                <li class="list-inline-item"> <a class="btn btn-xs btn-icon btn-light" href="#"><i class="fab fa-fw fa-linkedin-in lh-base"></i></a> </li>
-                                <li class="list-inline-item"> <a class="btn btn-xs btn-icon btn-light" href="#"><i class="fab fa-fw fa-youtube lh-base"></i></a> </li>
+                                <li class="list-inline-item"> <a class="btn btn-xs btn-icon btn-light" href="https://www.facebook.com/profile.php?id=61562050402089"><i class="fab fa-fw fa-facebook-f lh-base"></i></a> </li>
+                                <li class="list-inline-item"> <a class="btn btn-xs btn-icon btn-light" href="https://www.instagram.com/we_founder003/"><i class="fab fa-fw fa-instagram lh-base"></i></a> </li>
+                                <li class="list-inline-item"> <a class="btn btn-xs btn-icon btn-light" href="https://x.com/We_founder003"><i class="fab fa-fw fa-twitter lh-base"></i></a> </li>
+                                <li class="list-inline-item"> <a class="btn btn-xs btn-icon btn-light" href="https://www.linkedin.com/company/we-founder/"><i class="fab fa-fw fa-linkedin-in lh-base"></i></a> </li>
+                                <li class="list-inline-item"> <a class="btn btn-xs btn-icon btn-light" href="https://youtube.com/@wefounder003?si=8KB22FYQaYnJgxp_"><i class="fab fa-fw fa-youtube lh-base"></i></a> </li>
                             </ul>
                         </div>
                     </div>

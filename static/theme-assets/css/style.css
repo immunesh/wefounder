@@ -4914,7 +4914,7 @@ fieldset:disabled .btn {
     --bs-navbar-hover-color: #09B850;
     --bs-navbar-disabled-color: rgba(0, 0, 0, 0.3);
     --bs-navbar-active-color: #09B850;
-    --bs-navbar-brand-padding-y: 30px;
+    --bs-navbar-brand-padding-y: 55px;
     --bs-navbar-brand-margin-end: 1rem;
     --bs-navbar-brand-font-size: 1.25rem;
     --bs-navbar-brand-color: rgba(var(--bs-emphasis-color-rgb), 1);
@@ -9715,7 +9715,7 @@ fieldset:disabled .btn {
 }
 
 .m-auto {
-    margin: auto !important;
+    margin: 0px !important;
 }
 
 .mx-0 {
@@ -10286,8 +10286,9 @@ fieldset:disabled .btn {
     padding: 0.5rem !important;
 }
 
+
 .p-3 {
-    padding: 1rem !important;
+    padding: 0rem !important;
 }
 
 .p-4 {
@@ -10416,6 +10417,7 @@ fieldset:disabled .btn {
 
 .pt-0 {
     padding-top: 0 !important;
+    padding-bottom: 10px;
 }
 
 .pt-1 {
@@ -10496,6 +10498,7 @@ fieldset:disabled .btn {
 
 .pb-0 {
     padding-bottom: 5rem !important;
+    padding-top: 0px;
 }
 
 .pb-1 {
@@ -15648,7 +15651,7 @@ fieldset:disabled .btn {
         padding-top: 8rem !important;
     }
     .pt-xl-9 {
-        padding-top: 7rem !important;
+        padding-top: 10rem !important;
         padding-bottom: 0;
     }
     .pe-xl-0 {
@@ -20195,7 +20198,7 @@ a.badge:hover {
 .header-absolute {
     background: transparent;
     position: absolute;
-    top: 0;
+    top: -30px;
     left: 0;
     right: 0;
     width: 100%;

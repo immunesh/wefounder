@@ -22,6 +22,8 @@ from user_account.models import CustomUser
 from django.http import JsonResponse
 from django.views.decorators.csrf import csrf_exempt
 import json
+from django.urls import reverse_lazy
+from django.contrib.auth import views as auth_views
 
 @csrf_exempt
 def set_chat_user(request):
@@ -209,6 +211,16 @@ def signIn(request):
 
         if not username or not password:
             messages.error(request, "All fields are required.")
+            return render(request, 'sign-in.html')
+         # Print statements for debugging
+        print(f"Username: {username}")
+        print(f"Password: {password}")
+
+        try:
+            user_exists = CustomUser.objects.get(username=username)
+            print(f"User exists: {user_exists}")
+        except User.DoesNotExist:
+            messages.error(request, "Invalid username or password.")
             return render(request, 'sign-in.html')
 
         user = authenticate(request, username=username, password=password)
@@ -492,5 +504,7 @@ def PasswordResetConfirm(request, uidb64=None, token=None):
         else:
             return HttpResponse("Invalid token.")
     return render(request, 'password/password_reset_confirm.html', {'uidb64': uidb64, 'token': token})
+
+
 
 

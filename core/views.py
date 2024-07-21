@@ -12,7 +12,11 @@ def home(request):
     return render(request,'index.html', context)
 
 def about(request):
-    return render(request,'about.html')
+    faq = Faq.objects.all()[0:3]
+    context = {
+        'faqs':faq,
+    }
+    return render(request,'about.html',context)
 
 def contact(request):
     if request.method == 'POST':
