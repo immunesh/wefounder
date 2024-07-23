@@ -206,17 +206,19 @@
 
             <!-- Table body START -->
             <tbody>
-                {% for p in project %}
+                {% for project in projects %}
+                <p>{{projects}}</p>
+                    
                     <!-- Table row -->
                     <tr>
                         <!-- Table data -->
-                        <td>{{p.title}}</td>
+                        <td>{{project.title}}</td>
 
                         <!-- Table data -->
-                        <td>{{p.sector}}</td>
+                        <td>{{project.sector}}</td>
 
                         <!-- Table data -->
-                        <td>{{p.sub_sector}}</td>
+                        <td>{{project.sub_sector}}</td>
                         {% comment %} <td>
                             <a href="{% url 'accountProject_update' project.id %}" class="btn btn-sm btn-dark me-1 mb-1 mb-md-0 edit-btn" data-bs-toggle="modal" data-bs-target="#editModal" data-id="{{ project.id }}"><i
                                     class="bi bi-pencil-square"></i></a>

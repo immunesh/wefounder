@@ -292,29 +292,39 @@ def accountNotification(request):
 #     }
 
 #     return render(request, 'user-account-dashboard/account-projects.html', context)
-
+@login_required(login_url='signin')
 def Add_My_Project(request):
-    
-    role=request.POST.get('role')
-    sector=request.POST.get('sector')
-    sub_sector=request.POST.get('sub_sector')
-    title=request.POST.get('title')
-    pdf=request.POST.get('pdf')
-    project=AddMyProject.objects.all()
-    data = dict(
-           role=role,
-           sector=sector,
-           sub_sector=sub_sector,
-           title=title,
-           pdf=pdf
-        )
-    context={
-        'data':data,
-        'project':project,
+    if request.method == 'POST':
+        role=request.POST.get('role')
+        sector=request.POST.get('sector')
+        sub_sector=request.POST.get('sub_sector')
+        title=request.POST.get('title')
+        pdf=request.FILES.get('pdf')
+      
+        project = AddMyProject(
+            role=role,
+            sector=sector,
+            sub_sector=sub_sector,
+            title=title,
+            pdf=pdf
+            )
+        project.save()
+        context={
+            'data':project,
+        }
+        return render(request, 'user-account-dashboard/account-projects.html', context)
+    else:
+        return render(request, 'user-account-dashboard/account-projects.html')
+
+@login_required(login_url='signin')    
+def display_projects(request):
+    projects = AddMyProject.objects.all() 
+    print(projects) 
+    context = {
+        'projects': projects,
     }
-    
-    
     return render(request, 'user-account-dashboard/account-projects.html', context)
+        
 
 @login_required(login_url='signin')
 def accountProject_update(request, id=None):

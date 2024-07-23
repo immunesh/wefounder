@@ -15,6 +15,7 @@ urlpatterns = [
     path('account-notification/', views.accountNotification, name='account_notification'),
     # path('account-projects/', views.accountProjects, name='account_projects'),
     path('addmyproject/',views.Add_My_Project,name='addmyproject'),
+    path('projects/', views.display_projects, name='display_projects'),
     path('accountProject/update/<int:id>/', views.accountProject_update, name='accountProject_update'),
     path('account-projects_delete/<id>/', views.ProjectDelete, name="account-projects_delete"),
     path('search/', search_profiles, name='search_profiles'),
