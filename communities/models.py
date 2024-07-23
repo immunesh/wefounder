@@ -36,6 +36,17 @@ class CommunityPost(models.Model):
         verbose_name = "Community Post"
         verbose_name_plural = "Community Posts"
 
+class AddMyProject(models.Model):
+    role = models.CharField(max_length=100)
+    sector = models.CharField(max_length=100)
+    sub_sector = models.CharField(max_length=100)
+    title = models.CharField(max_length=50)
+    description = models.TextField(null=True,blank=True)
+    pdf=models.FileField(upload_to="pdfs/",null=True,blank=True)
+    
+    def __str__(self):
+        return self.title
+    
 
 @receiver(pre_save, sender=CommunityPost)
 def pre_save_community_post(sender, instance, **kwargs):

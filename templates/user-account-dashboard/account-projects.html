@@ -62,7 +62,7 @@
           <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
         </div>
         <div class="modal-body">
-            <form action="{% url 'account_projects' %}" method="POST">
+            <form action="{% url 'addmyproject' %}" method="POST">
                 {% csrf_token %}
                 <div class="input-floating-label form-floating mb-4">
                     <input type="text" class="form-control" id="role" placeholder="Role" name="role">
@@ -108,7 +108,7 @@
                 </div> {% endcomment %}
                 <div class="input-floating-label form-floating mb-4">
                     <select id="sector" class="form-select form-select-lg" aria-label="Sector" name="sector" onchange="populateSubsectors()">
-                        <option value="">Select Sector</option>
+                        <option value="">Sector</option>
                         <!-- Populate options dynamically with JavaScript -->
                     </select>
                     {% comment %} <label for="sector">Sector</label> {% endcomment %}
@@ -116,7 +116,7 @@
                 
                 <div class="input-floating-label form-floating mb-4">
                     <select id="subsector" class="form-select form-select-lg" name="sub_sector" aria-label="Subsector">
-                        <option value="">Select Subsector</option>
+                        <option value="">Subsector</option>
                         <!-- Options for subsectors will be populated dynamically -->
                     </select>
                     {% comment %} <label for="subsector">Subsector</label> {% endcomment %}
@@ -198,30 +198,31 @@
             <!-- Table head -->
             <thead class="thead-dark">
                 <tr>
-                    <th scope="col" class="border-0 text-white">Title</th>
-                    <th scope="col" class="border-0 text-white">Category</th>
-                    <th scope="col" class="border-0 text-white rounded-end">Action</th>
+                    <th scope="col" class="border-0 text-white text-center">Title</th>
+                    <th scope="col" class="border-0 text-white text-center">Sector</th>
+                    <th scope="col" class="border-0 text-white text-center rounded-end">Sub_Sector</th>
                 </tr>
             </thead>
 
             <!-- Table body START -->
             <tbody>
-                {% for project in projects %}
+                {% for p in project %}
                     <!-- Table row -->
                     <tr>
                         <!-- Table data -->
-                        <td>{{project.title}}</td>
+                        <td>{{p.title}}</td>
 
                         <!-- Table data -->
-                        <td>{{project.category}}</td>
+                        <td>{{p.sector}}</td>
 
                         <!-- Table data -->
-                        <td>
+                        <td>{{p.sub_sector}}</td>
+                        {% comment %} <td>
                             <a href="{% url 'accountProject_update' project.id %}" class="btn btn-sm btn-dark me-1 mb-1 mb-md-0 edit-btn" data-bs-toggle="modal" data-bs-target="#editModal" data-id="{{ project.id }}"><i
                                     class="bi bi-pencil-square"></i></a>
                             <a href="{% url 'account-projects_delete' project.id %}" class="btn btn-sm btn-danger me-1 mb-1 mb-md-0"><i
                                     class="bi bi-trash"></i></a>
-                        </td>
+                        </td> {% endcomment %}
                     </tr>
                 {% endfor %}
             </tbody>

@@ -1,5 +1,5 @@
 from django.contrib import admin
-from .models import CommunityCategory, CommunityPost
+from .models import CommunityCategory, CommunityPost,AddMyProject
 
 @admin.register(CommunityCategory)
 class CommunityCategoryAdmin(admin.ModelAdmin):
@@ -16,3 +16,8 @@ class CommunityPostAdmin(admin.ModelAdmin):
     ordering = ('title',)
     raw_id_fields = ('user',)
     prepopulated_fields = {'slug': ('title',)}
+
+@admin.register(AddMyProject)
+class AddMyProjectAdmin(admin.ModelAdmin):
+    list_display = ('title','role', 'sector', 'sub_sector','pdf')
+    
