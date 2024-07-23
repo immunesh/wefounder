@@ -25,6 +25,7 @@ import json
 from django.urls import reverse_lazy
 from django.contrib.auth import views as auth_views
 from django.db.models import Avg,Count
+from .models import *
 
 
 @csrf_exempt
@@ -320,8 +321,10 @@ def Add_My_Project(request):
 
 @login_required(login_url='signin')    
 def display_projects(request):
+    user=models.ForeignKey(User,on_delete=models.CASCADE)
     projects = AddMyProject.objects.all() 
-    print(projects) 
+    print(projects)
+    user=user 
     context = {
         'projects': projects,
     }
