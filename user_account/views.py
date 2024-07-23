@@ -299,6 +299,7 @@ def Add_My_Project(request):
         sector=request.POST.get('sector')
         sub_sector=request.POST.get('sub_sector')
         title=request.POST.get('title')
+        description=request.POST.get('description')
         pdf=request.FILES.get('pdf')
       
         project = AddMyProject(
@@ -306,7 +307,8 @@ def Add_My_Project(request):
             sector=sector,
             sub_sector=sub_sector,
             title=title,
-            pdf=pdf
+            pdf=pdf,
+            description=description,
             )
         project.save()
         context={
