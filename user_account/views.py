@@ -24,6 +24,8 @@ from django.views.decorators.csrf import csrf_exempt
 import json
 from django.urls import reverse_lazy
 from django.contrib.auth import views as auth_views
+from django.db.models import Avg,Count
+
 
 @csrf_exempt
 def set_chat_user(request):
@@ -129,26 +131,24 @@ def signUpSteps(request, user_id):
 
     if request.method == "POST":
         role = request.POST.get('role')
-        company = request.POST.get('company')
+        sector = request.POST.get('sector')
         city = request.POST.get('city')
         zip_code = request.POST.get('zip_code')
-        looking_for = request.POST.getlist('looking_for')
-        i_can = request.POST.getlist('i_can')
         skills_expertise = request.POST.get('skills_expertise')
+        cv=request.POST.get('cv')
 
         # Validate that all fields are provided
-        if not all([role, company, city, zip_code, looking_for, i_can, skills_expertise]):
+        if not all([role, sector, city, zip_code, skills_expertise]):
             messages.error(request, "All fields are required.")
             return render(request, 'sign-up-steps.html', {'user': user})
 
         # Update the user with additional information
         user.role = role
-        user.company = company
+        user.sector = sector
         user.city = city
         user.zip_code = zip_code
-        user.looking_for = looking_for
-        user.i_can = i_can
         user.skills_expertise = skills_expertise
+        user.cv=cv
         user.save()
 
         login(request, user)
@@ -157,49 +157,7 @@ def signUpSteps(request, user_id):
     
     context = {
         'user': user,
-        'looking_for_options': [
-            {'id': 'advisor', 'value': 'Advisor', 'label': 'Advisor'},
-            {'id': 'job', 'value': 'Job', 'label': 'Job'},
-            {'id': 'mentor', 'value': 'Mentor', 'label': 'Mentor'},
-            {'id': 'investor', 'value': 'Investor', 'label': 'Investor'},
-            {'id': 'collaborator', 'value': 'Collaborator', 'label': 'Collaborator'},
-            {'id': 'warm_intro', 'value': 'Warm_intro', 'label': 'Warm intro'},
-            {'id': 'feedback', 'value': 'Feedback', 'label': 'Feedback'},
-            {'id': 'cofounder', 'value': 'Co-founder', 'label': 'Co-founder'},
-            {'id': 'freelancer_consultant', 'value': 'Freelancer_consultant', 'label': 'Freelancer/consultant'},
-            {'id': 'volunteers', 'value': 'Volunteers', 'label': 'Volunteers'},
-            {'id': 'internship', 'value': 'Internship', 'label': 'Internship'},
-            {'id': 'startup_to_join', 'value': 'Startup_to_join', 'label': 'Startup to join'},
-            {'id': 'press_publicity', 'value': 'Press_Publicity', 'label': 'Press/Publicity'},
-            {'id': 'users_customers', 'value': 'Users_customers', 'label': 'Users/customers'},
-            {'id': 'inspiration', 'value': 'Inspiration', 'label': 'Inspiration'},
-            {'id': 'smart_people', 'value': 'Smart_people', 'label': 'Smart people'},
-            {'id': 'new_perspectives', 'value': 'New_perspectives', 'label': 'New perspectives'},
-            {'id': 'next_unicorn', 'value': 'Next_unicorn', 'label': 'Next unicorn'},
-            {'id': 'next_challenge', 'value': 'Next_challenge', 'label': 'Next challenge'},
-            {'id': 'moonshots', 'value': 'Moonshots', 'label': 'Moonshots'},
-            {'id': 'an_active_network', 'value': 'An_active_network', 'label': 'An active network'},
-            {'id': 'startup_ideas', 'value': 'Startup_ideas', 'label': 'Startup ideas'},
-            {'id': 'grow_my_startup', 'value': 'Grow_my_startup', 'label': 'Grow my startup'},
-            {'id': 'learn_something_new', 'value': 'Learn_something_new', 'label': 'Learn something new'},
-            {'id': 'upskill', 'value': 'Upskill', 'label': 'Upskill'},
-        ],
-        'i_can_options': [
-            {'id': 'invest', 'value': 'Invest', 'label': 'Invest'},
-            {'id': 'collaborat', 'value': 'Collaborator', 'label': 'Collaborator'},
-            {'id': 'introduce', 'value': 'Introduce you', 'label': 'Introduce you'},
-            {'id': 'give_feedback', 'value': 'Give Feedback', 'label': 'Give Feedback'},
-            {'id': 'teach', 'value': 'Teach', 'label': 'Teach'},
-            {'id': 'freelancer_consult', 'value': 'Freelancer Consult', 'label': 'Freelancer/Consult'},
-            {'id': 'volunteer', 'value': 'Volunteer', 'label': 'Volunteer'},
-            {'id': 'cofound', 'value': 'Co-found', 'label': 'Co-found'},
-            {'id': 'sell', 'value': 'Sell', 'label': 'Sell'},
-            {'id': 'promote_product', 'value': 'Promote Product', 'label': 'Promote product'},
-            {'id': 'speak_events', 'value': 'Speak at events', 'label': 'Speak at events'},
-            {'id': 'create_content', 'value': 'Create Content', 'label': 'Create Content'},
-            {'id': 'growth_hack', 'value': 'Growth Hack', 'label': 'Growth Hack'},
-            {'id': 'ideate', 'value': 'Ideate', 'label': 'Ideate'},
-        ],
+        
     }
 
     return render(request, 'sign-up-steps.html', context)
@@ -287,49 +245,6 @@ def userProfile(request, username):
     user = get_object_or_404(CustomUser, username=username)
     context = {
         'user': user,
-        'looking_for_options': [
-            {'id': 'advisor', 'value': 'Advisor', 'label': 'Advisor'},
-            {'id': 'job', 'value': 'Job', 'label': 'Job'},
-            {'id': 'mentor', 'value': 'Mentor', 'label': 'Mentor'},
-            {'id': 'investor', 'value': 'Investor', 'label': 'Investor'},
-            {'id': 'collaborator', 'value': 'Collaborator', 'label': 'Collaborator'},
-            {'id': 'warm_intro', 'value': 'Warm_intro', 'label': 'Warm intro'},
-            {'id': 'feedback', 'value': 'Feedback', 'label': 'Feedback'},
-            {'id': 'cofounder', 'value': 'Co-founder', 'label': 'Co-founder'},
-            {'id': 'freelancer_consultant', 'value': 'Freelancer_consultant', 'label': 'Freelancer/consultant'},
-            {'id': 'volunteers', 'value': 'Volunteers', 'label': 'Volunteers'},
-            {'id': 'internship', 'value': 'Internship', 'label': 'Internship'},
-            {'id': 'startup_to_join', 'value': 'Startup_to_join', 'label': 'Startup to join'},
-            {'id': 'press_publicity', 'value': 'Press_Publicity', 'label': 'Press/Publicity'},
-            {'id': 'users_customers', 'value': 'Users_customers', 'label': 'Users/customers'},
-            {'id': 'inspiration', 'value': 'Inspiration', 'label': 'Inspiration'},
-            {'id': 'smart_people', 'value': 'Smart_people', 'label': 'Smart people'},
-            {'id': 'new_perspectives', 'value': 'New_perspectives', 'label': 'New perspectives'},
-            {'id': 'next_unicorn', 'value': 'Next_unicorn', 'label': 'Next unicorn'},
-            {'id': 'next_challenge', 'value': 'Next_challenge', 'label': 'Next challenge'},
-            {'id': 'moonshots', 'value': 'Moonshots', 'label': 'Moonshots'},
-            {'id': 'an_active_network', 'value': 'An_active_network', 'label': 'An active network'},
-            {'id': 'startup_ideas', 'value': 'Startup_ideas', 'label': 'Startup ideas'},
-            {'id': 'grow_my_startup', 'value': 'Grow_my_startup', 'label': 'Grow my startup'},
-            {'id': 'learn_something_new', 'value': 'Learn_something_new', 'label': 'Learn something new'},
-            {'id': 'upskill', 'value': 'Upskill', 'label': 'Upskill'},
-        ],
-        'i_can_options': [
-            {'id': 'invest', 'value': 'Invest', 'label': 'Invest'},
-            {'id': 'collaborat', 'value': 'Collaborator', 'label': 'Collaborator'},
-            {'id': 'introduce', 'value': 'Introduce you', 'label': 'Introduce you'},
-            {'id': 'give_feedback', 'value': 'Give Feedback', 'label': 'Give Feedback'},
-            {'id': 'teach', 'value': 'Teach', 'label': 'Teach'},
-            {'id': 'freelancer_consult', 'value': 'Freelancer Consult', 'label': 'Freelancer/Consult'},
-            {'id': 'volunteer', 'value': 'Volunteer', 'label': 'Volunteer'},
-            {'id': 'cofound', 'value': 'Co-found', 'label': 'Co-found'},
-            {'id': 'sell', 'value': 'Sell', 'label': 'Sell'},
-            {'id': 'promote_product', 'value': 'Promote Product', 'label': 'Promote product'},
-            {'id': 'speak_events', 'value': 'Speak at events', 'label': 'Speak at events'},
-            {'id': 'create_content', 'value': 'Create Content', 'label': 'Create Content'},
-            {'id': 'growth_hack', 'value': 'Growth Hack', 'label': 'Growth Hack'},
-            {'id': 'ideate', 'value': 'Ideate', 'label': 'Ideate'},
-        ],
     }
     return render(request, 'user-account-dashboard/account-detail.html', context)
 
@@ -341,30 +256,24 @@ def accountNotification(request):
 def accountProjects(request):
     
     if request.method == 'POST':
-        category_id = request.POST.get('category')
+        role = request.POST.get('role')
+        sector = request.POST.get('sector')
+        sub_sector = request.POST.get('sub_sector')
         title = request.POST.get('title')
-        timeline = request.POST.get('timeline')
-        price = request.POST.get('price')
-        skills = request.POST.get('skills')
-        responsibilities = request.POST.get('responsibilities')
         description = request.POST.get('description')
+        pdf=request.POST.get('pdf')
 
         user = request.user
-
-        if not price:
-            price = 0
-
         try:
-            category = CommunityCategory.objects.get(id=category_id)
+            # category = CommunityCategory.objects.get(id=category_id)
             data = CommunityPost(
                 user=user,
-                category=category,
+                role=role,
                 title=title,
-                timeline=timeline,
-                price=price,
-                skills=skills,
-                responsibilities=responsibilities,
+                sector=sector,
+                sub_sector=sub_sector,
                 description=description,
+                pdf=pdf,
             )
             data.save()
             messages.success(request, 'Successfully added new Project!')
@@ -388,13 +297,13 @@ def accountProject_update(request, id=None):
     post = get_object_or_404(CommunityPost, id=id)
     
     if request.method == 'POST':
-        post.category_id = request.POST.get('category')
-        post.title = request.POST.get('title')
-        post.timeline = request.POST.get('timeline')
-        post.price = request.POST.get('price')
-        post.skills = request.POST.get('skills')
-        post.responsibilities = request.POST.get('responsibilities')
-        post.description = request.POST.get('description')
+        # post.category_id = request.POST.get('category')
+        role = request.POST.get('role')
+        sector = request.POST.get('sector')
+        sub_sector = request.POST.get('sub_sector')
+        title = request.POST.get('title')
+        description = request.POST.get('description')
+        pdf=request.POST.get('pdf')
         
         post.save()
         messages.success(request, "Post updated successfully.")
@@ -402,13 +311,14 @@ def accountProject_update(request, id=None):
     
     elif request.headers.get('x-requested-with') == 'XMLHttpRequest':
         data = {
-            'category': post.category_id,
-            'title': post.title,
-            'timeline': post.timeline,
-            'price': post.price,
-            'skills': post.skills,
-            'responsibilities': post.responsibilities,
-            'description': post.description,
+            # 'category': post.category_id,
+           
+                'role': post.role,
+               'title': post.title,
+                'sector':post.sector,
+                'sub_sector':post.sub_sector,
+                'description':post.description,
+                'pdf':post.pdf,
         }
         return JsonResponse(data)
     
@@ -504,6 +414,9 @@ def PasswordResetConfirm(request, uidb64=None, token=None):
         else:
             return HttpResponse("Invalid token.")
     return render(request, 'password/password_reset_confirm.html', {'uidb64': uidb64, 'token': token})
+
+def PasswordResetDone(request):
+    return render (request,'password/password_reset_done.html')
 
 
 

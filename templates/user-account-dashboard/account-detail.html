@@ -158,33 +158,6 @@
                                         <input type="text" class="form-control" value="{{user.company}}" placeholder="Enter your company name">
                                     </div>
 
-                                    <!-- Looking For -->
-                                    <div class="col-md-6">
-                                        <label class="form-label">What are you looking for *</label>
-                                        <div class="options">
-                                            {% for option in looking_for_options %}
-                                                <div class="form-check" style="padding-left: 0 !important;">
-                                                    <input class="form-check-input" type="checkbox" id="looking_for_{{ option.id }}" name="looking_for" value="{{ option.value }}" {% if option.value in user.looking_for %}checked{% endif %}>
-                                                    <label class="form-check-label" for="looking_for_{{ option.id }}">{{ option.label }}</label>
-                                                </div>
-                                            {% endfor %}
-                                        </div>
-                                        <small class="form-text">Select at least one and up to three options.</small>
-                                    </div>
-
-                                    <!-- Can Do -->
-                                    <div class="col-md-6">
-                                        <label class="form-label">I can *</label>
-                                        <div class="options">
-                                            {% for option in i_can_options %}
-                                                <div class="form-check" style="padding-left: 0 !important;">
-                                                    <input class="form-check-input" type="checkbox" id="can_do_{{ option.id }}" name="can_do" value="{{ option.value }}" {% if option.value in user.i_can %}checked{% endif %}>
-                                                    <label class="form-check-label" for="can_do_{{ option.id }}">{{ option.label }}</label>
-                                                </div>
-                                            {% endfor %}
-                                        </div>
-                                        <small class="form-text">Select at least one and up to three options.</small>
-                                    </div>
 
                                     <!-- Skills & Expertise -->
                                     <div class="col-12">
@@ -200,7 +173,7 @@
                                     <div class="col-12">
                                         <label class="form-label">Address</label>
                                         <textarea class="form-control" rows="3"
-                                            spellcheck="false">2119 N Division Ave, New Hampshire, York, United States</textarea>
+                                            spellcheck="false">Please enter your address here.</textarea>
                                     </div>
 
                                     <!-- Button -->

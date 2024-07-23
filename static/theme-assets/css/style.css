@@ -1754,6 +1754,7 @@ progress {
         -ms-flex: 0 0 auto;
         flex: 0 0 auto;
         width: 50%;
+        padding-top: 50px;
     }
     .col-lg-7 {
         -webkit-box-flex: 0;
@@ -3358,8 +3359,9 @@ textarea.form-control-lg {
 }
 
 .form-floating>.form-select {
-    padding-top: 1.625rem;
+    padding-top: 0.625rem;
     padding-bottom: 0.625rem;
+    padding-left: 0.625rem;
 }
 
 .form-floating>.form-control:not(:-moz-placeholder-shown)~label {
@@ -10288,7 +10290,7 @@ fieldset:disabled .btn {
 
 
 .p-3 {
-    padding: 0rem !important;
+    padding: 1rem !important;
 }
 
 .p-4 {
@@ -10416,7 +10418,7 @@ fieldset:disabled .btn {
 }
 
 .pt-0 {
-    padding-top: 0 !important;
+    padding-top: 10px !important;
     padding-bottom: 10px;
 }
 

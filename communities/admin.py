@@ -10,9 +10,9 @@ class CommunityCategoryAdmin(admin.ModelAdmin):
 
 @admin.register(CommunityPost)
 class CommunityPostAdmin(admin.ModelAdmin):
-    list_display = ('title', 'user', 'category', 'timeline', 'price', 'slug', 'created_at', 'updated_at')
-    search_fields = ('title', 'user__username', 'category__name', 'skills', 'responsibilities', 'description')
-    list_filter = ('category', 'user')
+    list_display = ('title', 'user', 'role', 'sector', 'sub_sector','pdf', 'slug', 'created_at', 'updated_at')
+    search_fields = ('title', 'user__username', 'description')
+    list_filter = ('role', 'user')
     ordering = ('title',)
-    raw_id_fields = ('user', 'category')
+    raw_id_fields = ('user',)
     prepopulated_fields = {'slug': ('title',)}

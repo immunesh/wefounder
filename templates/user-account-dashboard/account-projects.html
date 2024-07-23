@@ -64,38 +64,76 @@
         <div class="modal-body">
             <form action="{% url 'account_projects' %}" method="POST">
                 {% csrf_token %}
-                <div class="mb-4">
-                    <select class="form-select" name="category" required>
-                        <option selected="selected" disabled>Category</option>
-                        {% for community in communities %}
-                            <option value="{{ community.id }}">{{ community.name }}</option>
-                        {% endfor %}
+                <div class="input-floating-label form-floating mb-4">
+                    <input type="text" class="form-control" id="role" placeholder="Role" name="role">
+                    <label for="role">Role</label>
+                </div>
+                {% comment %} <div class="mb-4">
+                    <select class="form-select" name="sector" required>
+                        <option selected="selected">Sector</option>
+                        <option value="1">Technology</option>
+                        <option value="2">Healthcare</option>
+                        <option value="3">Finance</option>
+                        <option value="4">Retail & E-Commerce</option>
+                        <option value="5">Product Manufacturing</option>
+                        <option value="6">Education</option>
+                        <option value="7">Real Estate</option>
+                        <option value="8">Agriculture & Food</option>
+                        <option value="9">Medical Entertainment</option>
+                        <option value="10">Tourism & Hospitality</option>
+                        <option value="11">Transportation & Logistics</option>
+                        <option value="12">Energy & Utilities</option>
+                        <option value="13">Environmental & Sustainability</option>
+                        <option value="14">Social Impact & Non-Profit</option>
                     </select>
+                </div>
+                <div class="mb-4">
+                    <select class="form-select" name="sub_sector" required>
+                        <option selected="selected">Sub Sector</option>
+                        <option value="1">Technology</option>
+                        <option value="2">Healthcare</option>
+                        <option value="3">Finance</option>
+                        <option value="4">Retail & E-Commerce</option>
+                        <option value="5">Product Manufacturing</option>
+                        <option value="6">Education</option>
+                        <option value="7">Real Estate</option>
+                        <option value="8">Agriculture & Food</option>
+                        <option value="9">Medical Entertainment</option>
+                        <option value="10">Tourism & Hospitality</option>
+                        <option value="11">Transportation & Logistics</option>
+                        <option value="12">Energy & Utilities</option>
+                        <option value="13">Environmental & Sustainability</option>
+                        <option value="14">Social Impact & Non-Profit</option>
+                    </select>
+                </div> {% endcomment %}
+                <div class="input-floating-label form-floating mb-4">
+                    <select id="sector" class="form-select form-select-lg" aria-label="Sector" name="sector" onchange="populateSubsectors()">
+                        <option value="">Select Sector</option>
+                        <!-- Populate options dynamically with JavaScript -->
+                    </select>
+                    {% comment %} <label for="sector">Sector</label> {% endcomment %}
+                </div>
+                
+                <div class="input-floating-label form-floating mb-4">
+                    <select id="subsector" class="form-select form-select-lg" name="sub_sector" aria-label="Subsector">
+                        <option value="">Select Subsector</option>
+                        <!-- Options for subsectors will be populated dynamically -->
+                    </select>
+                    {% comment %} <label for="subsector">Subsector</label> {% endcomment %}
                 </div>
                 <div class="input-floating-label form-floating mb-4">
                     <input type="text" id="title" name="title" class="form-control" placeholder="Title" required>
                     <label for="title">Title</label>
                 </div>
-                <div class="input-floating-label form-floating mb-4">
-                    <input type="text" class="form-control" id="timeline" placeholder="Timeline" name="timeline">
-                    <label for="timeline">Timeline</label>
-                </div>
-                <div class="input-floating-label form-floating mb-4">
-                    <input type="number" class="form-control" id="price" placeholder="Price" name="price">
-                    <label for="price">Price</label>
-                </div>
-                <div class="input-floating-label form-floating mb-4">
-                    <input type="text" class="form-control" id="skills" placeholder="Skills" name="skills" >
-                    <label for="skills">Skills</label>
-                </div>
-                <div class="input-floating-label form-floating mb-4">
-                    <input type="text" class="form-control" id="responsibilities" placeholder="Responsibilities" name="responsibilities">
-                    <label for="responsibilities">Responsibilities</label>
-                </div>
                 <div class="d-flex flex-column mb-4 input-floating-label">
-                    <label for="description">Description</label>
+                    <label class="ml-2" for="description">Description</label>
                     <textarea class="form-control" style="padding: 10px; border-radius: 5px;" name="description" id="description" rows="5" cols="30" required></textarea>
                 </div>
+                <div class="col-md-6 mb-4">
+                    <label class="form-label heading-color">Upload PDF </label>
+                    <input type="file" class="form-control form-control-lg" name="pdf">
+                </div>
+
                 <div class="input-floating-label form-floating mb-4">
                     <button type="submit" class="btn btn-primary">Submit</button>
                 </div>
@@ -194,6 +232,26 @@
 </div>
 {% endblock UserMainContent %}
 {% block javascript %}
+<script>
+    var sectors = [
+        { id: 1, name: 'Technology', subsectors: ['Web Development','App Development','Startup','Internship','New Idea','CO-FOUNDER','Hardware and Electronics','EdTech (Educational Technology)','Hire Talent','Community','Team Member','Others'] },
+        { id: 2, name: 'Healthcare', subsectors: ['Invest','Partner','Collaborate','Volunteer','Join Research','Startup','Assistance/Worker','Team Member','Others'] },
+        { id: 3, name: 'Finance', subsectors: ['Invest','Partner','Consult','Collaborate','Start New','Assistance/Worker','Team Member','Others'] },
+        { id: 4, name: 'Retail & E-Commerce', subsectors: ['Invest','Partner','Collaborate','Market Products','Provide Logistics','Start New','Assistance/Worker','Team Member','Others'] },
+        { id: 5, name: 'Product Manufacturing', subsectors: ['Invest','Partner','Collaborate','Supply Chain Support','Equipment Sharing','Start New','Assistance/Worker','Team Member','Others'] },
+        { id: 6, name: 'Education', subsectors: ['Invest','Partner','Collaborate','Teach or Mentor','Develop Curriculum','Start New','Assistance/Worker','Team Member','Others'] },
+        { id: 7, name: 'Real Estate', subsectors: ['Invest','Partner','Collaborate','Property Management','Real Estate Development','Start New','Assistance/Worker','Team Member','Others'] },
+        { id: 8, name: 'Agriculture & Food', subsectors: ['Invest','Partner','Collaborate','Distribute Products','Share Knowledge','Start New','Assistance/Worker','Team Member','Others'] },
+        { id: 9, name: 'Media & Entertainment', subsectors: ['Invest','Partner','Collaborate','Produce Content','Market Events','Start New','Assistance/Worker','Team Member','Others'] },
+        { id: 10, name: 'Tourism & Hospitality', subsectors: ['Invest','Partner','Collaborate','Offer Services','Market Destinations','Start New','Assistance/Worker','Team Member','Others'] },
+        { id: 11, name: 'Transportation & Logistics', subsectors: ['Invest','Partner','Collaborate','Provide Services','Develop Solutions','Start New','Assistance/Worker','Team Member','Others'] },
+        { id: 12, name: 'Energy & Utilities', subsectors: ['Invest','Partner','Collaborate','Research & Development','Implement Solutions','Start New','Assistance/Worker','Team Member','Others'] },
+        { id: 13, name: 'Environmental & Sustainability', subsectors: ['Invest','Partner','Collaborate','Advocate','Implement projects','Start New','Assistance/Worker','Team Member','Others'] },
+        { id: 14, name: 'Arts & Culture', subsectors: ['Invest','Partner','Collaborate','Host Events','Share Expertise','Start New','Assistance/Worker','Team Member','Others'] },
+        { id: 15, name: 'Social Impact & Non-Profit', subsectors: ['Invest','Partner','Collaborate','Volunteer','Advocate for Causes','Start New','Assistance/Worker','Team Member','Others'] },
+    ];
+</script>
+
     <script>
         document.addEventListener('DOMContentLoaded', function () {
             var editButtons = document.querySelectorAll('.edit-btn');
@@ -231,4 +289,48 @@
             });
         });
     </script>
+    <script>
+        function populateSubsectors() {
+            var sectorDropdown = document.getElementById('sector');
+            var subsectorDropdown = document.getElementById('subsector');
+            var selectedSectorId = sectorDropdown.value;
+    
+            // Clear existing options
+            subsectorDropdown.innerHTML = '<option value="">Select Subsector</option>';
+    
+            // Find the selected sector object
+            var selectedSector = sectors.find(function(sector) {
+                return sector.id == selectedSectorId;
+            });
+    
+            // Populate subsector dropdown if a sector is selected
+            if (selectedSector) {
+                selectedSector.subsectors.forEach(function(subsector) {
+                    var option = document.createElement('option');
+                    option.value = subsector;
+                    option.textContent = subsector;
+                    subsectorDropdown.appendChild(option);
+                });
+            }
+        }
+    
+        // Function to initialize sectors dropdown
+        function initializeSectors() {
+            var sectorDropdown = document.getElementById('sector');
+    
+            // Populate sectors dropdown on page load
+            sectors.forEach(function(sector) {
+                var option = document.createElement('option');
+                option.value = sector.id;
+                option.textContent = sector.name;
+                sectorDropdown.appendChild(option);
+            });
+        }
+    
+        // Initialize sectors dropdown on page load
+        document.addEventListener('DOMContentLoaded', function() {
+            initializeSectors();
+        });
+    </script>
+    
 {% endblock javascript %}
