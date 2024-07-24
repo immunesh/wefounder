@@ -339,8 +339,8 @@ def accountProject_update(request, id=None):
     post = get_object_or_404(CommunityPost, id=id)
     
     if request.method == 'POST':
-        # post.category_id = request.POST.get('category')
-        post.category = request.POST.get('category')
+        post.category_id = request.POST.get('category')
+        # post.category = request.POST.get('category')
         post.sector = request.POST.get('sector')
         post.sub_sector = request.POST.get('sub_sector')
         post.title = request.POST.get('title')
