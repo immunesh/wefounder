@@ -6,7 +6,7 @@ from django.shortcuts import render, redirect, get_object_or_404
 from django.contrib.auth.hashers import make_password
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth import login, authenticate, logout
-from communities.models import CommunityCategory, CommunityPost,AddMyProject
+from communities.models import CommunityCategory, CommunityPost
 from django.core.paginator import Paginator
 from django.contrib.auth.models import User
 from django.core.mail import send_mail
@@ -253,82 +253,85 @@ def userProfile(request, username):
 def accountNotification(request):
     return render(request, 'user-account-dashboard/account-notification.html')
 
-# @login_required(login_url='signin')
-# def accountProjects(request):
-    
-#     if request.method == 'POST':
-#         role = request.POST.get('role')
-#         sector = request.POST.get('sector')
-#         sub_sector = request.POST.get('sub_sector')
-#         title = request.POST.get('title')
-#         description = request.POST.get('description')
-#         pdf=request.POST.get('pdf')
-
-#         user = request.user
-#         try:
-#             # category = CommunityCategory.objects.get(id=category_id)
-#             data = CommunityPost(
-#                 user=user,
-#                 role=role,
-#                 title=title,
-#                 sector=sector,
-#                 sub_sector=sub_sector,
-#                 description=description,
-#                 pdf=pdf,
-#             )
-#             print(data)
-#             data.save()
-#             messages.success(request, 'Successfully added new Project!')
-#         except CommunityCategory.DoesNotExist:
-#             messages.error(request, 'Category does not exist!')
-
-#         return redirect('/account-projects/')
-
-#     # communities = CommunityCategory.objects.all()
-#     projects = CommunityPost.objects.filter(user=request.user)
-
-#     context = {
-#         # 'communities': communities,
-#         'projects': projects,
-#     }
-
-#     return render(request, 'user-account-dashboard/account-projects.html', context)
 @login_required(login_url='signin')
-def Add_My_Project(request):
+def accountProjects(request):
+    
     if request.method == 'POST':
-        role=request.POST.get('role')
-        sector=request.POST.get('sector')
-        sub_sector=request.POST.get('sub_sector')
-        title=request.POST.get('title')
-        description=request.POST.get('description')
-        pdf=request.FILES.get('pdf')
-      
-        project = AddMyProject(
-            role=role,
-            sector=sector,
-            sub_sector=sub_sector,
-            title=title,
-            pdf=pdf,
-            description=description,
-            )
-        project.save()
-        context={
-            'data':project,
-        }
-        return render(request, 'user-account-dashboard/account-projects.html', context)
-    else:
-        return render(request, 'user-account-dashboard/account-projects.html')
+        category_id = request.POST.get('category')
+        title = request.POST.get('title')
+        sector = request.POST.get('sector')
+        sub_sector = request.POST.get('sub_sector')
+        description = request.POST.get('description')
 
-@login_required(login_url='signin')    
-def display_projects(request):
-    user=models.ForeignKey(User,on_delete=models.CASCADE)
-    projects = AddMyProject.objects.all() 
-    print(projects)
-    user=user 
+        user = request.user
+        try:
+            category = CommunityCategory.objects.get(id=category_id)
+            # sector=Sector.objects.get(id=sector_id)
+            # sub_sector=SubSector.objects.get(id=sub_sector_id)
+            data = CommunityPost(
+                user=user,
+                category=category,
+                title=title,
+                sector=sector,
+                sub_sector=sub_sector,
+                description=description,
+            )
+            data.save()
+            messages.success(request, 'Successfully added new Project!')
+        except CommunityCategory.DoesNotExist:
+            messages.error(request, 'Category does not exist!')
+
+        # return redirect('/account-projects/')
+
+    communities = CommunityCategory.objects.all()
+    projects = CommunityPost.objects.filter(user=request.user)
+
     context = {
+        'communities': communities,
         'projects': projects,
     }
     return render(request, 'user-account-dashboard/account-projects.html', context)
+
+
+# @login_required(login_url='signin')
+# def Add_My_Project(request):
+#     user=request.user
+#     if request.method == 'POST':
+#         role=request.POST.get('role')
+#         sector=request.POST.get('sector')
+#         sub_sector=request.POST.get('sub_sector')
+#         title=request.POST.get('title')
+#         description=request.POST.get('description','')
+#         pdf=request.FILES.get('pdf')
+
+#         project = AddMyProject(
+#             user=user,
+#             role=role,
+#             sector=sector,
+#             sub_sector=sub_sector,
+#             title=title,
+#             pdf=pdf,
+#             description=description,
+#             )
+#         project.save()
+        
+#     projects=AddMyProject.objects.filter(user=user)
+#     context={
+#             'projects':projects,
+#         }
+#     return render(request, 'user-account-dashboard/account-projects.html', context)
+
+
+# @login_required(login_url='signin')    
+# def display_projects(request):
+#     user=models.ForeignKey(User,on_delete=models.CASCADE)
+#     projects = AddMyProject.objects.all() 
+#     print(projects)
+#     user=user 
+#     context = {
+#         'projects': projects,
+#     }
+#     return render(request, 'user-account-dashboard/account-projects.html', context)
         
 
 @login_required(login_url='signin')
@@ -337,7 +340,7 @@ def accountProject_update(request, id=None):
     
     if request.method == 'POST':
         # post.category_id = request.POST.get('category')
-        post.role = request.POST.get('role')
+        post.category = request.POST.get('category')
         post.sector = request.POST.get('sector')
         post.sub_sector = request.POST.get('sub_sector')
         post.title = request.POST.get('title')
@@ -350,14 +353,14 @@ def accountProject_update(request, id=None):
     
     elif request.headers.get('x-requested-with') == 'XMLHttpRequest':
         data = {
-            # 'category': post.category_id,
+            'category': post.category_id,
            
-                'role': post.role,
+                # 'role': post.role,
                'title': post.title,
                 'sector':post.sector,
                 'sub_sector':post.sub_sector,
                 'description':post.description,
-                'pdf':post.pdf,
+                # 'pdf':post.pdf,
         }
         return JsonResponse(data)
     
