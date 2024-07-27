@@ -142,26 +142,19 @@
                                     <!-- Role -->
                                     <div class="col-md-6">
                                         <label class="form-label">Role</label>
-                                        <select class="form-select">
-                                            <option value="">--Select--</option>
-                                            <option value="Manager" {% if user.role == 'Manager' %}selected{% endif %}>Manager</option>
-                                            <option value="Developer" {% if user.role == 'Developer' %}selected{% endif %}>Developer</option>
-                                            <option value="Designer" {% if user.role == 'Designer' %}selected{% endif %}>Designer</option>
-                                            <option value="Analyst" {% if user.role == 'Analyst' %}selected{% endif %}>Analyst</option>
-                                            <option value="Full stack developer" {% if user.role == 'Full stack developer' %}selected{% endif %}>Full Stack Developer</option>
-                                        </select>
+                                        <input type="text" class="form-control" value="{{user.role}}" placeholder="Enter your Role">
                                     </div>                                                                      
 
                                     <!-- Company -->
                                     <div class="col-md-6">
-                                        <label class="form-label">Company</label>
-                                        <input type="text" class="form-control" value="{{user.company}}" placeholder="Enter your company name">
+                                        <label class="form-label">Sector</label>
+                                        <input type="text" class="form-control" value="{{user.sector}}" placeholder="Enter your sector">
                                     </div>
 
 
                                     <!-- Skills & Expertise -->
                                     <div class="col-12">
-                                        <label class="form-label">Your skills & expertise *</label>
+                                        <label class="form-label">Your Description</label>
                                         <textarea class="form-control" rows="3"
                                             placeholder="Outline your primary/core skills in a sentence or two. You can elaborate later.">{{user.skills_expertise}}</textarea>
                                         <small class="form-text">e.g. Python, ML/AI, developing expert systems,

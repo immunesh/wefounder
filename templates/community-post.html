@@ -70,64 +70,66 @@
                     <div class="text-center mb-5">
                         <h2>{{post.title}}</h2>
                     </div>
+                </div>
+            </div>
 
-                    <!-- Info -->
-                    <div class="card card-body bg-dark d-md-flex justify-content-md-between align-items-md-center flex-md-row p-5 mb-6"
-                        data-bs-theme="dark">
-                        <div class="mb-3 mb-md-0">
-                            <!-- Title -->
-                            <h4 class="mb-0">{{post.category}}</h4>
-                            <!-- List -->
-                            <div class="hstack gap-3 gap-md-4 flex-wrap mt-3" id="post-{{ post.id }}">
-                                <button id="like-btn" class="icon-btn bi bi-hand-thumbs-up" data-post-id="{{ post.id }}"> {{ post.likes }} </button>
-                                <button id="dislike-btn" class="icon-btn bi bi-hand-thumbs-down" data-post-id="{{ post.id }}"> {{post.dislikes}} </button>
-                                
-                                {% if post.location %}
-                                    <span><i class="bi bi-geo-alt me-2"></i>{{ post.location }}</span>
-                                {% endif %}
-                                
-                                {% if post.timeline %}
-                                    <span><i class="bi bi-clock me-2"></i>{{ post.timeline }}</span>
-                                {% endif %}
-                                
-                                {% if post.price %}
-                                    <span><i class="bi bi-briefcase me-2"></i>${{ post.price }}</span>
-                                {% endif %}
-                            </div>
-
+            <!-- Info -->
+            <div class="row">
+                <div class="card card-body bg-dark d-md-flex justify-content-md-between align-items-md-center flex-md-row p-5 mb-6"
+                    data-bs-theme="dark">
+                    <div class="mb-3 mb-md-0">
+                        <!-- Title -->
+                        <h4 class="mb-0">{{post.category.name}}</h4>
+                        <!-- List -->
+                        <div class="hstack gap-3 gap-md-4 flex-wrap mt-3" id="post-{{ post.id }}">
+                            <button id="like-btn" class="icon-btn bi bi-hand-thumbs-up" data-post-id="{{ post.id }}"> {{ post.likes }} </button>
+                            <button id="dislike-btn" class="icon-btn bi bi-hand-thumbs-down" data-post-id="{{ post.id }}"> {{post.dislikes}} </button>
                         </div>
-                        <!-- Button -->
-                        <a href="#contact-form" class="btn btn-primary mb-0">Apply now<i
-                                class="bi bi-arrow-right ms-2"></i></a>
+
                     </div>
+                    <!-- Button -->
+                    <a href="#contact-form" class="btn btn-primary mb-0">Apply now<i class="bi bi-arrow-right ms-2"></i></a>
+                </div>
+            </div>
+                    
 
-                    <!-- Detail list -->
-                    <div class="row">
-                        {% if post.skills %}
-                            <div class="col-md-6">
-                                <h6>Skills:</h6>
-                                <ul class="list-group list-group-borderless mb-4">
-                                    <li class="list-group-item d-flex mb-0"><i class="bi bi-patch-check text-primary me-2"></i>{{post.skills}}</li>
-                                </ul>
-                            </div>
-                        {% endif %}
-
-                        {% if post.responsibilities %}
-                        <div class="col-md-6">
-                            <h6>Responsibilities:</h6>
-                            <ul class="list-group list-group-borderless mb-4">
-                                <li class="list-group-item d-flex mb-0"><i
-                                        class="bi bi-patch-check text-primary me-2"></i>{{post.responsibilities}}</li>
-                                <li class="list-group-item d-flex mb-0"><i
-                                        class="bi bi-patch-check text-primary me-2"></i>Converting Design to Code</li>
-                            </ul>
-                        </div>
-                        {% endif %}
+            <!-- Detail list -->
+            <div class="row">
+                {% if post.sector %}
+                    <div class="col-md-6">
+                        <h6>Sector:</h6>
+                        <ul class="list-group list-group-borderless mb-4">
+                            <li class="list-group-item d-flex mb-0"><i class="bi bi-patch-check text-primary me-2"></i>{{post.sector}}</li>
+                        </ul>
                     </div>
+                {% endif %}
 
-                    <!-- Description -->
-                    <h6 class="mt-4">Description</h6>
-                    <p>{{post.description | safe}}</p>
+                {% if post.sub_sector %}
+                    <div class="col-md-6">
+                        <h6>Sub Sector:</h6>
+                        <ul class="list-group list-group-borderless mb-4">
+                            <li class="list-group-item d-flex mb-0"><i class="bi bi-patch-check text-primary me-2"></i>{{post.sub_sector}}</li>
+                        </ul>
+                    </div>
+                {% endif %}
+            </div>
+
+            <!-- Description -->
+            <div class="row">
+                <h6 class="mt-4">Description</h6>
+                <p>{{post.description}}</p>
+            </div>
+
+           <!-- pdf -->
+            <div class="row">
+                <h6 class="mt-4">Pdf</h6>
+                {% if post.pdf %}
+                    <a href="{{ post.pdf.url }}" target="_blank">{{post.pdf}}</a>
+                {% else %}
+                    <p>No PDF available.</p>
+                {% endif %}
+            </div>
+
 
                     <div class="card card-body bg-light border p-sm-5 mt-5" id="contact-form">
                         <!-- Review item -->

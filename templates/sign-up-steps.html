@@ -37,7 +37,7 @@
             if (el != 'undefined' && el != null) {
                 const showActiveTheme = theme => {
                     const activeThemeIcon = document.querySelector('.theme-icon-active use')
-                    const btnToActive = document.querySelector(`[data-bs-theme-value="${theme}"]`)
+                    const btnToActive = document.querySelector([data-bs-theme-value="${theme}"])
                     const svgOfActiveBtn = btnToActive.querySelector('.mode-switch use').getAttribute('href')
 
                     document.querySelectorAll('[data-bs-theme-value]').forEach(element => {
@@ -242,27 +242,30 @@
                             {% endfor %}
                             {% endif %}
                             <div class="input-floating-label form-floating mb-4">
-                                <input type="text" id="role" name="role" class="form-control" placeholder="Developer" required>
-                                <label for="role">Role</label>
+                                <select class="form-select form-select-lg" id="role" name="role" required>
+                                    <option selected="selected" disabled>Role</option>
+                                    <option>Freelancers</option>
+                                    <option>Collaborators</option>
+                                    <option>Investors</option>
+                                </select>
                             </div>
                             <div class="input-floating-label form-floating mb-4">
                             <select class="form-select form-select-lg" aria-label="Default Sector" name="sector" required>
-                                    <option selected="selected">Sector</option>
-                                    {% comment %} <option value="1">Sector</option> {% endcomment %}
-                                    <option value="2">Technology</option>
-                                    <option value="3">Healthcare</option>
-                                    <option value="4">Finance</option>
-                                    <option value="5">Retail & E-Commerce</option>
-                                    <option value="6">Product Manufacturing</option>
-                                    <option value="7">Education</option>
-                                    <option value="8">Real Estate</option>
-                                    <option value="9">Agriculture & Food</option>
-                                    <option value="10">Medical Entertainment</option>
-                                    <option value="11">Tourism & Hospitality</option>
-                                    <option value="12">Transportation & Logistics</option>
-                                    <option value="13">Energy & Utilities</option>
-                                    <option value="14">Environmental & Sustainability</option>
-                                    <option value="15">Social Impact & Non-Profit</option>
+                                    <option selected="selected" disabled>Sector</option>
+                                    <option>Technology</option>
+                                    <option>Healthcare</option>
+                                    <option>Finance</option>
+                                    <option>Retail & E-Commerce</option>
+                                    <option>Product Manufacturing</option>
+                                    <option>Education</option>
+                                    <option>Real Estate</option>
+                                    <option>Agriculture & Food</option>
+                                    <option>Medical Entertainment</option>
+                                    <option>Tourism & Hospitality</option>
+                                    <option>Transportation & Logistics</option>
+                                    <option>Energy & Utilities</option>
+                                    <option>Environmental & Sustainability</option>
+                                    <option>Social Impact & Non-Profit</option>
                                 </select>
                             </div>
 
@@ -278,42 +281,6 @@
                                 <button type="button" class="btn btn-dark mb-0" onclick="nextStep()">Next</button>
                             </div>
                         </div>
-                        <!-- Step 2 -->
-                        {% comment %} <div class="step">
-                            <a href="index.html"><img src="{% static 'theme-assets/images/logo-icon.svg' %}" class="h-50px mb-4" alt="logo"></a>
-                            <h2 class="mb-1">What are you looking for*</h2>
-                            <p class="mb-4">( Select at least one. max 3 )</p>
-                            <div class="options">
-                                {% for option in looking_for_options %}
-                                    <div class="form-check" style="padding-left: 0 !important;">
-                                        <input class="form-check-input" type="checkbox" id="{{ option.id }}" name="looking_for" value="{{ option.value }}">
-                                        <label class="form-check-label" for="{{ option.id }}">{{ option.label }}</label>
-                                    </div>
-                                {% endfor %}
-                            </div>
-                            <div class="mb-2">
-                                <button type="button" class="btn btn-dark mb-0" onclick="prevStep()">Previous</button>
-                                <button type="button" class="btn btn-dark mb-0" onclick="nextStep()">Next</button>
-                            </div>
-                        </div> {% endcomment %}
-                        <!-- Step 3 -->
-                        {% comment %} <div class="step">
-                            <a href="index.html"><img src="{% static 'theme-assets/images/logo-icon.svg' %}" class="h-50px mb-4" alt="logo"></a>
-                            <h2 class="mb-1">I can* <span style="font-family: 'Inter', sans-serif; font-size: 16px; color: #606261; font-weight: 400;">( How can you help other professionals )</span></h2>
-                            <p class="mb-4">( Select at least one. max 3 )</p>
-                            <div class="options">
-                                {% for option in i_can_options %}
-                                    <div class="form-check" style="padding-left: 0 !important;">
-                                        <input class="form-check-input" type="checkbox" id="{{ option.id }}" name="i_can" value="{{ option.value }}">
-                                        <label class="form-check-label" for="{{ option.id }}">{{ option.label }}</label>
-                                    </div>
-                                {% endfor %}
-                            </div>
-                            <div class="mb-2">
-                                <button type="button" class="btn btn-dark mb-0" onclick="prevStep()">Previous</button>
-                                <button type="button" class="btn btn-dark mb-0" onclick="nextStep()">Next</button>
-                            </div>
-                        </div> {% endcomment %}
                         <!-- Step 4 -->
                         <div class="step">
                             <a href="index.html"><img src="{% static 'theme-assets/images/logo-icon.svg' %}" class="h-50px mb-4" alt="logo"></a>

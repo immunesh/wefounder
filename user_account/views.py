@@ -28,6 +28,7 @@ from django.db.models import Avg,Count
 from .models import *
 
 
+
 @csrf_exempt
 def set_chat_user(request):
     if request.method == 'POST':
@@ -262,12 +263,11 @@ def accountProjects(request):
         sector = request.POST.get('sector')
         sub_sector = request.POST.get('sub_sector')
         description = request.POST.get('description')
-
+        pdf_file=request.FILES.get('pdf')
+       
         user = request.user
         try:
             category = CommunityCategory.objects.get(id=category_id)
-            # sector=Sector.objects.get(id=sector_id)
-            # sub_sector=SubSector.objects.get(id=sub_sector_id)
             data = CommunityPost(
                 user=user,
                 category=category,
@@ -275,13 +275,14 @@ def accountProjects(request):
                 sector=sector,
                 sub_sector=sub_sector,
                 description=description,
+                pdf=pdf_file,
             )
             data.save()
             messages.success(request, 'Successfully added new Project!')
         except CommunityCategory.DoesNotExist:
-            messages.error(request, 'Category does not exist!')
+            messages.error(request, 'Please select the Role field to proceed!')
 
-        # return redirect('/account-projects/')
+        return redirect('account_projects')
 
     communities = CommunityCategory.objects.all()
     projects = CommunityPost.objects.filter(user=request.user)
@@ -292,60 +293,17 @@ def accountProjects(request):
     }
     return render(request, 'user-account-dashboard/account-projects.html', context)
 
-
-# @login_required(login_url='signin')
-# def Add_My_Project(request):
-#     user=request.user
-#     if request.method == 'POST':
-#         role=request.POST.get('role')
-#         sector=request.POST.get('sector')
-#         sub_sector=request.POST.get('sub_sector')
-#         title=request.POST.get('title')
-#         description=request.POST.get('description','')
-#         pdf=request.FILES.get('pdf')
-
-#         project = AddMyProject(
-#             user=user,
-#             role=role,
-#             sector=sector,
-#             sub_sector=sub_sector,
-#             title=title,
-#             pdf=pdf,
-#             description=description,
-#             )
-#         project.save()
-        
-#     projects=AddMyProject.objects.filter(user=user)
-#     context={
-#             'projects':projects,
-#         }
-#     return render(request, 'user-account-dashboard/account-projects.html', context)
-
-
-# @login_required(login_url='signin')    
-# def display_projects(request):
-#     user=models.ForeignKey(User,on_delete=models.CASCADE)
-#     projects = AddMyProject.objects.all() 
-#     print(projects)
-#     user=user 
-#     context = {
-#         'projects': projects,
-#     }
-#     return render(request, 'user-account-dashboard/account-projects.html', context)
-        
-
 @login_required(login_url='signin')
 def accountProject_update(request, id=None):
     post = get_object_or_404(CommunityPost, id=id)
     
     if request.method == 'POST':
         post.category_id = request.POST.get('category')
-        # post.category = request.POST.get('category')
         post.sector = request.POST.get('sector')
         post.sub_sector = request.POST.get('sub_sector')
         post.title = request.POST.get('title')
         post.description = request.POST.get('description')
-        post.pdf=request.POST.get('pdf')
+        post.pdf=request.FILES.get('pdf')
         
         post.save()
         messages.success(request, "Post updated successfully.")
@@ -354,13 +312,11 @@ def accountProject_update(request, id=None):
     elif request.headers.get('x-requested-with') == 'XMLHttpRequest':
         data = {
             'category': post.category_id,
-           
-                # 'role': post.role,
-               'title': post.title,
-                'sector':post.sector,
-                'sub_sector':post.sub_sector,
-                'description':post.description,
-                # 'pdf':post.pdf,
+            'title': post.title,
+            'sector':post.sector,
+            'sub_sector':post.sub_sector,
+            'description':post.description,
+            'pdf':post.pdf.url if post.pdf else None,
         }
         return JsonResponse(data)
     
@@ -459,7 +415,3 @@ def PasswordResetConfirm(request, uidb64=None, token=None):
 
 def PasswordResetDone(request):
     return render (request,'password/password_reset_done.html')
-
-
-
-
