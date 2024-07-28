@@ -75,7 +75,7 @@
                             <ul class="list-unstyled">
                                 {% if paginated_posts.has_previous %}
                                     <li class="page-item">
-                                        <a class="page-link" href="?page={{ paginated_posts.previous_page_number }}{% if request.GET.search_filter %}&search_filter={{ request.GET.search_filter }}{% endif %}">Prev</a>
+                                        <a class="page-link" href="?page={{ paginated_posts.previous_page_number }}{% if request.GET.search_filter %}&search_filter={{ request.GET.search_filter }}{% endif %}{% if request.GET.community %}&community={{ request.GET.community }}{% endif %}">Prev</a>
                                     </li>
                                 {% else %}
                                     <li class="page-item disabled">
@@ -88,14 +88,14 @@
                                     {% if page_number == paginated_posts.number %}
                                         <li class="page-item active"><a class="page-link" href="#">{{ page_number }}</a></li>
                                     {% else %}
-                                        <li class="page-item"><a class="page-link" href="?page={{ page_number }}{% if request.GET.search_filter %}&search_filter={{ request.GET.search_filter }}{% endif %}">{{ page_number }}</a></li>
+                                        <li class="page-item"><a class="page-link" href="?page={{ page_number }}{% if request.GET.search_filter %}&search_filter={{ request.GET.search_filter }}{% endif %}{% if request.GET.community %}&community={{ request.GET.community }}{% endif %}">{{ page_number }}</a></li>
                                     {% endif %}
                                 {% endfor %}
 
                                 <!-- Next page link -->
                                 {% if paginated_posts.has_next %}
                                     <li class="page-item">
-                                        <a class="page-link" href="?page={{ paginated_posts.next_page_number }}{% if request.GET.search_filter %}&search_filter={{ request.GET.search_filter }}{% endif %}">Next</a>
+                                        <a class="page-link" href="?page={{ paginated_posts.next_page_number }}{% if request.GET.search_filter %}&search_filter={{ request.GET.search_filter }}{% endif %}{% if request.GET.community %}&community={{ request.GET.community }}{% endif %}">Next</a>
                                     </li>
                                 {% else %}
                                     <li class="page-item disabled">
