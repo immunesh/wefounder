@@ -3,12 +3,13 @@ from django.conf import settings
 from django.urls import path, include
 from django.conf.urls.static import static
 
-urlpatterns = [ 
+urlpatterns = [
     path('admin/', admin.site.urls),
-    path('',include("core.urls")),
-    path('',include("user_account.urls")),
-    path('',include("communities.urls")),
-    path('',include("blog.urls")),
+    path('', include('core.urls')),         
+    path('user/', include('user_account.urls')),  
+    path('community/', include('communities.urls')), 
+    path('blog/', include('blog.urls')), 
 ]
 
-urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
+if settings.DEBUG:
+    urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

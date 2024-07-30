@@ -1,10 +1,9 @@
 from django.contrib import messages
 from django.http import JsonResponse
 from .models import CustomUser, Review
-from django.db.models import Avg, Count
-from django.shortcuts import render, redirect
+from django.db.models import Q
+from django.shortcuts import render, redirect, get_object_or_404
 from django.contrib.auth.hashers import make_password
-from django.shortcuts import render, get_object_or_404
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth import login, authenticate, logout
 from communities.models import CommunityCategory, CommunityPost
@@ -20,6 +19,73 @@ from django.conf import settings
 from django.urls import reverse
 from django.http import HttpResponse
 from user_account.models import CustomUser
+from django.http import JsonResponse
+from django.views.decorators.csrf import csrf_exempt
+import json
+from django.urls import reverse_lazy
+from django.contrib.auth import views as auth_views
+from django.db.models import Avg,Count
+from .models import *
+
+
+
+@csrf_exempt
+def set_chat_user(request):
+    if request.method == 'POST':
+        data = json.loads(request.body)
+        request.session['chat_user_id'] = data.get('user_id')
+        request.session['chat_user_name'] = data.get('user_name')
+        request.session['chat_user_email'] = data.get('user_email')
+        return JsonResponse({'status': 'success'})
+    return JsonResponse({'status': 'error'}, status=400)
+
+
+@login_required
+def chat_messages(request):
+    user_id = request.GET.get('user_id')
+    messages = [] 
+    return JsonResponse({'messages': messages})
+
+
+
+@login_required
+def chat_view(request, user_id):
+    user = get_object_or_404(CustomUser, id=user_id)
+    room_name = f"chat_{request.user.id}_{user_id}"
+    return render(request, 'user-account-dashboard/chat.html', {
+        'user': user,
+        'room_name': room_name
+    })
+
+
+
+
+    
+def chat_list_view(request):
+    # Your view logic here, if any
+    return render(request, 'user-account-dashboard/chat.html')
+
+@login_required
+def message(request):
+    # Logic for messages view
+    return render(request, 'user-account-dashboard/messages.html')
+
+
+
+@login_required
+def search_profiles(request):
+    query = request.GET.get('q')
+    results = CustomUser.objects.filter(
+        Q(full_name__icontains=query) |
+        Q(role__icontains=query) |
+        Q(company__icontains=query) |
+        Q(city__icontains=query) |
+        Q(zip_code__icontains=query)
+    )
+    return render(request, 'user-account-dashboard/messages.html', {'results': results, 'query': query})
+
+
+
 
 # Create your views here.
 def signUp(request):
@@ -67,26 +133,24 @@ def signUpSteps(request, user_id):
 
     if request.method == "POST":
         role = request.POST.get('role')
-        company = request.POST.get('company')
+        sector = request.POST.get('sector')
         city = request.POST.get('city')
         zip_code = request.POST.get('zip_code')
-        looking_for = request.POST.getlist('looking_for')
-        i_can = request.POST.getlist('i_can')
         skills_expertise = request.POST.get('skills_expertise')
+        cv=request.POST.get('cv')
 
         # Validate that all fields are provided
-        if not all([role, company, city, zip_code, looking_for, i_can, skills_expertise]):
+        if not all([role, sector, city, zip_code, skills_expertise]):
             messages.error(request, "All fields are required.")
             return render(request, 'sign-up-steps.html', {'user': user})
 
         # Update the user with additional information
         user.role = role
-        user.company = company
+        user.sector = sector
         user.city = city
         user.zip_code = zip_code
-        user.looking_for = looking_for
-        user.i_can = i_can
         user.skills_expertise = skills_expertise
+        user.cv=cv
         user.save()
 
         login(request, user)
@@ -95,49 +159,7 @@ def signUpSteps(request, user_id):
     
     context = {
         'user': user,
-        'looking_for_options': [
-            {'id': 'advisor', 'value': 'Advisor', 'label': 'Advisor'},
-            {'id': 'job', 'value': 'Job', 'label': 'Job'},
-            {'id': 'mentor', 'value': 'Mentor', 'label': 'Mentor'},
-            {'id': 'investor', 'value': 'Investor', 'label': 'Investor'},
-            {'id': 'collaborator', 'value': 'Collaborator', 'label': 'Collaborator'},
-            {'id': 'warm_intro', 'value': 'Warm_intro', 'label': 'Warm intro'},
-            {'id': 'feedback', 'value': 'Feedback', 'label': 'Feedback'},
-            {'id': 'cofounder', 'value': 'Co-founder', 'label': 'Co-founder'},
-            {'id': 'freelancer_consultant', 'value': 'Freelancer_consultant', 'label': 'Freelancer/consultant'},
-            {'id': 'volunteers', 'value': 'Volunteers', 'label': 'Volunteers'},
-            {'id': 'internship', 'value': 'Internship', 'label': 'Internship'},
-            {'id': 'startup_to_join', 'value': 'Startup_to_join', 'label': 'Startup to join'},
-            {'id': 'press_publicity', 'value': 'Press_Publicity', 'label': 'Press/Publicity'},
-            {'id': 'users_customers', 'value': 'Users_customers', 'label': 'Users/customers'},
-            {'id': 'inspiration', 'value': 'Inspiration', 'label': 'Inspiration'},
-            {'id': 'smart_people', 'value': 'Smart_people', 'label': 'Smart people'},
-            {'id': 'new_perspectives', 'value': 'New_perspectives', 'label': 'New perspectives'},
-            {'id': 'next_unicorn', 'value': 'Next_unicorn', 'label': 'Next unicorn'},
-            {'id': 'next_challenge', 'value': 'Next_challenge', 'label': 'Next challenge'},
-            {'id': 'moonshots', 'value': 'Moonshots', 'label': 'Moonshots'},
-            {'id': 'an_active_network', 'value': 'An_active_network', 'label': 'An active network'},
-            {'id': 'startup_ideas', 'value': 'Startup_ideas', 'label': 'Startup ideas'},
-            {'id': 'grow_my_startup', 'value': 'Grow_my_startup', 'label': 'Grow my startup'},
-            {'id': 'learn_something_new', 'value': 'Learn_something_new', 'label': 'Learn something new'},
-            {'id': 'upskill', 'value': 'Upskill', 'label': 'Upskill'},
-        ],
-        'i_can_options': [
-            {'id': 'invest', 'value': 'Invest', 'label': 'Invest'},
-            {'id': 'collaborat', 'value': 'Collaborator', 'label': 'Collaborator'},
-            {'id': 'introduce', 'value': 'Introduce you', 'label': 'Introduce you'},
-            {'id': 'give_feedback', 'value': 'Give Feedback', 'label': 'Give Feedback'},
-            {'id': 'teach', 'value': 'Teach', 'label': 'Teach'},
-            {'id': 'freelancer_consult', 'value': 'Freelancer Consult', 'label': 'Freelancer/Consult'},
-            {'id': 'volunteer', 'value': 'Volunteer', 'label': 'Volunteer'},
-            {'id': 'cofound', 'value': 'Co-found', 'label': 'Co-found'},
-            {'id': 'sell', 'value': 'Sell', 'label': 'Sell'},
-            {'id': 'promote_product', 'value': 'Promote Product', 'label': 'Promote product'},
-            {'id': 'speak_events', 'value': 'Speak at events', 'label': 'Speak at events'},
-            {'id': 'create_content', 'value': 'Create Content', 'label': 'Create Content'},
-            {'id': 'growth_hack', 'value': 'Growth Hack', 'label': 'Growth Hack'},
-            {'id': 'ideate', 'value': 'Ideate', 'label': 'Ideate'},
-        ],
+        
     }
 
     return render(request, 'sign-up-steps.html', context)
@@ -149,6 +171,16 @@ def signIn(request):
 
         if not username or not password:
             messages.error(request, "All fields are required.")
+            return render(request, 'sign-in.html')
+         # Print statements for debugging
+        print(f"Username: {username}")
+        print(f"Password: {password}")
+
+        try:
+            user_exists = CustomUser.objects.get(username=username)
+            print(f"User exists: {user_exists}")
+        except User.DoesNotExist:
+            messages.error(request, "Invalid username or password.")
             return render(request, 'sign-in.html')
 
         user = authenticate(request, username=username, password=password)
@@ -215,49 +247,6 @@ def userProfile(request, username):
     user = get_object_or_404(CustomUser, username=username)
     context = {
         'user': user,
-        'looking_for_options': [
-            {'id': 'advisor', 'value': 'Advisor', 'label': 'Advisor'},
-            {'id': 'job', 'value': 'Job', 'label': 'Job'},
-            {'id': 'mentor', 'value': 'Mentor', 'label': 'Mentor'},
-            {'id': 'investor', 'value': 'Investor', 'label': 'Investor'},
-            {'id': 'collaborator', 'value': 'Collaborator', 'label': 'Collaborator'},
-            {'id': 'warm_intro', 'value': 'Warm_intro', 'label': 'Warm intro'},
-            {'id': 'feedback', 'value': 'Feedback', 'label': 'Feedback'},
-            {'id': 'cofounder', 'value': 'Co-founder', 'label': 'Co-founder'},
-            {'id': 'freelancer_consultant', 'value': 'Freelancer_consultant', 'label': 'Freelancer/consultant'},
-            {'id': 'volunteers', 'value': 'Volunteers', 'label': 'Volunteers'},
-            {'id': 'internship', 'value': 'Internship', 'label': 'Internship'},
-            {'id': 'startup_to_join', 'value': 'Startup_to_join', 'label': 'Startup to join'},
-            {'id': 'press_publicity', 'value': 'Press_Publicity', 'label': 'Press/Publicity'},
-            {'id': 'users_customers', 'value': 'Users_customers', 'label': 'Users/customers'},
-            {'id': 'inspiration', 'value': 'Inspiration', 'label': 'Inspiration'},
-            {'id': 'smart_people', 'value': 'Smart_people', 'label': 'Smart people'},
-            {'id': 'new_perspectives', 'value': 'New_perspectives', 'label': 'New perspectives'},
-            {'id': 'next_unicorn', 'value': 'Next_unicorn', 'label': 'Next unicorn'},
-            {'id': 'next_challenge', 'value': 'Next_challenge', 'label': 'Next challenge'},
-            {'id': 'moonshots', 'value': 'Moonshots', 'label': 'Moonshots'},
-            {'id': 'an_active_network', 'value': 'An_active_network', 'label': 'An active network'},
-            {'id': 'startup_ideas', 'value': 'Startup_ideas', 'label': 'Startup ideas'},
-            {'id': 'grow_my_startup', 'value': 'Grow_my_startup', 'label': 'Grow my startup'},
-            {'id': 'learn_something_new', 'value': 'Learn_something_new', 'label': 'Learn something new'},
-            {'id': 'upskill', 'value': 'Upskill', 'label': 'Upskill'},
-        ],
-        'i_can_options': [
-            {'id': 'invest', 'value': 'Invest', 'label': 'Invest'},
-            {'id': 'collaborat', 'value': 'Collaborator', 'label': 'Collaborator'},
-            {'id': 'introduce', 'value': 'Introduce you', 'label': 'Introduce you'},
-            {'id': 'give_feedback', 'value': 'Give Feedback', 'label': 'Give Feedback'},
-            {'id': 'teach', 'value': 'Teach', 'label': 'Teach'},
-            {'id': 'freelancer_consult', 'value': 'Freelancer Consult', 'label': 'Freelancer/Consult'},
-            {'id': 'volunteer', 'value': 'Volunteer', 'label': 'Volunteer'},
-            {'id': 'cofound', 'value': 'Co-found', 'label': 'Co-found'},
-            {'id': 'sell', 'value': 'Sell', 'label': 'Sell'},
-            {'id': 'promote_product', 'value': 'Promote Product', 'label': 'Promote product'},
-            {'id': 'speak_events', 'value': 'Speak at events', 'label': 'Speak at events'},
-            {'id': 'create_content', 'value': 'Create Content', 'label': 'Create Content'},
-            {'id': 'growth_hack', 'value': 'Growth Hack', 'label': 'Growth Hack'},
-            {'id': 'ideate', 'value': 'Ideate', 'label': 'Ideate'},
-        ],
     }
     return render(request, 'user-account-dashboard/account-detail.html', context)
 
@@ -271,35 +260,29 @@ def accountProjects(request):
     if request.method == 'POST':
         category_id = request.POST.get('category')
         title = request.POST.get('title')
-        timeline = request.POST.get('timeline')
-        price = request.POST.get('price')
-        skills = request.POST.get('skills')
-        responsibilities = request.POST.get('responsibilities')
+        sector = request.POST.get('sector')
+        sub_sector = request.POST.get('sub_sector')
         description = request.POST.get('description')
-
+        pdf_file=request.FILES.get('pdf')
+       
         user = request.user
-
-        if not price:
-            price = 0
-
         try:
             category = CommunityCategory.objects.get(id=category_id)
             data = CommunityPost(
                 user=user,
                 category=category,
                 title=title,
-                timeline=timeline,
-                price=price,
-                skills=skills,
-                responsibilities=responsibilities,
+                sector=sector,
+                sub_sector=sub_sector,
                 description=description,
+                pdf=pdf_file,
             )
             data.save()
             messages.success(request, 'Successfully added new Project!')
         except CommunityCategory.DoesNotExist:
-            messages.error(request, 'Category does not exist!')
+            messages.error(request, 'Please select the Role field to proceed!')
 
-        return redirect('/account-projects/')
+        return redirect('account_projects')
 
     communities = CommunityCategory.objects.all()
     projects = CommunityPost.objects.filter(user=request.user)
@@ -308,7 +291,6 @@ def accountProjects(request):
         'communities': communities,
         'projects': projects,
     }
-
     return render(request, 'user-account-dashboard/account-projects.html', context)
 
 @login_required(login_url='signin')
@@ -317,12 +299,11 @@ def accountProject_update(request, id=None):
     
     if request.method == 'POST':
         post.category_id = request.POST.get('category')
+        post.sector = request.POST.get('sector')
+        post.sub_sector = request.POST.get('sub_sector')
         post.title = request.POST.get('title')
-        post.timeline = request.POST.get('timeline')
-        post.price = request.POST.get('price')
-        post.skills = request.POST.get('skills')
-        post.responsibilities = request.POST.get('responsibilities')
         post.description = request.POST.get('description')
+        post.pdf=request.FILES.get('pdf')
         
         post.save()
         messages.success(request, "Post updated successfully.")
@@ -332,11 +313,10 @@ def accountProject_update(request, id=None):
         data = {
             'category': post.category_id,
             'title': post.title,
-            'timeline': post.timeline,
-            'price': post.price,
-            'skills': post.skills,
-            'responsibilities': post.responsibilities,
-            'description': post.description,
+            'sector':post.sector,
+            'sub_sector':post.sub_sector,
+            'description':post.description,
+            'pdf':post.pdf.url if post.pdf else None,
         }
         return JsonResponse(data)
     
@@ -433,4 +413,5 @@ def PasswordResetConfirm(request, uidb64=None, token=None):
             return HttpResponse("Invalid token.")
     return render(request, 'password/password_reset_confirm.html', {'uidb64': uidb64, 'token': token})
 
-
+def PasswordResetDone(request):
+    return render (request,'password/password_reset_done.html')

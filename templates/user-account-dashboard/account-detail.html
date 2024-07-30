@@ -142,53 +142,19 @@
                                     <!-- Role -->
                                     <div class="col-md-6">
                                         <label class="form-label">Role</label>
-                                        <select class="form-select">
-                                            <option value="">--Select--</option>
-                                            <option value="Manager" {% if user.role == 'Manager' %}selected{% endif %}>Manager</option>
-                                            <option value="Developer" {% if user.role == 'Developer' %}selected{% endif %}>Developer</option>
-                                            <option value="Designer" {% if user.role == 'Designer' %}selected{% endif %}>Designer</option>
-                                            <option value="Analyst" {% if user.role == 'Analyst' %}selected{% endif %}>Analyst</option>
-                                            <option value="Full stack developer" {% if user.role == 'Full stack developer' %}selected{% endif %}>Full Stack Developer</option>
-                                        </select>
+                                        <input type="text" class="form-control" value="{{user.role}}" placeholder="Enter your Role">
                                     </div>                                                                      
 
                                     <!-- Company -->
                                     <div class="col-md-6">
-                                        <label class="form-label">Company</label>
-                                        <input type="text" class="form-control" value="{{user.company}}" placeholder="Enter your company name">
+                                        <label class="form-label">Sector</label>
+                                        <input type="text" class="form-control" value="{{user.sector}}" placeholder="Enter your sector">
                                     </div>
 
-                                    <!-- Looking For -->
-                                    <div class="col-md-6">
-                                        <label class="form-label">What are you looking for *</label>
-                                        <div class="options">
-                                            {% for option in looking_for_options %}
-                                                <div class="form-check" style="padding-left: 0 !important;">
-                                                    <input class="form-check-input" type="checkbox" id="looking_for_{{ option.id }}" name="looking_for" value="{{ option.value }}" {% if option.value in user.looking_for %}checked{% endif %}>
-                                                    <label class="form-check-label" for="looking_for_{{ option.id }}">{{ option.label }}</label>
-                                                </div>
-                                            {% endfor %}
-                                        </div>
-                                        <small class="form-text">Select at least one and up to three options.</small>
-                                    </div>
-
-                                    <!-- Can Do -->
-                                    <div class="col-md-6">
-                                        <label class="form-label">I can *</label>
-                                        <div class="options">
-                                            {% for option in i_can_options %}
-                                                <div class="form-check" style="padding-left: 0 !important;">
-                                                    <input class="form-check-input" type="checkbox" id="can_do_{{ option.id }}" name="can_do" value="{{ option.value }}" {% if option.value in user.i_can %}checked{% endif %}>
-                                                    <label class="form-check-label" for="can_do_{{ option.id }}">{{ option.label }}</label>
-                                                </div>
-                                            {% endfor %}
-                                        </div>
-                                        <small class="form-text">Select at least one and up to three options.</small>
-                                    </div>
 
                                     <!-- Skills & Expertise -->
                                     <div class="col-12">
-                                        <label class="form-label">Your skills & expertise *</label>
+                                        <label class="form-label">Your Description</label>
                                         <textarea class="form-control" rows="3"
                                             placeholder="Outline your primary/core skills in a sentence or two. You can elaborate later.">{{user.skills_expertise}}</textarea>
                                         <small class="form-text">e.g. Python, ML/AI, developing expert systems,
@@ -200,7 +166,7 @@
                                     <div class="col-12">
                                         <label class="form-label">Address</label>
                                         <textarea class="form-control" rows="3"
-                                            spellcheck="false">2119 N Division Ave, New Hampshire, York, United States</textarea>
+                                            spellcheck="false">Please enter your address here.</textarea>
                                     </div>
 
                                     <!-- Button -->
