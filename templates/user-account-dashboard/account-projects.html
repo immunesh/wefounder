@@ -40,7 +40,7 @@
                     </div>
                     <div class="col-md-6 mb-4">
                         <label class="form-label heading-color">Upload PDF</label>
-                        <input type="file" class="form-control form-control-lg" name="pdf">
+                        <input type="file" class="form-control form-control-lg" name="pdf" required>
                     </div>
                     <div class="input-floating-label form-floating mb-4">
                         <button type="submit" class="btn btn-primary">Submit</button>
@@ -90,7 +90,7 @@
                     </div>
                     <div class="col-md-6 mb-4">
                         <label class="form-label heading-color">Upload PDF</label>
-                        <input type="file" class="form-control form-control-lg" name="pdf" id="pdf">
+                        <input type="file" class="form-control form-control-lg" name="pdf" id="pdf" required>
                     </div>
                     <div class="input-floating-label form-floating mb-4">
                         <button type="submit" value="submit" class="btn btn-primary">Submit</button>
@@ -154,18 +154,24 @@
             <!-- Table head -->
             <thead class="thead-dark">
                 <tr>
-                    <th scope="col" class="border-0 text-white text-center">Title</th>
-                    <th scope="col" class="border-0 text-white text-center">Sector</th>
-                    <th scope="col" class="border-0 text-white text-center rounded-end">Sub_Sector</th>
+                    <th scope="col" class="border-0 text-white ">Title</th>
+                    <th scope="col" class="border-0 text-white ">Sector</th>
+                    <th scope="col" class="border-0 text-white rounded-end">Sub_Sector</th>
                 </tr>
             </thead>
             <!-- Table body START -->
             <tbody>
                 {% for project in projects %}
                 <!-- Table row -->
-                <tr>
+                <tr data-href="{% url 'community_single' project.slug %}">
                     <!-- Table data -->
-                    <td>{{project.title}}</td>
+                    <td>
+                        {% if project.title|length > 25 %}
+                        {{ project.title|slice:":25" }}......... 
+                    {% else %}
+                        {{ project.title }}
+                    {% endif %}
+                    </td>
                     <!-- Table data -->
                     <td>{{project.sector}}</td>
                     <!-- Table data -->
@@ -288,7 +294,30 @@
         });
     });
 </script>
+<!--rows of table clickable-->
+<script>
+    document.addEventListener('DOMContentLoaded', function () {
+        const rows = document.querySelectorAll('tr[data-href]');
+        
+        rows.forEach(row => {
+            row.addEventListener('click', function () {
+                window.location.href = this.dataset.href;
+            });
+    
+            // Prevent row click when clicking on a button
+            const buttons = row.querySelectorAll('a');
+            buttons.forEach(button => {
+                button.addEventListener('click', function (e) {
+                    e.stopPropagation();
+                });
+            });
+        });
+    });
+    </script>
+    
 
 
 
 {% endblock javascript %}
+
+
