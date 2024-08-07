@@ -26,51 +26,63 @@ from django.urls import reverse_lazy
 from django.contrib.auth import views as auth_views
 from django.db.models import Avg,Count
 from .models import *
-
-
+from django.contrib.auth import update_session_auth_hash
 
 @csrf_exempt
 def set_chat_user(request):
     if request.method == 'POST':
-        data = json.loads(request.body)
-        request.session['chat_user_id'] = data.get('user_id')
-        request.session['chat_user_name'] = data.get('user_name')
-        request.session['chat_user_email'] = data.get('user_email')
-        return JsonResponse({'status': 'success'})
-    return JsonResponse({'status': 'error'}, status=400)
+        try:
+            data = json.loads(request.body)
+            user_id = data.get('user_id')
+            user_name = data.get('user_name')
+            user_email = data.get('user_email')
+
+            if not user_id or not user_name or not user_email:
+                return JsonResponse({'status': 'error', 'message': 'Missing fields'}, status=400)
+
+            request.session['chat_user_id'] = user_id
+            request.session['chat_user_name'] = user_name
+            request.session['chat_user_email'] = user_email
+            return JsonResponse({'status': 'success'})
+        except json.JSONDecodeError:
+            return JsonResponse({'status': 'error', 'message': 'Invalid JSON'}, status=400)
+    return JsonResponse({'status': 'error', 'message': 'Invalid request method'}, status=400)
 
 
 @login_required
 def chat_messages(request):
     user_id = request.GET.get('user_id')
-    messages = [] 
-    return JsonResponse({'messages': messages})
-
-
+    if not user_id:
+        return JsonResponse({'status': 'error', 'message': 'User ID not provided'}, status=400)
+    try:
+        messages = Message.objects.filter(room__participants__id=user_id).values('username', 'message', 'timestamp')
+        return JsonResponse({'messages': list(messages)})
+    except Exception as e:
+        return JsonResponse({'status': 'error', 'message': str(e)}, status=500)
 
 @login_required
 def chat_view(request, user_id):
     user = get_object_or_404(CustomUser, id=user_id)
     room_name = f"chat_{request.user.id}_{user_id}"
-    return render(request, 'user-account-dashboard/chat.html', {
-        'user': user,
-        'room_name': room_name
-    })
+    return render(request, 'user-account-dashboard/chat.html', {'user': user, 'room_name': room_name })
 
-
-
-
-    
 def chat_list_view(request):
     # Your view logic here, if any
     return render(request, 'user-account-dashboard/chat.html')
 
+# def rooms(request):
+#     rooms=Room.objects.all()
+#     return render(request,'user-account-dashboard/chat.html',{"rooms":rooms})
+
+# def room(request,slug):
+#     room_name=Room.objects.get(slug=slug).name
+#     messages=Message.objects.filter(room=Room.objects.get(slug=slug))
+#     context={"slug":slug,"room_name":room_name,"messages":messages}
+#     return render(request,"user-account-dashboard/chat.html",context)
+
 @login_required
 def message(request):
-    # Logic for messages view
     return render(request, 'user-account-dashboard/messages.html')
-
-
 
 @login_required
 def search_profiles(request):
@@ -83,9 +95,6 @@ def search_profiles(request):
         Q(zip_code__icontains=query)
     )
     return render(request, 'user-account-dashboard/messages.html', {'results': results, 'query': query})
-
-
-
 
 # Create your views here.
 def signUp(request):
@@ -172,9 +181,6 @@ def signIn(request):
         if not username or not password:
             messages.error(request, "All fields are required.")
             return render(request, 'sign-in.html')
-         # Print statements for debugging
-        print(f"Username: {username}")
-        print(f"Password: {password}")
 
         try:
             user_exists = CustomUser.objects.get(username=username)
@@ -193,31 +199,49 @@ def signIn(request):
             return render(request, 'sign-in.html')
 
     return render(request, 'sign-in.html')
-
-@login_required(login_url='signin')
+@login_required
 def updateProfile(request, username):
-    try:
-        user = CustomUser.objects.get(username=username)
-    except CustomUser.DoesNotExist:
-        messages.error(request, "User does not exist.")
-        return redirect('signUp')
+    user = get_object_or_404(CustomUser, username=username)
+
+    if request.method == 'POST':
+        # Handle profile image upload
+        if 'profile_image' in request.FILES:
+            user.profile_image = request.FILES['profile_image']
+        
+            # Update profile information
+            user.full_name = request.POST.get('full_name', user.full_name)
+            user.username = request.POST.get('username', user.username)
+            user.email = request.POST.get('email', user.email)
+            user.phone = request.POST.get('phone', user.phone)
+            user.nationality = request.POST.get('nationality', user.nationality)
+            user.gender = request.POST.get('gender', user.gender)
+            user.role = request.POST.get('role', user.role)
+            user.sector = request.POST.get('sector', user.sector)
+            user.skills_expertise = request.POST.get('skills_expertise', user.skills_expertise)
+            user.address = request.POST.get('address', user.address)
+
+            #saving profile
+            user.save()
+            messages.success(request, "Profile updated successfully!")
+
+            return redirect('viewProfile',username=user.username) 
     
-    if request.method == "POST":
-        email = request.POST.get('email')
+        # Handle email update
+        new_email = request.POST.get('email')
+        if new_email and new_email != user.email:
+            user.email = new_email
+            #saving profile
+            user.save()
+            messages.success(request, "Email updated successfully!")
+
+            return redirect('viewProfile',username=user.username) 
+
+        # Handle password change
         current_pass = request.POST.get('current_pass')
         new_password = request.POST.get('new_password')
         cf_new_password = request.POST.get('cf_new_password')
-
-        # Update email if provided
-        if email:
-            user.email = email
-            user.save()
-            print("Email updated successfully.")
-            messages.success(request, "Email updated successfully.")
-            return redirect('viewProfile', user.username)
-
-        # Update password if new passwords match and current password is correct
-        if new_password and cf_new_password:
+        
+        if current_pass and new_password and cf_new_password:
             if new_password == cf_new_password:
                 if authenticate(username=user.username, password=current_pass):
                     user.set_password(new_password)
@@ -234,8 +258,10 @@ def updateProfile(request, username):
                 print("New passwords do not match.")
                 messages.error(request, "New passwords do not match.")
                 return redirect('viewProfile', user.username)
-    
-    return redirect('viewProfile', user.username)
+
+    return render(request, 'user-account-dashboard/user-profile.html', {'user': user})
+
+
 
 @login_required(login_url='signin')
 def logOut(request):
@@ -245,6 +271,7 @@ def logOut(request):
 @login_required(login_url='signin')
 def userProfile(request, username):
     user = get_object_or_404(CustomUser, username=username)
+
     context = {
         'user': user,
     }
@@ -393,7 +420,7 @@ def PasswordReset(request):
                 }
                 email = render_to_string(email_template_name, c)
                 send_mail(subject, email, settings.DEFAULT_FROM_EMAIL, [user.email], fail_silently=False)
-            return redirect("/password_reset/done/")
+            return redirect('password_reset_done')
     return render(request, "password/password_reset.html")
 
 def PasswordResetConfirm(request, uidb64=None, token=None):

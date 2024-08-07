@@ -88,7 +88,7 @@
 
                     </div>
                     <!-- Button -->
-                    <a href="#contact-form" class="btn btn-primary mb-0">Apply now<i class="bi bi-arrow-right ms-2"></i></a>
+                    <a href="{% url 'chat_list_view' %}" class="btn btn-primary mb-0">Chat<i class="bi bi-arrow-right ms-2"></i></a>
                 </div>
             </div>
                     
@@ -161,7 +161,7 @@
                                 <p>{{post.user.skills_expertise}}</p>
                     
                                 <a href="{% url "profile" post.user.username %}" class="btn btn-dark rounded-2 mb-0">Profile</a>
-                                <a href="{% url "home" %}" class="btn btn-dark rounded-2 mb-0">Chat</a>    
+                                <a href="{% url "chat_view" user.id %}" class="btn btn-dark rounded-2 mb-0">Chat</a>    
                             </div>
                         </div>
                     </div>

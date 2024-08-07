@@ -45,7 +45,7 @@
                         <!-- List -->
                         <p class="mt-3">
                             {% if post.description|length > 300 %}
-                                {{ post.description|slice:":300" }}......... 
+                                {{ post.description|slice:":300" }}.......<a href="{% url 'community_single' post.slug %}" ><strong>Read More</strong></a> 
                             {% else %}
                                 {{ post.description }}
                             {% endif %}
@@ -58,7 +58,7 @@
                     </div>
                     <!-- Button -->
                     <div id="cp_btn" style="display: flex; width: -webkit-fill-available; flex-direction: row-reverse;">
-                        <a href="{% url 'community_single' post.slug %}" class="btn btn-primary mb-0">Read more<i class="bi bi-arrow-right ms-2"></i></a>
+                        <a href="{% url 'community_single' post.slug %}" class="btn btn-primary mb-0">Apply Now<i class="bi bi-arrow-right ms-2"></i></a>
                     </div>
                 </div>
             {% endfor %}
@@ -76,10 +76,19 @@
                                 <a class="page-link" href="#" tabindex="-1" aria-disabled="true">Prev</a>
                             </li>
                         {% endif %}
+
+                         <!-- Page links -->
+                        {% for page_number in paginated_posts.paginator.page_range %}
+                        {% if page_number == paginated_posts.number %}
+                             <li class="page-item active"><a class="page-link" href="#">{{ page_number }}</a></li>
+                        {% else %}
+                             <li class="page-item"><a class="page-link" href="?page={{ page_number }}">{{ page_number }}</a></li>
+                        {% endif %}
+                        {% endfor %}
                         
-                        <li class="page-item active">
+                        {% comment %} <li class="page-item active">
                             <a class="page-link" href="#">{{ paginated_posts.number }}</a>
-                        </li>
+                        </li> {% endcomment %}
 
                         {% if paginated_posts.has_next %}
                             <li class="page-item">
