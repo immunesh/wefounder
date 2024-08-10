@@ -1,5 +1,8 @@
 from django.db import models
 from django.contrib.auth.models import AbstractUser
+from django.db.models import Q
+
+
 
 # Create your models here.
 class CustomUser(AbstractUser):
@@ -30,15 +33,28 @@ class Review(models.Model):
     def __str__(self):
         return f"Review by {self.reviewer.full_name} for {self.reviewed_user.full_name}" if self.reviewer and self.reviewed_user else "Anonymous Review"
     
-class Room(models.Model):
-    name = models.CharField(max_length=255)
-    slug=models.SlugField(max_length=200,default='slug')
-    
-    def __str__(self):
-        return self.name
 
-class Message(models.Model):
-    room = models.ForeignKey(Room, on_delete=models.CASCADE)
+class ThreadManager(models.Manager):
+    def by_user(self, **kwargs):
+        user = kwargs.get('user')
+        lookup = Q(first_person=user) | Q(second_person=user)
+        qs = self.get_queryset().filter(lookup).distinct()
+        return qs
+
+
+class Thread(models.Model):
+    first_person = models.ForeignKey(CustomUser, on_delete=models.CASCADE, null=True, blank=True, related_name='thread_first_person')
+    second_person = models.ForeignKey(CustomUser, on_delete=models.CASCADE, null=True, blank=True,related_name='thread_second_person')
+    updated = models.DateTimeField(auto_now=True)
+    timestamp = models.DateTimeField(auto_now_add=True)
+
+    objects = ThreadManager()
+    class Meta:
+        unique_together = ['first_person', 'second_person']
+
+
+class ChatMessage(models.Model):
+    thread = models.ForeignKey(Thread, null=True, blank=True, on_delete=models.CASCADE, related_name='chatmessage_thread')
     user = models.ForeignKey(CustomUser, on_delete=models.CASCADE)
-    content = models.TextField()
+    message = models.TextField()
     timestamp = models.DateTimeField(auto_now_add=True)

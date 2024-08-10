@@ -1,6 +1,6 @@
 from django.contrib import messages
 from django.http import JsonResponse
-from .models import CustomUser, Review
+from .models import CustomUser, Review,Thread
 from django.db.models import Q
 from django.shortcuts import render, redirect, get_object_or_404
 from django.contrib.auth.hashers import make_password
@@ -28,47 +28,57 @@ from django.db.models import Avg,Count
 from .models import *
 from django.contrib.auth import update_session_auth_hash
 
-@csrf_exempt
-def set_chat_user(request):
-    if request.method == 'POST':
-        try:
-            data = json.loads(request.body)
-            user_id = data.get('user_id')
-            user_name = data.get('user_name')
-            user_email = data.get('user_email')
 
-            if not user_id or not user_name or not user_email:
-                return JsonResponse({'status': 'error', 'message': 'Missing fields'}, status=400)
+# @csrf_exempt
+# def set_chat_user(request):
+#     if request.method == 'POST':
+#         try:
+#             data = json.loads(request.body)
+#             user_id = data.get('user_id')
+#             user_name = data.get('user_name')
+#             user_email = data.get('user_email')
 
-            request.session['chat_user_id'] = user_id
-            request.session['chat_user_name'] = user_name
-            request.session['chat_user_email'] = user_email
-            return JsonResponse({'status': 'success'})
-        except json.JSONDecodeError:
-            return JsonResponse({'status': 'error', 'message': 'Invalid JSON'}, status=400)
-    return JsonResponse({'status': 'error', 'message': 'Invalid request method'}, status=400)
+#             if not user_id or not user_name or not user_email:
+#                 return JsonResponse({'status': 'error', 'message': 'Missing fields'}, status=400)
 
+#             request.session['chat_user_id'] = user_id
+#             request.session['chat_user_name'] = user_name
+#             request.session['chat_user_email'] = user_email
+#             return JsonResponse({'status': 'success'})
+#         except json.JSONDecodeError:
+#             return JsonResponse({'status': 'error', 'message': 'Invalid JSON'}, status=400)
+#     return JsonResponse({'status': 'error', 'message': 'Invalid request method'}, status=400)
+
+
+# @login_required
+# def chat_messages(request):
+#     user_id = request.GET.get('user_id')
+#     if not user_id:
+#         return JsonResponse({'status': 'error', 'message': 'User ID not provided'}, status=400)
+#     try:
+#         messages = Message.objects.filter(room__participants__id=user_id).values('username', 'message', 'timestamp')
+#         return JsonResponse({'messages': list(messages)})
+#     except Exception as e:
+#         return JsonResponse({'status': 'error', 'message': str(e)}, status=500)
+
+# @login_required
+# def chat_view(request, user_id):
+#     user = get_object_or_404(CustomUser, id=user_id)
+#     room_name = f"chat_{request.user.id}_{user_id}"
+#     return render(request, 'user-account-dashboard/chat.html', {'user': user, 'room_name': room_name })
 
 @login_required
-def chat_messages(request):
-    user_id = request.GET.get('user_id')
-    if not user_id:
-        return JsonResponse({'status': 'error', 'message': 'User ID not provided'}, status=400)
-    try:
-        messages = Message.objects.filter(room__participants__id=user_id).values('username', 'message', 'timestamp')
-        return JsonResponse({'messages': list(messages)})
-    except Exception as e:
-        return JsonResponse({'status': 'error', 'message': str(e)}, status=500)
+def messages_page(request):
+    threads = Thread.objects.by_user(user=request.user).prefetch_related('chatmessage_thread').order_by('timestamp')
+    print(threads)
+    context = {
+        'Threads': threads
+    }
+    return render(request, 'user-account-dashboard/chat.html', context)
 
-@login_required
-def chat_view(request, user_id):
-    user = get_object_or_404(CustomUser, id=user_id)
-    room_name = f"chat_{request.user.id}_{user_id}"
-    return render(request, 'user-account-dashboard/chat.html', {'user': user, 'room_name': room_name })
-
-def chat_list_view(request):
-    # Your view logic here, if any
-    return render(request, 'user-account-dashboard/chat.html')
+# def chat(request):
+#     # Your view logic here, if any
+#     return render(request, 'user-account-dashboard/chat.html')
 
 # def rooms(request):
 #     rooms=Room.objects.all()
@@ -82,7 +92,7 @@ def chat_list_view(request):
 
 @login_required
 def message(request):
-    return render(request, 'user-account-dashboard/messages.html')
+    return render(request, 'messages.html')
 
 @login_required
 def search_profiles(request):

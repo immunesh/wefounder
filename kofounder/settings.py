@@ -58,7 +58,7 @@ TEMPLATES = [
 ASGI_APPLICATION = 'kofounder.asgi.application'
 
 
-WSGI_APPLICATION = 'kofounder.wsgi.application'
+# WSGI_APPLICATION = 'kofounder.wsgi.application'
 
 CHANNEL_LAYERS = {
     'default': {
@@ -72,6 +72,7 @@ DATABASES = {
         'NAME': BASE_DIR / 'db.sqlite3',
     }
 }
+
 
 AUTH_USER_MODEL = 'user_account.CustomUser'
 
