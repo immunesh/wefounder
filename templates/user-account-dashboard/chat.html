@@ -190,7 +190,11 @@
 					<div class="card-body contacts_body">
                         <!-- Existing chat threads section -->
                         <ui class="contacts">
+<<<<<<< HEAD
                             {% for thread in threads_with_messages %}
+=======
+                            {% for thread in Threads %}
+>>>>>>> 4f30a576e52fe87bdb08230faecc6802685494dd
                                 <li class="{% if forloop.first %}active{% endif %} contact-li" chat-id="chat_{{ thread.id }}" style="cursor: pointer">
                                     <div class="d-flex bd-highlight">
                                         <div class="img_cont">
@@ -198,8 +202,12 @@
                                             <span class="online_icon"></span>
                                         </div>
                                         <div class="user_info">
+<<<<<<< HEAD
                                             {% comment %} <span>{{ other_user.username }}</span> {% endcomment %}
                                             {% if thread.first_person == request.user %}
+=======
+                                            {% if thread.first_person == user %}
+>>>>>>> 4f30a576e52fe87bdb08230faecc6802685494dd
                                                 <span>{{ thread.second_person.username }}</span>
                                             {% else %}
                                                 <span>{{ thread.first_person.username }}</span>
@@ -209,12 +217,36 @@
                                 </li>
                             {% endfor %}
                         </ui>
+<<<<<<< HEAD
+=======
+                        
+                        <!-- New authenticated users section -->
+                        {% comment %} <ui class="contacts mt-3">
+                            {% for user in Users %}
+                                <li class="contact-li" style="cursor: pointer">
+                                    <div class="d-flex bd-highlight">
+                                        <div class="img_cont">
+                                            <img src="https://static.turbosquid.com/Preview/001292/481/WV/_D.jpg" class="rounded-circle user_img">
+                                            <span class="online_icon"></span>
+                                        </div>
+                                        <div class="user_info">
+                                            <span>{{ user.username }}</span>
+                                        </div>
+                                    </div>
+                                </li>
+                            {% endfor %}
+                        </ui> {% endcomment %}
+>>>>>>> 4f30a576e52fe87bdb08230faecc6802685494dd
                     </div>
 					<div class="card-footer"></div>
 				</div></div>
 				<div class="col-md-8 col-xl-6 chat h-100 mt-4">
 					<div class="card">
+<<<<<<< HEAD
                         {% for thread in threads_with_messages %}
+=======
+                        {% for thread in Threads %}
+>>>>>>> 4f30a576e52fe87bdb08230faecc6802685494dd
                             <div class="messages-wrapper  {% if forloop.first %}hide is_active{% else %}hide{% endif %}" chat-id="chat_{{ thread.id }}" other-user-id="
                                         {% if thread.first_person == user %}
                                             {{ thread.second_person.id }}

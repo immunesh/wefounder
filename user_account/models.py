@@ -87,6 +87,11 @@ class ChatMessage(models.Model):
             if threads.exists():
                 self.thread = threads.first()
             else:
+<<<<<<< HEAD
+=======
+                # You may want to define logic to set the second person
+                # Example: self.thread.second_person = some_user
+>>>>>>> 4f30a576e52fe87bdb08230faecc6802685494dd
                 self.thread = Thread.objects.create(first_person=self.user)
         
         super().save(*args, **kwargs)

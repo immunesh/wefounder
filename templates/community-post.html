@@ -173,7 +173,11 @@
                         </div>
                         <p>{{ post.user.skills_expertise }}</p>
                         <a href="{% url 'profile' post.user.username %}" class="btn btn-dark rounded-2 mb-0 btn-profile" data-username="{{ post.user.username }}">Profile</a>
+<<<<<<< HEAD
                         <a href="{% url 'start_conversation' user_id=post.user.id %}" class="btn btn-dark rounded-2 mb-0">Chat with {{ post.user.username }}</a>   
+=======
+                        <a href="{% url 'chat_view' post.user.username %}" class="btn btn-dark rounded-2 mb-0">Chat</a>    
+>>>>>>> 4f30a576e52fe87bdb08230faecc6802685494dd
                     </div>
                 </div>
             </div>

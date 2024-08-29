@@ -93,6 +93,7 @@ User = get_user_model()
 #         return JsonResponse({'notifications': notification_list})
 #     return JsonResponse({'notifications': []})
 
+<<<<<<< HEAD
 @login_required
 def messages_page(request):
     user = request.user
@@ -160,6 +161,86 @@ def start_conversation(request, user_id):
     # Redirect to the chat view with the thread
     return redirect('chat_view', thread_id=thread.id)
 
+=======
+
+
+# @csrf_exempt
+# def set_chat_user(request):
+#     if request.method == 'POST':
+#         try:
+#             data = json.loads(request.body)
+#             user_id = data.get('user_id')
+#             user_name = data.get('user_name')
+#             user_email = data.get('user_email')
+
+#             if not user_id or not user_name or not user_email:
+#                 return JsonResponse({'status': 'error', 'message': 'Missing fields'}, status=400)
+
+#             request.session['chat_user_id'] = user_id
+#             request.session['chat_user_name'] = user_name
+#             request.session['chat_user_email'] = user_email
+#             return JsonResponse({'status': 'success'})
+#         except json.JSONDecodeError:
+#             return JsonResponse({'status': 'error', 'message': 'Invalid JSON'}, status=400)
+#     return JsonResponse({'status': 'error', 'message': 'Invalid request method'}, status=400)
+
+
+# @login_required
+# def chat_messages(request):
+#     user_id = request.GET.get('user_id')
+#     if not user_id:
+#         return JsonResponse({'status': 'error', 'message': 'User ID not provided'}, status=400)
+#     try:
+#         messages = Message.objects.filter(room__participants__id=user_id).values('username', 'message', 'timestamp')
+#         return JsonResponse({'messages': list(messages)})
+#     except Exception as e:
+#         return JsonResponse({'status': 'error', 'message': str(e)}, status=500)
+
+# @login_required
+# def chat_view(request, user_id):
+#     user = get_object_or_404(CustomUser, id=user_id)
+#     room_name = f"chat_{request.user.id}_{user_id}"
+#     return render(request, 'user-account-dashboard/chat.html', {'user': user, 'room_name': room_name })
+
+@login_required
+def messages_page(request):
+    threads = Thread.objects.by_user(user=request.user).prefetch_related('chatmessage_thread').order_by('timestamp')
+    all_users = CustomUser.objects.exclude(id=request.user.id)
+     # Add all users to a thread
+    for user in all_users:
+        # Check if a thread already exists between the current user and another user
+        thread, created = Thread.objects.get_or_create(first_person=request.user, second_person=user)
+
+        # If no thread is found with the current user as the second person
+        if not created:
+            thread, created = Thread.objects.get_or_create(first_person=user, second_person=request.user)
+            
+    context = {
+        'Threads': threads,
+        'Users': all_users,
+    }
+    return render(request, 'user-account-dashboard/chat.html', context)
+    # return render(request,'realchat.html')
+
+def chat_view(request, username):
+    other_user = get_object_or_404(CustomUser, username=username)
+    # thread = Thread.objects.get_or_create_thread(request.user, other_user)
+    return render(request, 'user-account-dashboard/chat.html', {'other_user': other_user})
+
+# def chat(request):
+#     # Your view logic here, if any
+#     return render(request, 'user-account-dashboard/chat.html')
+
+# def rooms(request):
+#     rooms=Room.objects.all()
+#     return render(request,'user-account-dashboard/chat.html',{"rooms":rooms})
+
+# def room(request,slug):
+#     room_name=Room.objects.get(slug=slug).name
+#     messages=Message.objects.filter(room=Room.objects.get(slug=slug))
+#     context={"slug":slug,"room_name":room_name,"messages":messages}
+#     return render(request,"user-account-dashboard/chat.html",context)
+>>>>>>> 4f30a576e52fe87bdb08230faecc6802685494dd
 
 @login_required
 def message(request):
@@ -177,6 +258,10 @@ def search_profiles(request):
     )
     return render(request, 'user-account-dashboard/messages.html', {'results': results, 'query': query})
 
+<<<<<<< HEAD
+=======
+# Create your views here.
+>>>>>>> 4f30a576e52fe87bdb08230faecc6802685494dd
 def signUp(request):
     if request.method == "POST":
         email = request.POST.get('gmail_id')
