@@ -55,20 +55,29 @@
                 }
             });
         });
+    });
 
-        // Handle profile button click for sending notifications
-        $('.btn-profile').click(function() {
-            var username = $(this).data('username');
+
+
+    $(document).ready(function() {
+        // Handle apply now button click for sending notifications
+        $('#apply-now-btn').click(function() {
+            var postId = $(this).data('post-id');
+            var username = $(this).data('username'); // Username of the user who owns the post
+            var applicantName = '{{ user.full_name }}'; // Name of the logged-in user
+
             $.ajax({
                 url: "{% url 'send_notification' %}",
                 type: 'POST',
                 headers: {'X-CSRFToken': '{{ csrf_token }}'},
                 data: {
                     'username': username,
-                    'message': 'Someone viewed your profile'
+                    'message': applicantName + ' viewed your project and clicked Apply Now.'
                 },
-                
-                
+                success: function(response) {
+                    // Optional: Provide feedback to the user, such as a notification or redirect
+                    alert('Notification sent successfully.');
+                },
                 error: function(xhr, errmsg, err) {
                     alert('Error: ' + errmsg);
                 }
@@ -76,6 +85,7 @@
         });
     });
 </script>
+
 
 <main>
     <!-- Career detail START -->
@@ -103,7 +113,9 @@
                         </div>
                     </div>
                     <!-- Button -->
-                    <a href="#" class="btn btn-primary mb-0">Apply Now<i class="bi bi-arrow-right ms-2"></i></a>
+                    <button id="apply-now-btn" class="btn btn-primary mb-0" data-post-id="{{ post.id }}" data-username="{{ post.user.username }}">
+                        Apply Now<i class="bi bi-arrow-right ms-2"></i>
+                    </button>
                 </div>
             </div>
 
