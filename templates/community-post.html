@@ -64,7 +64,12 @@
         $('#apply-now-btn').click(function() {
             var postId = $(this).data('post-id');
             var username = $(this).data('username'); // Username of the user who owns the post
-            var applicantName = '{{ user.full_name }}'; // Name of the logged-in user
+            var applicantName = '{{ user.username }}'; // Name of the logged-in user
+             // Generate the chat URL for the applicant
+            var chatUrl = "{% url 'start_conversation' user_id=post.user.id %}?user=" + applicantName; // Ensure this URL is correctly set up in your Django URLs
+
+             // Create the clickable message with HTML
+            var message = '<a href="' + chatUrl + '" target="_blank">' + applicantName + '</a> viewed your project and clicked Apply Now.';
 
             $.ajax({
                 url: "{% url 'send_notification' %}",
@@ -72,7 +77,7 @@
                 headers: {'X-CSRFToken': '{{ csrf_token }}'},
                 data: {
                     'username': username,
-                    'message': applicantName + ' viewed your project and clicked Apply Now.'
+                    'message': message
                 },
                 success: function(response) {
                     // Optional: Provide feedback to the user, such as a notification or redirect
@@ -185,11 +190,7 @@
                         </div>
                         <p>{{ post.user.skills_expertise }}</p>
                         <a href="{% url 'profile' post.user.username %}" class="btn btn-dark rounded-2 mb-0 btn-profile" data-username="{{ post.user.username }}">Profile</a>
-<<<<<<< HEAD
                         <a href="{% url 'start_conversation' user_id=post.user.id %}" class="btn btn-dark rounded-2 mb-0">Chat with {{ post.user.username }}</a>   
-=======
-                        <a href="{% url 'chat_view' post.user.username %}" class="btn btn-dark rounded-2 mb-0">Chat</a>    
->>>>>>> 4f30a576e52fe87bdb08230faecc6802685494dd
                     </div>
                 </div>
             </div>

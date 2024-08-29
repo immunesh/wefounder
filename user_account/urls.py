@@ -20,19 +20,9 @@ urlpatterns = [
     path('account-projects_delete/<id>/', views.ProjectDelete, name="account-projects_delete"),
     path('search/', search_profiles, name='search_profiles'),
     path('message/', views.message, name='message'),
-<<<<<<< HEAD
     path('start-conversation/<int:user_id>/', views.start_conversation, name='start_conversation'),
     path('chat/<int:thread_id>/', views.chat_view, name='chat_view'),
-=======
     path('chat/', views.messages_page,name='chat'),
-    path('chat/<str:username>/', views.chat_view, name='chat_view'),
-    # path('rooms/',views.rooms,name='rooms'),
-    # path('rooms/<str:slug>/',views.room,name='room'),
-    # path('set_chat_user/', views.set_chat_user, name='set_chat_user'),
-    # path('chat_messages/', views.chat_messages, name='chat_messages'),
-    # path('chat_view/<int:user_id>/', views.chat_view, name='chat_view'),
->>>>>>> 4f30a576e52fe87bdb08230faecc6802685494dd
-    path('chat/', views.messages_page, name='chat'),
     path('messages/', views.Messages, name='messages'),
     path('password_reset/', PasswordReset, name='password_reset'),
     path('password_reset/done/',PasswordResetDone, name='password_reset_done'),
