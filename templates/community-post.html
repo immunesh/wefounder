@@ -66,7 +66,7 @@
             var username = $(this).data('username'); // Username of the user who owns the post
             var applicantName = '{{ user.username }}'; // Name of the logged-in user
              // Generate the chat URL for the applicant
-            var chatUrl = "{% url 'start_conversation' user_id=post.user.id %}?user=" + applicantName; // Ensure this URL is correctly set up in your Django URLs
+            var chatUrl = "{% url 'start_conversation' user_id=user.id %}?user=" + applicantName; // Ensure this URL is correctly set up in your Django URLs
 
              // Create the clickable message with HTML
             var message = '<a href="' + chatUrl + '" target="_blank">' + applicantName + '</a> viewed your project and clicked Apply Now.';

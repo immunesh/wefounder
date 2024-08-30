@@ -1,4 +1,10 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block Content %}
+<link rel="stylesheet" href="{% static 'theme-assets/css/chat.css' %}">
 
+
+{% comment %} 
 {% load static %}
 <!DOCTYPE html>
 <html>
@@ -169,16 +175,16 @@
             </nav>
             <!-- Logo Nav END -->
         </header>
-        <!-- Header END -->
+        <!-- Header END --> {% endcomment %}
     {% if user.is_authenticated %}
-        <h5 style="text-align: end; padding-right: 200px">Logged in as : {{ user.username }}</h5>
+        <h5 style="text-align: end; padding-right: 200px;padding-top:100px">Logged in as : {{ user.username }}</h5>
         <input type="hidden" id="logged-in-user" value="{{ user.id }}">
     {% endif %}
-		<div class="container-fluid h-100">
+		<div class="container-fluid h-100" style="background-color:white">
 			<div class="row justify-content-center h-100 ">
 				<div class="col-md-4 col-xl-3 chat h-100 mt-4">
-                    <div class="card mb-sm-3 mb-md-0 contacts_card">
-					<div class="card-header">
+                    <div class="card mb-sm-3 mb-md-0 contacts_card" >
+					<div class="card-header" style="background-color:grey">
 						<div class="input-group">
                             <input type="text" id="chat-search-input" placeholder="Search..." name="" class="form-control search">
                             <div class="input-group-prepend">
@@ -210,10 +216,10 @@
                             {% endfor %}
                         </ui>
                     </div>
-					<div class="card-footer"></div>
+					<div class="card-footer" style="background-color:grey"></div>
 				</div></div>
-				<div class="col-md-8 col-xl-6 chat h-100 mt-4">
-					<div class="card">
+				<div class="col-md-8 col-xl-6 chat h-100 mt-4" >
+					<div class="card" style="background-color:grey">
                         {% for thread in threads_with_messages %}
                             <div class="messages-wrapper  {% if forloop.first %}hide is_active{% else %}hide{% endif %}" chat-id="chat_{{ thread.id }}" other-user-id="
                                         {% if thread.first_person == user %}
@@ -222,7 +228,7 @@
                                             {{ thread.first_person.id }}
                                         {% endif %}
                                     ">
-                                <div class="card-header msg_head">
+                                <div class="card-header msg_head" style="background-color:grey">
                                     <div class="d-flex bd-highlight">
                                         <div class="img_cont">
                                             <img src="https://static.turbosquid.com/Preview/001292/481/WV/_D.jpg" class="rounded-circle user_img">
@@ -280,7 +286,7 @@
                                 </div>
 					        </div>
                         {% endfor %}
-                        <div class="card-footer">
+                        <div class="card-footer" style="background-color:grey">
                                 <form id="send-message-form">
                                     <div class="input-group">
                                         <div class="input-group-append">
@@ -303,6 +309,8 @@
 			</div>
 		</div>
 
+        {% comment %} {% endblock %} {% endcomment %}
+        {% block JavaScript %}
         <script src="{% static 'theme-assets/js/chat.js' %}"></script>
         <script>
             document.getElementById('chat-search-btn').addEventListener('click', function() {
@@ -326,6 +334,5 @@
                 }
             });
         </script>
-
-	</body>
-</html>
+        {% endblock JavaScript %}
+        {% endblock %}

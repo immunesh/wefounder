@@ -915,17 +915,20 @@ html{
   cursor: pointer;
   margin-right: 20px;
 }
+
 .msg_cotainer {
   margin-top: auto;
   margin-bottom: auto;
   margin-left: 10px;
   border-radius: 25px;
-  background-color: #82ccdd;
+  background-color: white;
   padding: 10px;
   position: relative;
   min-width: 70px;
   text-align: center;
+  color: black;
 }
+
 .msg_cotainer_send {
   min-width: 70px;
   text-align: center;
@@ -933,7 +936,7 @@ html{
   margin-bottom: auto;
   margin-right: 10px;
   border-radius: 25px;
-  background-color: #78e08f;
+  background-color: white;
   padding: 10px;
   position: relative;
 }

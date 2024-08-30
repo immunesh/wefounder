@@ -53,6 +53,23 @@ from .models import Notification
 #     print(f'Notifications: {list(notifications)}')  # Print notifications to console
 #     return render(request, 'user-account-dashboard/account-notification.html', {'notifications': notifications})
 
+
+from django.shortcuts import render
+from .models import Notification
+
+def basehtmlnotif(request):
+
+    notifications = Notification.objects.filter(user=request.user).order_by('-created_at')[:5]
+
+    context = {
+        'notifications': notifications,
+    }
+
+    return render(request, 'base.html', context)
+
+
+
+
 from django.shortcuts import render
 from .models import Notification
 
