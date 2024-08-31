@@ -30,7 +30,7 @@ def Community(request):
     else:
         posts = CommunityPost.objects.all()
     
-    paginator = Paginator(posts, 6)
+    paginator = Paginator(posts, 10)
     page_number = request.GET.get('page')
     
     try:

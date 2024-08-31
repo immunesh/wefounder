@@ -27,7 +27,7 @@
             <!-- Search Form -->
             <form class="col-sm-6 bg-body border rounded-2 position-relative p-2 mt-4 mt-md-5" method="GET" action="{% url 'communities' %}">
                 <div class="input-group">
-                    <input class="form-control focus-shadow-none border-0 me-1" type="text" name="search_filter" placeholder="Search by Post name, Pin Code, etc..." value="{{ request.GET.search_filter }}">
+                    <input class="form-control focus-shadow-none border-0 me-1" type="text" name="search_filter" placeholder="Search by Title, Pin Code, etc..." value="{{ request.GET.search_filter }}">
                     <button type="submit" class="btn btn-dark rounded-2 mb-0">Search</button>
                 </div>
             </form>

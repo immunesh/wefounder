@@ -69,7 +69,7 @@
             var chatUrl = "{% url 'start_conversation' user_id=user.id %}?user=" + applicantName; // Ensure this URL is correctly set up in your Django URLs
 
              // Create the clickable message with HTML
-            var message = '<a href="' + chatUrl + '" target="_blank">' + applicantName + '</a> viewed your project and clicked Apply Now.';
+            var message = '<a href="' + chatUrl + '" target="_blank">' + applicantName + '</a> Applied to your Project. Click to Chat!';
 
             $.ajax({
                 url: "{% url 'send_notification' %}",

@@ -325,6 +325,25 @@ def updateProfile(request, username):
             messages.success(request, "Profile updated successfully!")
 
             return redirect('viewProfile',username=user.username) 
+        else:
+             # Update profile information
+            user.full_name = request.POST.get('full_name', user.full_name)
+            user.username = request.POST.get('username', user.username)
+            user.email = request.POST.get('email', user.email)
+            user.phone = request.POST.get('phone', user.phone)
+            user.nationality = request.POST.get('nationality', user.nationality)
+            user.gender = request.POST.get('gender', user.gender)
+            user.role = request.POST.get('role', user.role)
+            user.sector = request.POST.get('sector', user.sector)
+            user.skills_expertise = request.POST.get('skills_expertise', user.skills_expertise)
+            user.address = request.POST.get('address', user.address)
+
+            #saving profile
+            user.save()
+            messages.success(request, "Profile updated successfully!")
+
+            return redirect('viewProfile',username=user.username) 
+
     
         # Handle email update
         new_email = request.POST.get('email')
