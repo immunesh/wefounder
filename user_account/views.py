@@ -81,10 +81,23 @@ def accountNotification(request):
 
 logger = logging.getLogger(__name__)
 
+from django.http import JsonResponse
+from django.contrib.auth.models import User
+from .models import Notification
+import logging
+
+logger = logging.getLogger(__name__)
+
 def send_notification(request):
     if request.method == 'POST':
         username = request.POST.get('username')
         message = request.POST.get('message')
+        logged_in_username = request.user.username  # Get the logged-in user's username
+        
+        # Check if the username in the request is the same as the logged-in user
+        if username == logged_in_username:
+            logger.warning(f'Attempt to send notification to logged-in user {username} was blocked.')
+            return JsonResponse({'status': 'Cannot send notification to yourself', 'message': 'Cannot send notification to yourself'}, status=400)
         
         try:
             user = User.objects.get(username=username)
@@ -94,8 +107,8 @@ def send_notification(request):
         except User.DoesNotExist:
             logger.error(f'User with username {username} not found.')
             return JsonResponse({'status': 'error', 'message': 'User not found'}, status=404)
+    
     return JsonResponse({'status': 'error', 'message': 'Invalid request'}, status=400)
-
 
 
 User = get_user_model()
@@ -398,17 +411,25 @@ def userProfile(request, username):
 
 @login_required(login_url='signin')
 
+
+
+
+
 @login_required(login_url='signin')
 def accountProjects(request):
-    
     if request.method == 'POST':
         category_id = request.POST.get('category')
         title = request.POST.get('title')
         sector = request.POST.get('sector')
         sub_sector = request.POST.get('sub_sector')
         description = request.POST.get('description')
-        pdf_file=request.FILES.get('pdf')
-       
+        pdf_file = request.FILES.get('pdf')
+
+        # Check if the uploaded file is a PDF
+        if pdf_file and not (pdf_file.name.lower().endswith('.pdf') or pdf_file.name.lower().endswith('.docx')):
+            messages.error(request, 'Please upload a PDF or DOCX file.')
+            return redirect('account_projects')
+
         user = request.user
         try:
             category = CommunityCategory.objects.get(id=category_id)
@@ -436,8 +457,11 @@ def accountProjects(request):
         'projects': projects,
     }
     return render(request, 'user-account-dashboard/account-projects.html', context)
-
 @login_required(login_url='signin')
+
+
+
+
 def accountProject_update(request, id=None):
     post = get_object_or_404(CommunityPost, id=id)
     
@@ -447,7 +471,15 @@ def accountProject_update(request, id=None):
         post.sub_sector = request.POST.get('sub_sector')
         post.title = request.POST.get('title')
         post.description = request.POST.get('description')
-        post.pdf=request.FILES.get('pdf')
+        
+        pdf_file = request.FILES.get('pdf')
+        
+        # Check if the uploaded file is a PDF
+        if pdf_file:
+            if not pdf_file.name.lower().endswith('.pdf') or not pdf_file.name.lower().endswith('.docx'):
+                messages.error(request, 'Please upload a PDF or DOCX file.')
+                return redirect('account_projects')
+            post.pdf = pdf_file  # Only update the file if a valid PDF is uploaded
         
         post.save()
         messages.success(request, "Post updated successfully.")
@@ -457,10 +489,10 @@ def accountProject_update(request, id=None):
         data = {
             'category': post.category_id,
             'title': post.title,
-            'sector':post.sector,
-            'sub_sector':post.sub_sector,
-            'description':post.description,
-            'pdf':post.pdf.url if post.pdf else None,
+            'sector': post.sector,
+            'sub_sector': post.sub_sector,
+            'description': post.description,
+            'pdf': post.pdf.url if post.pdf else None,
         }
         return JsonResponse(data)
     
