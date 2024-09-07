@@ -215,10 +215,11 @@ def signUp(request):
         email = request.POST.get('gmail_id')
         full_name = request.POST.get('full_name')
         username = request.POST.get('username')
+        phone=request.POST.get('phone')
         password = request.POST.get('password')
         confirm_password = request.POST.get('confirm_password')
 
-        if not username or not email or not password or not confirm_password or not full_name:
+        if not username or not email or not password or not confirm_password or not full_name or not phone:
             messages.error(request, "All fields are required.")
             return render(request, 'sign-up.html')
 
@@ -238,6 +239,7 @@ def signUp(request):
             email=email,
             full_name=full_name,
             username=username,
+            phone=phone,
             password=make_password(password)
         )
         user.save()
