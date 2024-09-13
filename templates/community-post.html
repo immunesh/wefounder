@@ -63,10 +63,12 @@
         // Handle apply now button click for sending notifications
         $('#apply-now-btn').click(function() {
             var postId = $(this).data('post-id');
-            var username = $(this).data('username'); // Username of the user who owns the post
+            var username = $(this).data('username').trim(); // Username of the user who owns the post
             var applicantName = '{{ user.username }}'; // Name of the logged-in user
+            var applicantId = '{{ user.id }}'; 
              // Generate the chat URL for the applicant
-            var chatUrl = "{% url 'start_conversation' user_id=user.id %}?user=" + applicantName; // Ensure this URL is correctly set up in your Django URLs
+            //var chatUrl = "{% url 'start_conversation' user_id=user.id %}?user=" + applicantName; // Ensure this URL is correctly set up in your Django URLs
+            var chatUrl = "{% url 'start_conversation' user_id=user.id %}?second_person=" + username;
 
              // Create the clickable message with HTML
             var message = '<a href="' + chatUrl + '" target="_blank">' + applicantName + '</a> Applied to your Project. Click to Chat!';
@@ -190,7 +192,7 @@
                         </div>
                         <p>{{ post.user.skills_expertise }}</p>
                         <a href="{% url 'profile' post.user.username %}" class="btn btn-dark rounded-2 mb-0 btn-profile" data-username="{{ post.user.username }}">Profile</a>
-                        <a href="{% url 'start_conversation' user_id=post.user.id %}" class="btn btn-dark rounded-2 mb-0">Chat with {{ post.user.username }}</a>   
+                        <a href="{% url 'start_conversation' user_id=user.id %}?second_person={{ post.user.username }}" class="btn btn-dark rounded-2 mb-0">Chat with {{ post.user.username }}</a>   
                     </div>
                 </div>
             </div>

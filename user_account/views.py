@@ -90,25 +90,25 @@ logger = logging.getLogger(__name__)
 
 def send_notification(request):
     if request.method == 'POST':
-        username = request.POST.get('username')
-        message = request.POST.get('message')
-        logged_in_username = request.user.username  # Get the logged-in user's username
-        
-        # Check if the username in the request is the same as the logged-in user
-        if username == logged_in_username:
-            logger.warning(f'Attempt to send notification to logged-in user {username} was blocked.')
-            return JsonResponse({'status': 'Cannot send notification to yourself', 'message': 'Cannot send notification to yourself'}, status=400)
-        
+        username = request.POST.get('username', '').strip()  # Get the username from POST data and strip any spaces
+        message = request.POST.get('message', '')
+
+        # Attempt to fetch the existing user by username, handle if not found
         try:
-            user = User.objects.get(username=username)
-            Notification.objects.create(user=user, message=message)
-            logger.debug(f'Notification sent to {username} with message: {message}')
-            return JsonResponse({'status': 'success'}, status=200)
-        except User.DoesNotExist:
-            logger.error(f'User with username {username} not found.')
-            return JsonResponse({'status': 'error', 'message': 'User not found'}, status=404)
-    
-    return JsonResponse({'status': 'error', 'message': 'Invalid request'}, status=400)
+            user = CustomUser.objects.get(username=username)
+        except CustomUser.DoesNotExist:
+            # If the user does not exist, return an error without creating a new user
+            return JsonResponse({'error': 'User does not exist.'}, status=404)
+
+        # Create and save the notification for the existing user
+        Notification.objects.create(
+            user=user,
+            message=message,
+        )
+
+        return JsonResponse({'success': 'Notification sent successfully.'})
+
+    return JsonResponse({'error': 'Invalid request method.'}, status=400)
 
 
 User = get_user_model()
@@ -178,19 +178,24 @@ def chat_view(request, thread_id):
 
 @login_required
 def start_conversation(request, user_id):
-    # Get the clicked user
-    clicked_user = get_object_or_404(CustomUser, id=user_id)
-    # if request.user == clicked_user:
-    #     # Redirect or show an error
-    #     return HttpResponse('some_error_page')
-    
-    # Get or create a thread between the logged-in user and the clicked user
-    thread, created = Thread.objects.get_or_create(
-        first_person=request.user,
-        second_person=clicked_user
-    )
-    
-    # Redirect to the chat view with the thread
+    # Fetch the first person (logged-in user) using the user_id
+    first_person = get_object_or_404(CustomUser, id=user_id)
+
+    # Retrieve the second person's username from the query parameters
+    second_person_username = request.GET.get('second_person')
+
+    # Ensure the second person exists in the database
+    second_person = get_object_or_404(CustomUser, username=second_person_username)
+
+    # Check if an existing thread exists between these two users
+    thread = Thread.objects.filter(first_person=first_person).filter(second_person=second_person).distinct().first()
+
+    if not thread:
+        # If no existing thread, create a new one
+        thread = Thread.objects.create()
+        thread.participants.add(first_person, second_person)
+
+    # Redirect to the existing or newly created chat thread
     return redirect('chat_view', thread_id=thread.id)
 
 @login_required
@@ -360,9 +365,9 @@ def updateProfile(request, username):
             return redirect('viewProfile',username=user.username) 
 
     
-        # Handle email update
-        new_email = request.POST.get('email')
-        if new_email and new_email != user.email:
+    # Handle email update
+    new_email = request.POST.get('email')
+    if new_email and new_email != user.email:
             user.email = new_email
             #saving profile
             user.save()
@@ -370,12 +375,12 @@ def updateProfile(request, username):
 
             return redirect('viewProfile',username=user.username) 
 
-        # Handle password change
-        current_pass = request.POST.get('current_pass')
-        new_password = request.POST.get('new_password')
-        cf_new_password = request.POST.get('cf_new_password')
+    # Handle password change
+    current_pass = request.POST.get('current_pass')
+    new_password = request.POST.get('new_password')
+    cf_new_password = request.POST.get('cf_new_password')
         
-        if current_pass and new_password and cf_new_password:
+    if current_pass and new_password and cf_new_password:
             if new_password == cf_new_password:
                 if authenticate(username=user.username, password=current_pass):
                     user.set_password(new_password)
@@ -515,7 +520,7 @@ def profile(request, username):
     user = get_object_or_404(CustomUser, username=username)
     posts= CommunityPost.objects.filter(user=user)
     reviews = Review.objects.filter(reviewed_user=user)
-
+    user_id = user.id 
     paginator = Paginator(posts, 3)
     page_num = request.GET.get('page')
     posts_data = paginator.get_page(page_num)
@@ -536,6 +541,7 @@ def profile(request, username):
 
     context = {
         'user_data': user,
+        'user_id': user_id,
         'posts': posts,
         'reviews': reviews,
         'avg_rating': avg_rating,
