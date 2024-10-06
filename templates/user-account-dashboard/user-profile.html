@@ -62,7 +62,7 @@
                         {% if request.user == user_data %}
                             <a href="{% url 'viewProfile' user.username %}" class="btn btn-dark mb-0">Edit Profile</a>
                         {% else %}
-                            <a href="{% url 'chat' %}" class="btn btn-dark mb-0">Chat</a>
+                            <a href="{% url 'start_conversation' user_id=request.user.id %}?second_person={{ user_data.username }}" class="btn btn-dark mb-0">Chat</a>
                         {% endif %}
                     </div>
                 </div>
@@ -110,55 +110,11 @@
                 </div>
 
 
-                {% comment %} Pagination {% endcomment %}
                 
-                <div class="row">
-                    <div class="col-12 mx-auto">
-                        <ul class="pagination pagination-primary-soft d-flex justify-content-center mb-0">
-                            {% if posts_data.has_previous %}
-                                {% comment %} <li class="page-item">
-                                    <a class="page-link" href="?page=1">First</a>
-                                </li> {% endcomment %}
-                                <li class="page-item">
-                                    <a class="page-link" href="?page={{ posts_data.previous_page_number }}">Prev</a>
-                                </li>
-                            {% else %}
-                                {% comment %} <li class="page-item disabled">
-                                    <span class="page-link">First</span>
-                                </li> {% endcomment %}
-                                <li class="page-item disabled">
-                                    <span class="page-link">Prev</span>
-                                </li>
-                            {% endif %}
-                            
-                            {% for num in posts_data.paginator.page_range %}
-                                {% if posts_data.number == num %}
-                                    <li class="page-item active"><span class="page-link">{{ num }}</span></li>
-                                {% elif num > posts_data.number|add:'-3' and num < posts_data.number|add:'3' %}
-                                    <li class="page-item"><a class="page-link" href="?page={{ num }}">{{ num }}</a></li>
-                                {% endif %}
-                            {% endfor %}
-                            
-                            {% if posts_data.has_next %}
-                                <li class="page-item">
-                                    <a class="page-link" href="?page={{ posts_data.next_page_number }}">Next</a>
-                                </li>
-                                <li class="page-item">
-                                    <a class="page-link" href="?page={{ posts_data.paginator.num_pages }}">Last</a>
-                                </li>
-                            {% else %}
-                                <li class="page-item disabled">
-                                    <span class="page-link">Next</span>
-                                </li>
-                                {% comment %} <li class="page-item disabled">
-                                    <span class="page-link">Last</span>
-                                </li> {% endcomment %}
-                            {% endif %}
-                        </ul>
-                    </div>
-                </div>
             </div>
         </section>
+
+        <div style="padding: 50px;"></div>
         <!-- Case studies detail END -->
 
         <!-- Rating & review START -->
@@ -195,8 +151,7 @@
                                     {% for rating_count in rating_counts %}
                                         <div class="d-flex align-items-center">
                                             <div class="progress progress-sm bg-warning bg-opacity-15 w-100 me-3">
-                                                <div class="progress-bar bg-warning" role="progressbar" style="width: {{ rating_count.count|divisibleby:reviews.count|yesno:"100,0" }}%" aria-valuenow="{{ rating_count.count|divisibleby:reviews.count|yesno:"100,0" }}" aria-valuemin="0" aria-valuemax="100">
-                                                </div>
+                                                <div class="progress-bar bg-warning" role="progressbar" style="width: {{ rating_count.count|divisibleby:reviews.count|yesno:"100,0" }}%" aria-valuenow="{{ rating_count.count|divisibleby:reviews.count|yesno:"100,0" }}" aria-valuemin="0" aria-valuemax="100">                                                </div>
                                             </div>
                                             <span class="heading-color">{{ rating_count.rating }}</span>
                                         </div>
@@ -293,7 +248,7 @@
             </div>
         </section>
         <!-- Rating & review START END -->
-        
+        <div style="padding: 25px;"></div>
     </main>
     <!-- **************** MAIN CONTENT END **************** -->
 {% endblock Content %}

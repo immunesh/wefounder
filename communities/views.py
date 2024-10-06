@@ -10,6 +10,7 @@ from django.utils.decorators import method_decorator
 from django.views.decorators.http import require_POST
 from django.shortcuts import render, get_object_or_404
 from django.contrib.auth.decorators import login_required
+from django.db.models import Q
 
 @login_required(login_url='signin')
 def Community(request):
@@ -21,11 +22,15 @@ def Community(request):
         category = CommunityCategory.objects.get(name=CategoryName)
         posts = CommunityPost.objects.filter(category=category)
     elif search_filter:
-        posts = CommunityPost.objects.filter(title__icontains=search_filter)
+        posts = CommunityPost.objects.filter(
+            Q(title__icontains=search_filter) |
+            Q(user__full_name__icontains=search_filter) |
+            Q(user__zip_code__icontains=search_filter)
+        )
     else:
         posts = CommunityPost.objects.all()
     
-    paginator = Paginator(posts, 4)
+    paginator = Paginator(posts, 10)
     page_number = request.GET.get('page')
     
     try:
@@ -42,6 +47,9 @@ def Community(request):
     }
     
     return render(request, 'community.html', context)
+
+
+
 
 @method_decorator(login_required(login_url='signin'), name='dispatch')
 class CommunitySingle(View):

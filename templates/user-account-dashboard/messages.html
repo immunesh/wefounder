@@ -18,7 +18,7 @@
         </div>
 
         <div class="col-sm-6 col-xl-3">
-            <a href="#" class="btn btn-primary mb-0"><i class="bi bi-plus-lg me-2"></i>Chat</a>
+            <a href="{% url "chat" %}" class="btn btn-primary mb-0"><i class="bi bi-plus-lg me-2"></i>Chat</a>
         </div>
     </div>
 
@@ -64,7 +64,7 @@
     </div>
 </div>
 
-<script>
+{% comment %} <script>
     const roomName = "{{ room_name }}";
     const chatSocket = new WebSocket(
         'ws://' + window.location.host + '/ws/chat/' + roomName + '/'
@@ -94,5 +94,5 @@
         }));
         messageInputDom.value = '';
     };
-</script>
+</script> {% endcomment %}
 {% endblock UserMainContent %}

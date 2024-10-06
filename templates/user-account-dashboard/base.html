@@ -48,7 +48,7 @@
                                             <a class="nav-link {% if request.path == '/account-projects/' %}active{% endif %}" href="{% url "account_projects" %}"><i class="bi bi-briefcase fa-fw me-2"></i>My projects</a>
                                         </li>
                                         <li class="nav-item">
-                                            <a class="nav-link {% if request.path == '/messages/' %}active{% endif %}" href="{% url "messages" %}"><i class="bi bi-chat fa-fw me-2"></i>Messages</a>
+                                            <a class="nav-link {% if request.path == '/messages/' %}active{% endif %}" href="{% url "chat" %}"><i class="bi bi-chat fa-fw me-2"></i>Messages</a>
                                         </li>
                                         <li class="nav-item">
                                             <a class="nav-link text-danger" href="{% url "logout" %}"><i class="fas fa-sign-out-alt fa-fw me-2"></i>Sign Out</a>

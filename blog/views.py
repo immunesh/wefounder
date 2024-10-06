@@ -9,7 +9,7 @@ def blog(request):
     categories = Category.objects.all() 
 
     # Pagination
-    paginator = Paginator(posts, 6)  # Show 10 posts per page
+    paginator = Paginator(posts, 6 )  # Show 10 posts per page
     page = request.GET.get('page')
     try:
         paginated_posts = paginator.page(page)

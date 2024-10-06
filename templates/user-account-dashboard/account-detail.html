@@ -29,7 +29,8 @@
                     {% endif %}
 
                     <!-- Personal Information -->
-                    <form>
+                    <form action="{% url 'updateProfile' user.username %}" method="post" enctype="multipart/form-data">
+                        {% csrf_token %}
                         <div class="card bg-transparent p-0">
                             <!-- Card header -->
                             <div class="card-header bg-transparent border-bottom p-0 pb-3">
@@ -58,35 +59,36 @@
                                             <label class="btn btn-sm btn-dark mb-0" for="file-input">Change</label>
                                         
                                             <!-- Hidden file input for avatar change -->
-                                            <input class="form-control d-none" id="file-input" type="file" accept="image/*">
+                                            <input class="form-control d-none" id="file-input" name="profile_image" type="file" accept="image/*">
                                         </div>
                                     </div>
 
                                     <!-- Full Name -->
+
                                     <div class="col-md-6">
                                         <label class="form-label">Full Name</label>
-                                        <input type="Name" class="form-control" value="{{user.full_name}}"
+                                        <input type="text" name="full_name" class="form-control" value="{{user.full_name}}"
                                             placeholder="Enter your Full Name">
                                     </div>
 
                                     <!-- Username -->
                                     <div class="col-md-6">
                                         <label class="form-label">Username</label>
-                                        <input type="text" class="form-control" value="{{user.username}}"
+                                        <input type="text" name="username" class="form-control" value="{{user.username}}"
                                             placeholder="Enter your Username">
                                     </div>
 
                                     <!-- Email -->
                                     <div class="col-md-6">
                                         <label class="form-label">Email address</label>
-                                        <input type="email" class="form-control" value="{{user.email}}"
+                                        <input type="email" name="email" class="form-control" value="{{user.email}}"
                                             placeholder="Enter your email id">
                                     </div>
 
                                     <!-- Mobile -->
                                     <div class="col-md-6">
                                         <label class="form-label">Mobile</label>
-                                        <input type="text" class="form-control" value="{{user.phone}}"
+                                        <input type="text" name="phone" class="form-control" value="{{user.phone}}"
                                             placeholder="Enter your mobile number">
                                     </div>
 
@@ -94,7 +96,7 @@
                                     <!-- Nationality -->
                                     <div class="col-md-6">
                                         <label class="form-label">Nationality</label>
-                                        <select class="form-select">
+                                        <select class="form-select" name="nationality">
                                             <option value="">Select your country</option>
                                             <option>USA</option>
                                             <option selected>{{user.nationality}}</option>
@@ -109,9 +111,9 @@
                                         <div class="input-group">
                                             <div class="form-control">
                                                 <div class="form-check radio-bg-light">
-                                                    <input class="form-check-input" type="radio" name="flexRadioDefault"
-                                                        id="flexRadioDefault1" checked="">
-                                                    <label class="form-check-label" for="flexRadioDefault1">
+                                                    <input class="form-check-input" type="radio" name="gender"
+                                                        id="gender_male" value="Male" {% if user.gender == 'Male' %}checked{% endif %}>
+                                                    <label class="form-check-label" for="gender_male">
                                                         Male
                                                     </label>
                                                 </div>
@@ -119,9 +121,9 @@
 
                                             <div class="form-control">
                                                 <div class="form-check radio-bg-light">
-                                                    <input class="form-check-input" type="radio" name="flexRadioDefault"
-                                                        id="flexRadioDefault2">
-                                                    <label class="form-check-label" for="flexRadioDefault2">
+                                                    <input class="form-check-input" type="radio" name="gender"
+                                                        id="gender_female" value="Female" {% if user.gender == 'Female' %}checked{% endif %}>
+                                                    <label class="form-check-label" for="gender_female">
                                                         Female
                                                     </label>
                                                 </div>
@@ -129,9 +131,9 @@
 
                                             <div class="form-control">
                                                 <div class="form-check radio-bg-light">
-                                                    <input class="form-check-input" type="radio" name="flexRadioDefault"
-                                                        id="flexRadioDefault3">
-                                                    <label class="form-check-label" for="flexRadioDefault3">
+                                                    <input class="form-check-input" type="radio" name="gender"
+                                                        id="gender_other" value="Other" {% if user.gender == 'Other' %}checked{% endif %}>
+                                                    <label class="form-check-label" for="gender_other">
                                                         Others
                                                     </label>
                                                 </div>
@@ -142,20 +144,20 @@
                                     <!-- Role -->
                                     <div class="col-md-6">
                                         <label class="form-label">Role</label>
-                                        <input type="text" class="form-control" value="{{user.role}}" placeholder="Enter your Role">
+                                        <input type="text" class="form-control" name="role" value="{{user.role}}" placeholder="Enter your Role">
                                     </div>                                                                      
 
                                     <!-- Company -->
                                     <div class="col-md-6">
                                         <label class="form-label">Sector</label>
-                                        <input type="text" class="form-control" value="{{user.sector}}" placeholder="Enter your sector">
+                                        <input type="text" class="form-control" name="sector" value="{{user.sector}}" placeholder="Enter your sector">
                                     </div>
 
 
                                     <!-- Skills & Expertise -->
                                     <div class="col-12">
                                         <label class="form-label">Your Description</label>
-                                        <textarea class="form-control" rows="3"
+                                        <textarea class="form-control" rows="3" name="skills_expertise"
                                             placeholder="Outline your primary/core skills in a sentence or two. You can elaborate later.">{{user.skills_expertise}}</textarea>
                                         <small class="form-text">e.g. Python, ML/AI, developing expert systems,
                                             LISP<br>UX, Graphic Design, Illustrator, Maya, Unity<br>Financial & market
@@ -165,20 +167,19 @@
                                     <!-- Address -->
                                     <div class="col-12">
                                         <label class="form-label">Address</label>
-                                        <textarea class="form-control" rows="3"
-                                            spellcheck="false">Please enter your address here.</textarea>
+                                        <textarea class="form-control" rows="3" name="address"
+                                            spellcheck="false">{{user.address}}</textarea>
                                     </div>
 
                                     <!-- Button -->
                                     <div class="col-12 text-end">
-                                        <a href="#" class="btn btn-primary mb-0">Save Changes</a>
+                                        <button class="btn btn-primary mb-0" type="submit">Save Changes</button>
                                     </div>
 
                                 </div>
                             </div>
                         </div>
                     </form>
-
                     <div class="text-center my-5"><i class="bi bi-three-dots"></i></div>
                     <!-- Divider -->
 
@@ -255,6 +256,7 @@
                     </form>
 
                 </div>
+
 {% endblock UserMainContent %}
 
 {% block javascript %}

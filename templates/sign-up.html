@@ -209,9 +209,10 @@
                     <div class="col-lg-10 my-5 m-auto">
 
                         {% comment %} <a href="index.html"><img src="{% static 'theme-assets/images/logo-icon.svg'%}" class="h-50px mb-4" alt="logo"></a> {% endcomment %}
-
+                        <div style="padding: 25px;"></div>
                         <h2 class="mb-0">Create your
                             <span class="position-relative">account
+                                
 								<!-- SVG START -->
 								<span class="position-absolute top-50 start-50 translate-middle z-index-n1 ms-n2 mt-2 d-none d-sm-block">
 									<svg width="150.1px" height="20.7px" viewBox="0 0 150.1 20.7" style="enable-background:new 0 0 150.1 20.7;" xml:space="preserve">
@@ -221,23 +222,24 @@
                             <!-- SVG END -->
                             </span>
                         </h2>
-                        <p class="mb-0">Let's get started with your 30 days free trial</p>
+                        <div style="padding: 5px;"></div>
+                        <p class="mb-0">  Let's get started with your 30 days free trial</p>
 
                         <!-- Social buttons -->
                         <div class="row mt-5">
                             <!-- Social btn -->
-                            <div class="col-xxl-6 d-grid">
+                            <!-- <div class="col-xxl-6 d-grid">
                                 <a href="#" class="btn border bg-light mb-2 mb-xxl-0"><i class="fab fa-fw fa-google text-google-icon me-2"></i>Signup with Google</a>
                             </div>
-                            <!-- Social btn -->
+                            Social btn
                             <div class="col-xxl-6 d-grid">
                                 <a href="#" class="btn border bg-light mb-0"><i class="fab fa-fw fa-facebook-f text-facebook me-2"></i>Signup with Facebook</a>
                             </div>
-                            <!-- Divider with text -->
+                         Divider with text
                             <div class="position-relative my-5">
                                 <hr>
                                 <p class="small position-absolute top-50 start-50 translate-middle bg-body px-4">Or</p>
-                            </div>
+                            </div> -->
                             {% if messages %}
                             {% for message in messages %}
                             <div class="alert alert-success d-flex align-items-center container" id="message_alert" role="alert">
@@ -269,6 +271,12 @@
                             <div class="input-floating-label form-floating mb-4">
                                 <input type="text" class="form-control" id="floatingInput" name="username" placeholder="aidanbutler" required>
                                 <label for="floatingInput">Username</label>
+                            </div>
+                            
+                            <!-- Phone number -->
+                            <div class="input-floating-label form-floating mb-4">
+                                <input type="tel" class="form-control" id="floatingInput" name="phone" placeholder="aidanbutler" required>
+                                <label for="floatingInput">Mobile No.</label>
                             </div>
 
                             <!-- Password -->

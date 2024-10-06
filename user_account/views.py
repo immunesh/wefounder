@@ -1,6 +1,6 @@
 from django.contrib import messages
 from django.http import JsonResponse
-from .models import CustomUser, Review
+from .models import CustomUser, Review,Thread
 from django.db.models import Q
 from django.shortcuts import render, redirect, get_object_or_404
 from django.contrib.auth.hashers import make_password
@@ -22,55 +22,187 @@ from user_account.models import CustomUser
 from django.http import JsonResponse
 from django.views.decorators.csrf import csrf_exempt
 import json
+from .models import Notification
+from django.contrib.auth import get_user_model
 from django.urls import reverse_lazy
 from django.contrib.auth import views as auth_views
 from django.db.models import Avg,Count
 from .models import *
+from django.contrib.auth import update_session_auth_hash
+from django.http import JsonResponse
+import logging
+from django.shortcuts import render
+from .models import Notification
+from django.shortcuts import render
+from .models import Notification
+from django.shortcuts import render
+from .models import Notification
+from django.shortcuts import render
+from .models import Notification
+
+# def notification_view(request):
+#     notifications = Notification.objects.filter(user=request.user).order_by('-created_at')
+#     return render(request, 'user-account-dashboard/account-notification.html', {'notifications': notifications})
+
+# from django.shortcuts import render
+# from user_account.models import Notification
+
+# def notifications_view(request):
+#     user = request.user
+#     notifications = Notification.objects.filter(user=user)
+#     print(f'Notifications: {list(notifications)}')  # Print notifications to console
+#     return render(request, 'user-account-dashboard/account-notification.html', {'notifications': notifications})
+
+
+from django.shortcuts import render
+from .models import Notification
+
+def basehtmlnotif(request):
+
+    notifications = Notification.objects.filter(user=request.user).order_by('-created_at')[:5]
+
+    context = {
+        'notifications': notifications,
+    }
+
+    return render(request, 'base.html', context)
 
 
 
-@csrf_exempt
-def set_chat_user(request):
+
+from django.shortcuts import render
+from .models import Notification
+
+def accountNotification(request):
+    notifications = Notification.objects.filter(user=request.user).order_by('-created_at')
+    return render(request, 'user-account-dashboard/account-notification.html', {'notifications': notifications})
+
+
+
+logger = logging.getLogger(__name__)
+
+from django.http import JsonResponse
+from django.contrib.auth.models import User
+from .models import Notification
+import logging
+
+logger = logging.getLogger(__name__)
+
+def send_notification(request):
     if request.method == 'POST':
-        data = json.loads(request.body)
-        request.session['chat_user_id'] = data.get('user_id')
-        request.session['chat_user_name'] = data.get('user_name')
-        request.session['chat_user_email'] = data.get('user_email')
-        return JsonResponse({'status': 'success'})
-    return JsonResponse({'status': 'error'}, status=400)
+        username = request.POST.get('username', '').strip()  # Get the username from POST data and strip any spaces
+        message = request.POST.get('message', '')
 
+        # Attempt to fetch the existing user by username, handle if not found
+        try:
+            user = CustomUser.objects.get(username=username)
+        except CustomUser.DoesNotExist:
+            # If the user does not exist, return an error without creating a new user
+            return JsonResponse({'error': 'User does not exist.'}, status=404)
+
+        # Create and save the notification for the existing user
+        Notification.objects.create(
+            user=user,
+            message=message,
+        )
+
+        return JsonResponse({'success': 'Notification sent successfully.'})
+
+    return JsonResponse({'error': 'Invalid request method.'}, status=400)
+
+
+User = get_user_model()
+
+
+# def get_notifications(request):
+#     if request.is_ajax() and request.method == 'GET':
+#         notifications = Notification.objects.filter(user=request.user).order_by('-created_at')
+#         notification_list = list(notifications.values('message', 'created_at'))
+#         for notification in notification_list:
+#             notification['created_at'] = notification['created_at'].strftime('%b %d, %Y %H:%M')  # Format date
+#         return JsonResponse({'notifications': notification_list})
+#     return JsonResponse({'notifications': []})
 
 @login_required
-def chat_messages(request):
-    user_id = request.GET.get('user_id')
-    messages = [] 
-    return JsonResponse({'messages': messages})
+def messages_page(request):
+    user = request.user
+    threads = Thread.objects.by_user(user=user).prefetch_related('chatmessage_thread').order_by('timestamp')
+    all_users = CustomUser.objects.exclude(id=user.id)
+
+    # Filter out users with whom a thread already exists
+    existing_threads = Thread.objects.filter(
+        Q(first_person=user) | Q(second_person=user)
+    )
+    existing_thread_users = set(existing_threads.values_list('first_person', 'second_person'))
+
+    for other_user in all_users:
+        if (user.id, other_user.id) not in existing_thread_users and (other_user.id, user.id) not in existing_thread_users:
+            Thread.objects.create(first_person=user, second_person=other_user)
+
+    threads_with_messages = [thread for thread in threads if thread.chatmessage_thread.exists()]
+
+    context = {
+        'threads': threads,
+        'users': all_users,
+        'threads_with_messages': threads_with_messages,
+    }
+    return render(request, 'user-account-dashboard/chat.html', context)
 
 
+def remove_duplicate_threads():
+    duplicates = Thread.objects.all()
+
+    for thread in duplicates:
+        # Check if a reversed thread exists
+        reversed_thread = Thread.objects.filter(
+            first_person=thread.second_person,
+            second_person=thread.first_person
+        ).exclude(id=thread.id).first()
+
+        # If a reversed thread is found, delete it
+        if reversed_thread:
+            print(f"Deleting duplicate thread: {reversed_thread.id} between {reversed_thread.first_person} and {reversed_thread.second_person}")
+            reversed_thread.delete()
+
+# Call the function to remove duplicates
+# remove_duplicate_threads()
+
+def chat_view(request, thread_id):
+    thread = get_object_or_404(Thread, id=thread_id)
+    messages = thread.chatmessage_thread.all()
+    if thread.first_person == request.user:
+        other_user = thread.second_person
+    else:
+        other_user = thread.first_person
+    return render(request, 'user-account-dashboard/chat.html', {'threads_with_messages':[thread],'messages': messages, 'other_user': other_user})
 
 @login_required
-def chat_view(request, user_id):
-    user = get_object_or_404(CustomUser, id=user_id)
-    room_name = f"chat_{request.user.id}_{user_id}"
-    return render(request, 'user-account-dashboard/chat.html', {
-        'user': user,
-        'room_name': room_name
-    })
+def start_conversation(request, user_id):
+    # Fetch the first person (logged-in user) using the user_id
+    first_person = get_object_or_404(CustomUser, id=user_id)
 
+    # Retrieve the second person's username from the query parameters
+    second_person_username = request.GET.get('second_person')
 
+    # Ensure the second person exists in the database
+    second_person = get_object_or_404(CustomUser, username=second_person_username)
 
+    # Check if an existing thread exists between these two users
+    thread = Thread.objects.filter(first_person=first_person).filter(second_person=second_person).distinct().first()
 
-    
-def chat_list_view(request):
-    # Your view logic here, if any
-    return render(request, 'user-account-dashboard/chat.html')
+    if not thread:
+        # If no existing thread, create a new one
+        thread = Thread.objects.create()
+        thread.first_person = first_person
+        thread.second_person = second_person
+        thread.save()
+
+    # Redirect to the existing or newly created chat thread
+    return redirect('chat_view', thread_id=thread.id)
 
 @login_required
 def message(request):
-    # Logic for messages view
-    return render(request, 'user-account-dashboard/messages.html')
-
-
+    return render(request, 'messages.html')
 
 @login_required
 def search_profiles(request):
@@ -85,18 +217,16 @@ def search_profiles(request):
     return render(request, 'user-account-dashboard/messages.html', {'results': results, 'query': query})
 
 
-
-
-# Create your views here.
 def signUp(request):
     if request.method == "POST":
         email = request.POST.get('gmail_id')
         full_name = request.POST.get('full_name')
         username = request.POST.get('username')
+        phone=request.POST.get('phone')
         password = request.POST.get('password')
         confirm_password = request.POST.get('confirm_password')
 
-        if not username or not email or not password or not confirm_password or not full_name:
+        if not username or not email or not password or not confirm_password or not full_name or not phone:
             messages.error(request, "All fields are required.")
             return render(request, 'sign-up.html')
 
@@ -116,6 +246,7 @@ def signUp(request):
             email=email,
             full_name=full_name,
             username=username,
+            phone=phone,
             password=make_password(password)
         )
         user.save()
@@ -172,9 +303,6 @@ def signIn(request):
         if not username or not password:
             messages.error(request, "All fields are required.")
             return render(request, 'sign-in.html')
-         # Print statements for debugging
-        print(f"Username: {username}")
-        print(f"Password: {password}")
 
         try:
             user_exists = CustomUser.objects.get(username=username)
@@ -193,31 +321,68 @@ def signIn(request):
             return render(request, 'sign-in.html')
 
     return render(request, 'sign-in.html')
-
-@login_required(login_url='signin')
+@login_required
 def updateProfile(request, username):
-    try:
-        user = CustomUser.objects.get(username=username)
-    except CustomUser.DoesNotExist:
-        messages.error(request, "User does not exist.")
-        return redirect('signUp')
-    
-    if request.method == "POST":
-        email = request.POST.get('email')
-        current_pass = request.POST.get('current_pass')
-        new_password = request.POST.get('new_password')
-        cf_new_password = request.POST.get('cf_new_password')
+    user = get_object_or_404(CustomUser, username=username)
 
-        # Update email if provided
-        if email:
-            user.email = email
+    if request.method == 'POST':
+        # Handle profile image upload
+        if 'profile_image' in request.FILES:
+            user.profile_image = request.FILES['profile_image']
+        
+            # Update profile information
+            user.full_name = request.POST.get('full_name', user.full_name)
+            user.username = request.POST.get('username', user.username)
+            user.email = request.POST.get('email', user.email)
+            user.phone = request.POST.get('phone', user.phone)
+            user.nationality = request.POST.get('nationality', user.nationality)
+            user.gender = request.POST.get('gender', user.gender)
+            user.role = request.POST.get('role', user.role)
+            user.sector = request.POST.get('sector', user.sector)
+            user.skills_expertise = request.POST.get('skills_expertise', user.skills_expertise)
+            user.address = request.POST.get('address', user.address)
+
+            #saving profile
             user.save()
-            print("Email updated successfully.")
-            messages.success(request, "Email updated successfully.")
-            return redirect('viewProfile', user.username)
+            messages.success(request, "Profile updated successfully!")
 
-        # Update password if new passwords match and current password is correct
-        if new_password and cf_new_password:
+            return redirect('viewProfile',username=user.username) 
+        else:
+             # Update profile information
+            user.full_name = request.POST.get('full_name', user.full_name)
+            user.username = request.POST.get('username', user.username)
+            user.email = request.POST.get('email', user.email)
+            user.phone = request.POST.get('phone', user.phone)
+            user.nationality = request.POST.get('nationality', user.nationality)
+            user.gender = request.POST.get('gender', user.gender)
+            user.role = request.POST.get('role', user.role)
+            user.sector = request.POST.get('sector', user.sector)
+            user.skills_expertise = request.POST.get('skills_expertise', user.skills_expertise)
+            user.address = request.POST.get('address', user.address)
+
+            #saving profile
+            user.save()
+            messages.success(request, "Profile updated successfully!")
+
+            return redirect('viewProfile',username=user.username) 
+
+    
+    # Handle email update
+    new_email = request.POST.get('email')
+    if new_email and new_email != user.email:
+            user.email = new_email
+            #saving profile
+            user.save()
+            messages.success(request, "Email updated successfully!")
+
+            return redirect('viewProfile',username=user.username) 
+
+    # Handle password change
+    current_pass = request.POST.get('current_pass')
+    new_password = request.POST.get('new_password')
+    cf_new_password = request.POST.get('cf_new_password')
+        
+    if current_pass and new_password and cf_new_password:
             if new_password == cf_new_password:
                 if authenticate(username=user.username, password=current_pass):
                     user.set_password(new_password)
@@ -234,8 +399,10 @@ def updateProfile(request, username):
                 print("New passwords do not match.")
                 messages.error(request, "New passwords do not match.")
                 return redirect('viewProfile', user.username)
-    
-    return redirect('viewProfile', user.username)
+
+    return render(request, 'user-account-dashboard/user-profile.html', {'user': user})
+
+
 
 @login_required(login_url='signin')
 def logOut(request):
@@ -245,26 +412,33 @@ def logOut(request):
 @login_required(login_url='signin')
 def userProfile(request, username):
     user = get_object_or_404(CustomUser, username=username)
+
     context = {
         'user': user,
     }
     return render(request, 'user-account-dashboard/account-detail.html', context)
 
 @login_required(login_url='signin')
-def accountNotification(request):
-    return render(request, 'user-account-dashboard/account-notification.html')
+
+
+
+
 
 @login_required(login_url='signin')
 def accountProjects(request):
-    
     if request.method == 'POST':
         category_id = request.POST.get('category')
         title = request.POST.get('title')
         sector = request.POST.get('sector')
         sub_sector = request.POST.get('sub_sector')
         description = request.POST.get('description')
-        pdf_file=request.FILES.get('pdf')
-       
+        pdf_file = request.FILES.get('pdf')
+
+        # Check if the uploaded file is a PDF
+        if pdf_file and not (pdf_file.name.lower().endswith('.pdf') or pdf_file.name.lower().endswith('.docx')):
+            messages.error(request, 'Please upload a PDF or DOCX file.')
+            return redirect('account_projects')
+
         user = request.user
         try:
             category = CommunityCategory.objects.get(id=category_id)
@@ -292,8 +466,11 @@ def accountProjects(request):
         'projects': projects,
     }
     return render(request, 'user-account-dashboard/account-projects.html', context)
-
 @login_required(login_url='signin')
+
+
+
+
 def accountProject_update(request, id=None):
     post = get_object_or_404(CommunityPost, id=id)
     
@@ -303,7 +480,15 @@ def accountProject_update(request, id=None):
         post.sub_sector = request.POST.get('sub_sector')
         post.title = request.POST.get('title')
         post.description = request.POST.get('description')
-        post.pdf=request.FILES.get('pdf')
+        
+        pdf_file = request.FILES.get('pdf')
+        
+        # Check if the uploaded file is a PDF
+        if pdf_file:
+            if not pdf_file.name.lower().endswith('.pdf') or not pdf_file.name.lower().endswith('.docx'):
+                messages.error(request, 'Please upload a PDF or DOCX file.')
+                return redirect('account_projects')
+            post.pdf = pdf_file  # Only update the file if a valid PDF is uploaded
         
         post.save()
         messages.success(request, "Post updated successfully.")
@@ -313,10 +498,10 @@ def accountProject_update(request, id=None):
         data = {
             'category': post.category_id,
             'title': post.title,
-            'sector':post.sector,
-            'sub_sector':post.sub_sector,
-            'description':post.description,
-            'pdf':post.pdf.url if post.pdf else None,
+            'sector': post.sector,
+            'sub_sector': post.sub_sector,
+            'description': post.description,
+            'pdf': post.pdf.url if post.pdf else None,
         }
         return JsonResponse(data)
     
@@ -337,7 +522,7 @@ def profile(request, username):
     user = get_object_or_404(CustomUser, username=username)
     posts= CommunityPost.objects.filter(user=user)
     reviews = Review.objects.filter(reviewed_user=user)
-
+    user_id = user.id 
     paginator = Paginator(posts, 3)
     page_num = request.GET.get('page')
     posts_data = paginator.get_page(page_num)
@@ -358,6 +543,7 @@ def profile(request, username):
 
     context = {
         'user_data': user,
+        'user_id': user_id,
         'posts': posts,
         'reviews': reviews,
         'avg_rating': avg_rating,
@@ -393,7 +579,7 @@ def PasswordReset(request):
                 }
                 email = render_to_string(email_template_name, c)
                 send_mail(subject, email, settings.DEFAULT_FROM_EMAIL, [user.email], fail_silently=False)
-            return redirect("/password_reset/done/")
+            return redirect('password_reset_done')
     return render(request, "password/password_reset.html")
 
 def PasswordResetConfirm(request, uidb64=None, token=None):
